@@ -1,4 +1,5 @@
 The following text was taken from the original author Pegasy
+Some modified By WindowsTiger
 
 Introduction
 ============
@@ -69,3 +70,4 @@ This program uses:
 Misc
 ====
 For bug report and feature request, please contact the one you received this program from:)
+glew.lib requires 1.3.5, later version cause build fail.
