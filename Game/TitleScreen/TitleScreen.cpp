@@ -15,41 +15,43 @@ namespace th5w{
 
 #define MAIN_MENU_START 0
 #define MAIN_MENU_EXTRA_START 1
-#define MAIN_MENU_REPLAY 2
-#define MAIN_MENU_HISCORE 3
-#define MAIN_MENU_MUSIC_ROOM 4
-#define MAIN_MENU_OPTION 5
-#define MAIN_MENU_QUIT 6
+#define MAIN_MENU_PRACTICE_START 2
+#define MAIN_MENU_REPLAY 3
+#define MAIN_MENU_HISCORE 4
+#define MAIN_MENU_MUSIC_ROOM 5
+#define MAIN_MENU_OPTION 6
+#define MAIN_MENU_QUIT 7
 
 
 char mainMenuDesc[][100]={"",
-						  "エキストラステージを開始します",
-						  "リプレーを見ます",
-						  "現在のハイスコアを表示します",
+						  "エキストラステ?ジを開始します",
+						  "リプレ?を見ます",
+					      "音楽室に入ります(Not implemented)",
+						  "現在のハイスコアを?示します",
 						  "音楽室に入ります(Not implemented)",
 						  "各種設定を変更出来ます",
 						  "ＷＩＮＤＯＷＳに戻ります"};
-char startGameDesc[][100]={"ゲームを開始します（イージー）",
-						   "ゲームを開始します（ノーマル）",
-						   "ゲームを開始します（ハード）",
-						   "ゲームを開始します（ルナティック）"};
+char startGameDesc[][100]={"ゲ??を開始します（イ?ジ?）",
+						   "ゲ??を開始します（ノ??ル）",
+						   "ゲ??を開始します（ハ?ド）",
+						   "ゲ??を開始します（ルナティック）"};
 char optionMenuDesc[][100]={"",
-							"ゲームスタート時の人数を変更出来ます（除くエキストラ）",
-							"ボムの使用回数を変更出来ます（除くエキストラ）",
+							"ゲ??ス??ト時の人数を変更出来ます（除くエキストラ）",
+							"??の使用回数を変更出来ます（除くエキストラ）",
 							"ＢＧＭに８６音源互換を使用します(Via PMDWin and DirectSound, not changeable)",
 							"効果音にＦＭ音源を使用します(Via DirectSound, not changeable)",
-							"処理落ちをマシンのスピードに任せます（標準）(SlowMode not implemented)",
-							"このオプションを全て標準に戻します(Not implemented)",
+							"処理落ちを?シンのスピ?ドに任せます（標?）(SlowMode not implemented)",
+							"このオプションを全て標?に戻します(Not implemented)",
 							"オプションを終了します"};
-char difficultyDesc[][100]={"難易度をやさしくします　     （初心者向け）　 ",
-							"難易度を標準にします　　　    （一般向け）　　",
-							"難易度を難しくします　　　（アーケーダー向け）",
-							"難易度を非常に難しくします　（シューター向け）"};
+char difficultyDesc[][100]={"難易度をやさしくします?     （初心者向け）? ",
+							"難易度を標?にします???    （一般向け）??",
+							"難易度を難しくします???（ア?ケ???向け）",
+							"難易度を非常に難しくします?（シュ???向け）"};
 
 
 CTitleScreen::CTitleScreen(void)
 {
-	m_mainMenuNItem=7;
+	m_mainMenuNItem=8;
 	m_optionMenuNItem=8;
 	m_pBGImage=NULL;
 	m_pMenuImgPractice=NULL;
@@ -122,7 +124,7 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 		OnRollTamaEnd();
 		if (bSwitchMusic)
 		{
-			CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP.M2");
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP");
 			th5w::CPMDPlayer::Play();
 		}
 	}
@@ -191,7 +193,7 @@ int CTitleScreen::Step()
 		{
 			m_flagRollingTama=2;
 			OnRollTamaEnd();
-			CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP.M2");
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP");
 			th5w::CPMDPlayer::Play();
 			m_curScrFade=100;
 		}
@@ -294,11 +296,16 @@ void CTitleScreen::DrawMainMenuItems()
 			if (m_pMenuImgReplay!=NULL)
 				m_pMenuImgReplay->DrawColorScaled((float)272,(float)230+i*20+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
 		}
+		else if (i == MAIN_MENU_PRACTICE_START)
+		{
+			if (m_pMenuImgPractice != NULL)
+				m_pMenuImgPractice->DrawColorScaled((float)272, (float)230 + i * 20 + 40, menuItemColor[0], menuItemColor[1], menuItemColor[2]);
+		}
 		else
 		{
 			int idx=10+i;
-			if (i>MAIN_MENU_REPLAY)
-				idx--;
+			if (i>MAIN_MENU_PRACTICE_START)
+				idx-=2;
 			m_spriteArray.GetImagePtr(idx)->DrawColorScaled((float)272,(float)230+i*20+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
 		}
 	}
@@ -357,14 +364,26 @@ void CTitleScreen::DrawOptionMenuItems()
 		    break;
 		case 3:
 			m_spriteArray.GetImagePtr(19)->DrawColorScaled((float)224,(float)298+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
-			m_spriteArray.GetImagePtr(26)->DrawColorScaled((float)320,(float)298+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
-		    break;
+			{
+			int music = CGame::GVar().m_initMusic;
+			if (music == 0)
+				m_spriteArray.GetImagePtr(28)->DrawColorScaled((float)320, (float)298 + 40, menuItemColor[0], menuItemColor[1], menuItemColor[2]);
+			else
+			m_spriteArray.GetImagePtr(24+ music)->DrawColorScaled((float)320, (float)298 + 40, menuItemColor[0], menuItemColor[1], menuItemColor[2]);
+			}
+			break;
 		case 4:
 			m_spriteArray.GetImagePtr(20)->DrawColorScaled((float)224,(float)314+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
-			m_spriteArray.GetImagePtr(30)->DrawColorScaled((float)320,(float)314+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
+			{
+			int se = CGame::GVar().m_initSe;
+			m_spriteArray.GetImagePtr(28+ se)->DrawColorScaled((float)320, (float)314 + 40, menuItemColor[0], menuItemColor[1], menuItemColor[2]);
+			}
 			break;
 		case 5:
-			m_spriteArray.GetImagePtr(32)->DrawColorScaled((float)272,(float)330+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
+			{
+			int input_type = CGame::GVar().m_initInput;
+			m_spriteArray.GetImagePtr(32+ input_type)->DrawColorScaled((float)272, (float)330 + 40, menuItemColor[0], menuItemColor[1], menuItemColor[2]);
+			}
 			break;
 		case 6:
 			m_spriteArray.GetImagePtr(31)->DrawColorScaled((float)272,(float)346+40,menuItemColor[0],menuItemColor[1],menuItemColor[2]);
@@ -459,6 +478,14 @@ void CTitleScreen::ParseKeyEvent()
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_START_GAME;
 					break;
+				case MAIN_MENU_PRACTICE_START:
+					CGame::GVar().m_playDifficulty = CGame::GVar().m_initDifficulty;
+					CGame::GVar().m_playStage = 0;
+					CGame::GVar().m_bPracticeMode = true;
+					CGame::GVar().m_bReplayMode = false;
+					m_bQuit = true;
+					m_quitCode = TITLESCREEN_END_START_GAME;
+					break;
 				case MAIN_MENU_EXTRA_START:
 					CGame::GVar().m_playDifficulty=4;
 					CGame::GVar().m_playStage=6;
@@ -529,6 +556,25 @@ void CTitleScreen::ParseKeyEvent()
 					case 2:
 						ChangeValue(&CGame::GVar().m_nInitBomb,1,0,3);
 						break;
+					case 3:
+						ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
+						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
+						CCommonFunctionMusicSE::Play();
+						break;
+					case 4:
+						ChangeValue(&CGame::GVar().m_initSe, 1, 0, 2);
+						break;
+					case 5:
+						ChangeValue(&CGame::GVar().m_initInput, 1, 0, 1);
+						break;
+					case 6:
+						CGame::GVar().m_initDifficulty = 1;
+						CGame::GVar().m_nInitLife = 3;
+						CGame::GVar().m_nInitBomb = 3;
+						CGame::GVar().m_initMusic = 2;
+						CGame::GVar().m_initSe = 2;
+						CGame::GVar().m_initInput = 0;
+						break;
 					}
 				}
 				else
@@ -588,23 +634,6 @@ void CTitleScreen::ParseKeyEvent()
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

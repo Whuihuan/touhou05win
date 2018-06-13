@@ -106,8 +106,8 @@ void CStageResource::Initialize()
 										//also make sure this call is before initialization of any stage
 										//component as they may require stage data that is loaded by this function
 
-	strcpy(m_stage4BossPart2BGMNames[0],"— Ø‚è‚Ì­—@` Judas Kiss");
-	strcpy(m_stage4BossPart2BGMNames[1],"^g‚Ì­—@` Crimson Dead!!");
+	strcpy(m_stage4BossPart2BGMNames[0],"— Ø‚è‚Ì­—?? Judas Kiss");
+	strcpy(m_stage4BossPart2BGMNames[1],"?g‚Ì­—?? Crimson Dead!!");
 
 	InitTranslation();					//load translation data to overwrite the data loaded
 

@@ -84,6 +84,9 @@ void CGlobalVariableAndStatistics::LoadConfig()
 	m_nInitLife=3;
 	m_nInitBomb=3;
 	m_initDifficulty=1;
+	m_initMusic=2;
+	m_initSe=2;
+	m_initInput=0;
 
 	memset(m_defaultHighScoreName,0,sizeof(m_defaultHighScoreName));
 	memset(m_defaultReplayName,0,sizeof(m_defaultReplayName));
@@ -94,7 +97,7 @@ void CGlobalVariableAndStatistics::LoadConfig()
 	if (fp==NULL)
 		return;
 	fseek(fp,0,SEEK_END);
-	if (ftell(fp)!=52)
+	if (ftell(fp)!=55)
 	{
 		fclose(fp);
 		return;
@@ -103,6 +106,9 @@ void CGlobalVariableAndStatistics::LoadConfig()
 	fread(&m_nInitLife,sizeof(int),1,fp);
 	fread(&m_nInitBomb,sizeof(int),1,fp);
 	fread(&m_initDifficulty,sizeof(int),1,fp);
+	fread(&m_initMusic, sizeof(int), 1, fp);
+	fread(&m_initSe, sizeof(int), 1, fp);
+	fread(&m_initInput, sizeof(int), 1, fp);
 	fread(&m_bClear,1,20,fp);
 	fread(m_defaultHighScoreName,1,10,fp);
 	fread(m_defaultReplayName,1,10,fp);
@@ -117,6 +123,9 @@ void CGlobalVariableAndStatistics::SaveConfig()
 	fwrite(&m_nInitLife,sizeof(int),1,fp);
 	fwrite(&m_nInitBomb,sizeof(int),1,fp);
 	fwrite(&m_initDifficulty,sizeof(int),1,fp);
+	fwrite(&m_initMusic, sizeof(int), 1, fp);
+	fwrite(&m_initSe, sizeof(int), 1, fp);
+	fwrite(&m_initInput, sizeof(int), 1, fp);
 	fwrite(&m_bClear,1,20,fp);
 	fwrite(m_defaultHighScoreName,1,10,fp);
 	fwrite(m_defaultReplayName,1,10,fp);

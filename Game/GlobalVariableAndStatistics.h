@@ -32,6 +32,9 @@ public:
 	int m_nInitLife;
 	int m_nInitBomb;
 	int m_initDifficulty;
+	int m_initMusic;
+	int m_initSe;
+	int m_initInput;
 
 	void LoadConfig();
 	void LoadProgramConfig();

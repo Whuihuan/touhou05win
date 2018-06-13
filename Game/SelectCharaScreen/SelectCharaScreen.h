@@ -19,6 +19,7 @@ protected:
 protected:
 	int m_curScrFade;
 	int m_cursorPos;
+	int m_cursorstage;
 protected:
 	C2DImageArray m_spriteArray;
 	C2DImage *m_pBGImage;
@@ -33,6 +34,7 @@ public:
 	void Initialize();
 	virtual int Step();
 	void Draw();
+	int m_curMenu;			//1 for char select, 1 for stage select
 
 protected:
 	void ParseKeyEvent();

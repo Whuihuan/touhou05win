@@ -21,7 +21,7 @@ void CSelectCharaScreen::Initialize()
 	m_bQuit=false;
 	m_quitCode=0;
 	m_lastKeyState=0;
-
+	m_curMenu = 0;
 	m_cursorPos=0;
 
 	int difficulty=CGame::GVar().m_playDifficulty;
@@ -113,44 +113,93 @@ void CSelectCharaScreen::Draw()
 
 void CSelectCharaScreen::ParseKeyEvent()
 {
-	unsigned short curState=CCommonFunctionInput::GetAllKeyState();
-	if (CCommonFunctionInput::LeftPressed(curState,m_lastKeyState)||CCommonFunctionInput::RightPressed(curState,m_lastKeyState))
+	if (m_curMenu == 0)
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_cursorPos=m_cursorPos/2*2+(1-m_cursorPos%2);
-		m_lastKeyState=curState;
-		return;
-	}
-	if (CCommonFunctionInput::UpPressed(curState,m_lastKeyState)||CCommonFunctionInput::DownPressed(curState,m_lastKeyState))
-	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_cursorPos=m_cursorPos%2+(2-m_cursorPos+m_cursorPos%2);
-		m_lastKeyState=curState;
-		return;
-	}
-	if (CCommonFunctionInput::ZPressed(curState,m_lastKeyState))
-	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(11);
-		if (m_bCharaSelectable[m_cursorPos]==true)
+		unsigned short curState = CCommonFunctionInput::GetAllKeyState();
+		if (CCommonFunctionInput::LeftPressed(curState, m_lastKeyState) || CCommonFunctionInput::RightPressed(curState, m_lastKeyState))
 		{
-			CGame::GVar().m_playChara=m_cursorPos;
-			CGame::GVar().OnBeginGame();
-			m_bQuit=true;
-			m_quitCode=SELECTCHARASCREEN_END_SELECTED_CHARA;
+			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			m_cursorPos = m_cursorPos / 2 * 2 + (1 - m_cursorPos % 2);
+			m_lastKeyState = curState;
+			return;
 		}
-		m_lastKeyState=curState;
-		return;
-	}
-	if (CCommonFunctionInput::ESCPressed(curState,m_lastKeyState))
-	{
-		m_bQuit=true;
-		m_quitCode=SELECTCHARASCREEN_END_BACK;
-		m_lastKeyState=curState;
-		return;
-	}
-
+		if (CCommonFunctionInput::UpPressed(curState, m_lastKeyState) || CCommonFunctionInput::DownPressed(curState, m_lastKeyState))
+		{
+			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			m_cursorPos = m_cursorPos % 2 + (2 - m_cursorPos + m_cursorPos % 2);
+			m_lastKeyState = curState;
+			return;
+		}
+		if (CCommonFunctionInput::ZPressed(curState, m_lastKeyState))
+		{
+			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+			if (m_bCharaSelectable[m_cursorPos] == true)
+			{
+				CGame::GVar().m_playChara = m_cursorPos;
+				CGame::GVar().OnBeginGame();
+				if (CGame::GVar().m_bPracticeMode == true)
+				{
+					m_curMenu = 1;
+					m_cursorstage = 0;
+				}
+				else
+				{
+					m_bQuit = true;
+					m_quitCode = SELECTCHARASCREEN_END_SELECTED_CHARA;
+				}
+			}
+			m_lastKeyState = curState;
+			return;
+		}
+		if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState))
+		{
+			m_bQuit = true;
+			m_quitCode = SELECTCHARASCREEN_END_BACK;
+			m_lastKeyState = curState;
+			return;
+		}
+	
 	m_lastKeyState=curState;
 	return;
+	}
+	else if (m_curMenu == 1)
+		{
+			unsigned short curState = CCommonFunctionInput::GetAllKeyState();
+			if (CCommonFunctionInput::UpPressed(curState, m_lastKeyState))
+			{
+				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+				m_cursorstage = (m_cursorstage - 1 )%6;
+				m_lastKeyState = curState;
+				return;
+			}
+			if	(CCommonFunctionInput::DownPressed(curState, m_lastKeyState))
+			{
+				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+				m_cursorstage = (m_cursorstage + 1) % 6;
+				m_lastKeyState = curState;
+			return;
+			}
+			if (CCommonFunctionInput::ZPressed(curState, m_lastKeyState))
+			{
+				CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+					CGame::GVar().m_playStage = m_cursorstage;
+					CGame::GVar().OnBeginGame();
+					m_bQuit = true;
+					m_quitCode = SELECTCHARASCREEN_END_SELECTED_CHARA;
+					m_lastKeyState = curState;
+				return;
+			}
+			if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState))
+			{
+
+				m_curMenu = 0;
+				m_lastKeyState = curState;
+				return;
+			}
+
+			m_lastKeyState = curState;
+			return;
+		}
 }
 
 }
