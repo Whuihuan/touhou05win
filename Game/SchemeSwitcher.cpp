@@ -7,6 +7,7 @@
 #include "ed/Ending.h"
 #include "SelectReplayScreen/SelectReplayScreen.h"
 #include "HighScoreScreen/HighScoreScreen.h"
+#include "MusicRoom/MusicRoom.h"
 
 
 #define SCHEME_DUMMY 0
@@ -17,6 +18,7 @@
 #define SCHEME_ENDING 5
 #define SCHEME_SELECTREPLAYSCREEN 6
 #define SCHEME_HIGHSCORESCREEN 7
+#define SCHEME_MUSICROOM 8
 
 namespace th5w{
 
@@ -38,7 +40,27 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		*pOutNextSchemeID=SCHEME_TITLESCREEN;
 		return true;
 	}
+	if (curSchemeExitValue == 1 && curSchemeID == SCHEME_OPENING)
+	{
+		CTitleScreen *pScheme = new CTitleScreen;
+		pScheme->Initialize(true);
+		*ppOutNextScheme = (CScheme*)pScheme;
+		*pOutNextSchemeID = SCHEME_TITLESCREEN;
+		return true;
+	}
 
+	if (curSchemeID == SCHEME_MUSICROOM)
+	{
+		if (curSchemeExitValue == MUSICROOM_END_BACK)
+		{
+			CTitleScreen *pScheme = new CTitleScreen;
+			pScheme->Initialize(true);
+			*ppOutNextScheme = (CScheme*)pScheme;
+			*pOutNextSchemeID = SCHEME_TITLESCREEN;
+			return true;
+
+		}
+	}
 	if (curSchemeID==SCHEME_TITLESCREEN)
 	{
 		if (curSchemeExitValue==TITLESCREEN_END_QUIT_GAME)
@@ -60,6 +82,14 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			pScheme->Initialize(true,false);
 			*ppOutNextScheme=(CScheme*)pScheme;
 			*pOutNextSchemeID=SCHEME_SELECTREPLAYSCREEN;
+			return true;
+		}
+		if (curSchemeExitValue == TITLESCREEN_END_CHOOSE_MUSICROOM)
+		{
+			CMusicRoom *pScheme = new CMusicRoom;
+			pScheme->Initialize(true, false);
+			*ppOutNextScheme = (CScheme*)pScheme;
+			*pOutNextSchemeID = SCHEME_MUSICROOM;
 			return true;
 		}
 		if (curSchemeExitValue==TITLESCREEN_END_VIEW_HIGHSCORE)

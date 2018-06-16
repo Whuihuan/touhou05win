@@ -8,7 +8,7 @@
 #define TITLESCREEN_END_START_EXTRA 3
 #define TITLESCREEN_END_CHOOSE_REPLAY 4
 #define TITLESCREEN_END_VIEW_HIGHSCORE 5
-
+#define TITLESCREEN_END_CHOOSE_MUSICROOM 6
 namespace th5w{
 
 class CTitleScreen : public CScheme

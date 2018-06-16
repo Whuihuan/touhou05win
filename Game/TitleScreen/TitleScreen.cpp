@@ -18,7 +18,7 @@ namespace th5w{
 #define MAIN_MENU_PRACTICE_START 2
 #define MAIN_MENU_REPLAY 3
 #define MAIN_MENU_HISCORE 4
-#define MAIN_MENU_MUSIC_ROOM 5
+#define MAIN_MENU_MUSICROOM 5
 #define MAIN_MENU_OPTION 6
 #define MAIN_MENU_QUIT 7
 
@@ -47,7 +47,6 @@ char difficultyDesc[][100]={"難易度をやさしくします?     （初心者向け）? ",
 							"難易度を標?にします???    （一般向け）??",
 							"難易度を難しくします???（ア?ケ???向け）",
 							"難易度を非常に難しくします?（シュ???向け）"};
-
 
 CTitleScreen::CTitleScreen(void)
 {
@@ -505,6 +504,10 @@ void CTitleScreen::ParseKeyEvent()
 				case MAIN_MENU_REPLAY:
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_CHOOSE_REPLAY;
+					break;
+				case MAIN_MENU_MUSICROOM:
+					m_bQuit = true;
+					m_quitCode = TITLESCREEN_END_CHOOSE_MUSICROOM;
 					break;
 				case MAIN_MENU_HISCORE:
 					m_bQuit=true;

@@ -2,11 +2,14 @@
 #include "../Game.h"
 #include "../../gameLib/CommonFunction/CommonFunctionInput.h"
 #include "../../gameLib/CommonFunction/CommonFunctionGraphic.h"
-
+#include "../../gameLib/Graphic/2DImageArray.h"
+#include "../../gameLib/Graphic/PC98Font.h"
+#include "../../gameLib/Graphic/Th5ExtFont.h"
 namespace th5w{
 
 CSelectCharaScreen::CSelectCharaScreen(void)
 {
+	m_pExtendBgImg = NULL;
 }
 
 CSelectCharaScreen::~CSelectCharaScreen(void)
@@ -14,6 +17,9 @@ CSelectCharaScreen::~CSelectCharaScreen(void)
 	if (m_pBGImage!=NULL)
 		m_pBGImage->Destroy();
 	m_pBGImage=NULL;
+	if (m_pExtendBgImg != NULL)
+		m_pExtendBgImg->Destroy();
+	m_pExtendBgImg = NULL;
 }
 
 void CSelectCharaScreen::Initialize()
@@ -38,6 +44,10 @@ void CSelectCharaScreen::Initialize()
 			m_charaDisplayImg[i]=i;
 		else
 			m_charaDisplayImg[i]=4;
+
+	unsigned char pc[] = { 0,0,0 };
+	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pExtendBgImg, pc, "selectbg.bmp");
+
 
 	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,m_palette,&CGame::s_pCurGame->m_th5Dat1,"SLB1.PI");
 
@@ -83,30 +93,58 @@ void CSelectCharaScreen::Draw()
 {
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	m_pBGImage->Draw(0,40);
+	m_pBGImage->Draw(0,80);
+	if (m_pExtendBgImg != NULL)
+	 m_pExtendBgImg->DrawColorScaled((float)0, (float)0, 0.33203125f, 0.1328125f, 0.33203125f);
 
+
+	float colorselect[] = { 1.0f,1.0f,0.0f };
+	float color[] = { 1.0f,1.0f,1.0f };
+	float salpha = 0.5f;
+
+	char strBuf[100];
 	int charaX[]={16,272,160,400};
-	int charaY[]={48+40,48+40,224+40,224+40};
-
-	for (int i=0;i<4;i++)
+	int charaY[]={48+80,48+80,224+80,224+80};
+	int tempscore = 0;
+	if (m_curMenu == 0)
 	{
-		if (m_cursorPos==i)
+		for (int i = 0; i < 4; i++)
 		{
-			CCommonFunctionGraphic::DrawRectangle((float)charaX[i],(float)charaY[i],
-												  (float)charaX[i]+m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->m_width-1,
-												  (float)charaY[i]+m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->m_height-1,
-												  0,0,0);
-			m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->Draw((float)charaX[i]-8,(float)charaY[i]-8);
-			if (m_bCharaClearFlag[i])
-				m_spriteArray.GetImagePtr(5)->Draw((float)charaX[i]-8+160,(float)charaY[i]-8+144);
-		}
-		else
-		{
-			m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->DrawColorScaled((float)charaX[i],(float)charaY[i],0.5,0.5,0.5);
-			if (m_bCharaClearFlag[i])
-				m_spriteArray.GetImagePtr(5)->DrawColorScaled((float)charaX[i]+160,(float)charaY[i]+144,0.5,0.5,0.5);
+			if (m_cursorPos == i)
+			{
+				CCommonFunctionGraphic::DrawRectangle((float)charaX[i], (float)charaY[i],
+					(float)charaX[i] + m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->m_width - 1,
+					(float)charaY[i] + m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->m_height - 1,
+					0, 0, 0);
+				m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->Draw((float)charaX[i] - 8, (float)charaY[i] - 8);
+				if (m_bCharaClearFlag[i])
+					m_spriteArray.GetImagePtr(5)->Draw((float)charaX[i] - 8 + 160, (float)charaY[i] - 8 + 144);
+			}
+			else
+			{
+				m_spriteArray.GetImagePtr(m_charaDisplayImg[i])->DrawColorScaled((float)charaX[i], (float)charaY[i], 0.5, 0.5, 0.5);
+				if (m_bCharaClearFlag[i])
+					m_spriteArray.GetImagePtr(5)->DrawColorScaled((float)charaX[i] + 160, (float)charaY[i] + 144, 0.5, 0.5, 0.5);
+			}
 		}
 	}
+	else if (m_curMenu == 1)
+	{
+		CCommonFunctionGraphic::DrawRectangle(48.0f, 180.0f,
+			48.0f + m_spriteArray.GetImagePtr(m_charaDisplayImg[m_cursorPos])->m_width - 1,
+			180.0f + m_spriteArray.GetImagePtr(m_charaDisplayImg[m_cursorPos])->m_height - 1,
+			0, 0, 0);
+		m_spriteArray.GetImagePtr(m_charaDisplayImg[m_cursorPos])->Draw(48.0f - 8, 180.0f - 8);
+		for (int i = 0; i < 6; i++)
+		{
+			sprintf(strBuf, "Stage %01d %07d", i + 1, tempscore);
+			if(i==m_cursorstage)
+				CPC98Font::DrawString(strBuf, 100, 400, 40+64+32*i, colorselect[0], colorselect[1], colorselect[2]);
+			else
+				CPC98Font::DrawString(strBuf, 100, 400, 40 + 64 + 32 * i, color[0], color[1], color[2]);
+		}
+	}
+
 
 	CCommonFunctionGraphic::ScreenFade((float)m_curScrFade);
 }
@@ -168,7 +206,7 @@ void CSelectCharaScreen::ParseKeyEvent()
 			if (CCommonFunctionInput::UpPressed(curState, m_lastKeyState))
 			{
 				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-				m_cursorstage = (m_cursorstage - 1 )%6;
+				m_cursorstage = (m_cursorstage +5 )%6;
 				m_lastKeyState = curState;
 				return;
 			}

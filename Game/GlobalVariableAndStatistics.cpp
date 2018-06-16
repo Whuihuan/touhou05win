@@ -97,11 +97,11 @@ void CGlobalVariableAndStatistics::LoadConfig()
 	if (fp==NULL)
 		return;
 	fseek(fp,0,SEEK_END);
-	if (ftell(fp)!=55)
+	/*if (ftell(fp)!=55)
 	{
 		fclose(fp);
 		return;
-	}
+	}*/
 	fseek(fp,0,SEEK_SET);
 	fread(&m_nInitLife,sizeof(int),1,fp);
 	fread(&m_nInitBomb,sizeof(int),1,fp);

@@ -142,6 +142,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
     </Filter>
+    <Filter Include="Source Files\Game\Scheme\MusicRoom">
+      <UniqueIdentifier>{8f87ca67-eeee-4d61-b81f-e1a3557fbfd1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -384,6 +387,9 @@
     <ClCompile Include="gameLib\Misc\sha1.cpp">
       <Filter>Source Files\GameLib\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Musicroom\MusicRoom.cpp">
+      <Filter>Source Files\Game\Scheme\MusicRoom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h">
@@ -625,6 +631,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Musicroom\MusicRoom.h">
+      <Filter>Source Files\Game\Scheme\MusicRoom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
