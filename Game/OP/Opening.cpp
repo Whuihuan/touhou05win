@@ -26,8 +26,8 @@ void COpening::Initialize()
 
 	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,m_globalPalette,&CGame::s_pCurGame->m_th5Dat1,"ZUN00.PI");
 
-	CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1,"LOGO.M");
-	th5w::CPMDPlayer::Play();
+	CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1,"LOGO.M");//M2 Music Dose not exist
+	th5w::CCommonFunctionMusicSE::Play();
 
 	m_particle.Initialize();
 
@@ -53,7 +53,7 @@ int COpening::Step()
 		m_curScrFade-=6;
 		if (m_curScrFade<=0)
 		{
-			th5w::CPMDPlayer::Pause();
+			th5w::CCommonFunctionMusicSE::Pause();
 			return 1;
 		}
 		else
@@ -119,7 +119,7 @@ int COpening::Step()
 			m_curScrFade-=2;
 		else
 		{
-			th5w::CPMDPlayer::Pause();
+			th5w::CCommonFunctionMusicSE::Pause();
 			return 1;
 		}
 	}

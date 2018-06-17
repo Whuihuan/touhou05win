@@ -83,9 +83,9 @@ int CDialogue::StepScript()
 			{
 				char s[100];
 				strcpy(s,(char *)(m_pScript+1));
-				strcat(s,".M2");
-				CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat2,s);
-				CPMDPlayer::Play();
+				//strcat(s,".M2");
+				CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat2,s);
+				CCommonFunctionMusicSE::Play();
 			}
 			m_pScript+=2+(int)strlen((char *)(m_pScript+1));
 			break;

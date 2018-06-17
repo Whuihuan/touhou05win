@@ -83,7 +83,13 @@ int CSelectCharaScreen::Step()
 			m_curScrFade=100;
 		return 0;
 	}
-
+	if (m_curScrFade>100)
+	{
+		m_curScrFade -= 6;
+		if (m_curScrFade<100)
+			m_curScrFade = 100;
+		return 0;
+	}
 	ParseKeyEvent();
 
 	return 0;
@@ -179,6 +185,7 @@ void CSelectCharaScreen::ParseKeyEvent()
 				{
 					m_curMenu = 1;
 					m_cursorstage = 0;
+					m_curScrFade = 200;
 				}
 				else
 				{
@@ -232,6 +239,7 @@ void CSelectCharaScreen::ParseKeyEvent()
 
 				m_curMenu = 0;
 				m_lastKeyState = curState;
+				m_curScrFade = 0;
 				return;
 			}
 

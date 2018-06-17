@@ -379,7 +379,7 @@ int CStage::Step()
 				m_curScrFade=0;
 			return 0;
 		}
-		CPMDPlayer::Pause();
+		CCommonFunctionMusicSE::Pause();
 		CPMDPlayer::SetVolume(100);
 		UploadVarToGlobal();
 		//make sure to upload var before close stage
@@ -403,12 +403,12 @@ int CStage::Step()
 			return 0;
 		m_bLogo=false;
 
-		char bgmFileName[]="ST00.M2";
+		char bgmFileName[]="ST00";
 		bgmFileName[3]=CGame::GVar().m_playStage+48;
 		CPMDPlayer::UnloadPMDData();
-		CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat2,bgmFileName);
+		CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat2,bgmFileName);
 		CPMDPlayer::SetVolume(100);
-		CPMDPlayer::Play();
+		CCommonFunctionMusicSE::Play();
 
 		m_bCanPause=true;
 	}

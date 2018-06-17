@@ -47,12 +47,53 @@ bool CCommonFunctionMusicSE::LoadMusicToPMDFromDat(Cth5DatFile *pDatFile,char *m
 
 	return true;
 }
+
+bool CCommonFunctionMusicSE::UnloadData()
+{
+	int music = CGame::GVar().m_initMusic;
+	if (music == 1 || music == 2)
+	{
+		th5w::CPMDPlayer::UnloadPMDData();
+		return true;
+	}
+	return false;
+}
 bool CCommonFunctionMusicSE::Play()
 {
 	int music = CGame::GVar().m_initMusic;
 	if (music == 1 || music == 2)
 	{
 		th5w::CPMDPlayer::Play();
+		return true;
+	}
+	return false;
+}
+bool CCommonFunctionMusicSE::Pause()
+{
+	int music = CGame::GVar().m_initMusic;
+	if (music == 1 || music == 2)
+	{
+		th5w::CPMDPlayer::Pause();
+		return true;
+	}
+	return false;
+}
+bool CCommonFunctionMusicSE::Resume()
+{
+	int music = CGame::GVar().m_initMusic;
+	if (music == 1 || music == 2)
+	{
+		th5w::CPMDPlayer::Resume();
+		return true;
+	}
+	return false;
+}
+bool CCommonFunctionMusicSE::Finalize()
+{
+	int music = CGame::GVar().m_initMusic;
+	if (music == 1 || music == 2)
+	{
+		th5w::CPMDPlayer::Finalize();
 		return true;
 	}
 	return false;

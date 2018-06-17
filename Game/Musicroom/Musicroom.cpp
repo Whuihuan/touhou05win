@@ -63,10 +63,10 @@ namespace th5w {
 		if (bSwitchMusic)
 		{
 			if (bLoadMode)
-				CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP.M2");
+				CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
 			else
-				CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1, "NAME.M2");
-			th5w::CPMDPlayer::Play();
+				CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "NAME");
+			th5w::CCommonFunctionMusicSE::Play();
 		}
 	}
 

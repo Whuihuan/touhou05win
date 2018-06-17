@@ -87,7 +87,7 @@ int CEnding::ReadNumberComma(int defValue)
 int CEnding::Step()
 {
 	if (m_curFrame==0)
-		CPMDPlayer::Pause();
+		CCommonFunctionMusicSE::Pause();
 	m_curFrame++;
 	m_lastKey=m_curKey;
 	m_curKey=CCommonFunctionInput::GetAllKeyState();
@@ -298,30 +298,30 @@ int CEnding::Step()
 						sscanf((char *)m_pScript+3,"%s",s);
 						m_pScript+=3+(int)strlen(s);
 						strlwr(s);
-						strcat(s,".m2");
-						CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1,s);
+						//strcat(s,".m2");
+						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,s);
 						CPMDPlayer::FillSoftwareBuffer(10000);
-						CPMDPlayer::Play();
+						CCommonFunctionMusicSE::Play();
 						m_curMusicFade=100;
 						break;
 					}
 				case '$':
 					{
 						m_pScript+=3;
-						CPMDPlayer::Pause();
+						CCommonFunctionMusicSE::Pause();
 						break;
 					}
 				case '*':
 					{
 						m_pScript+=3;
-						CPMDPlayer::Play();
+						CCommonFunctionMusicSE::Play();
 						m_curMusicFade=100;
 						break;
 					}
 				}
 				break;
 			case '$':
-				CPMDPlayer::Pause();
+				CCommonFunctionMusicSE::Pause();
 				CPMDPlayer::SetVolume(100.0f);
 				return 1;
 			case 'v':

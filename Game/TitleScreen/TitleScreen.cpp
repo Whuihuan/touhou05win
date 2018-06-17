@@ -23,30 +23,51 @@ namespace th5w{
 #define MAIN_MENU_QUIT 7
 
 
-char mainMenuDesc[][100]={"",
-						  "エキストラステ?ジを開始します",
-						  "リプレ?を見ます",
-					      "音楽室に入ります(Not implemented)",
-						  "現在のハイスコアを?示します",
-						  "音楽室に入ります(Not implemented)",
+char mainMenuDesc[][100]={"",//ゲームを開始します
+						  "エキストラステージを開始します",
+					      "",//"プラクティスを開始します",
+						  "リプレーを見ます",
+						  "現在のハイスコアを表示します",
+						  "音楽室に入ります",
 						  "各種設定を変更出来ます",
 						  "ＷＩＮＤＯＷＳに戻ります"};
-char startGameDesc[][100]={"ゲ??を開始します（イ?ジ?）",
-						   "ゲ??を開始します（ノ??ル）",
-						   "ゲ??を開始します（ハ?ド）",
-						   "ゲ??を開始します（ルナティック）"};
+						  
+char startGameDesc[][100]={"ゲームを開始します（イージー）",
+						   "ゲームを開始します（ノーマル）",
+						   "ゲームを開始します（ハード）",
+						   "ゲームを開始します（ルナティック）"};
+						   
+char practiceGameDesc[][100]={"プラクティスを開始します（イージー）",
+						   "プラクティスを開始します（ノーマル）",
+						   "プラクティスを開始します（ハード）",
+						   "プラクティスを開始します（ルナティック）"};
+						   
 char optionMenuDesc[][100]={"",
-							"ゲ??ス??ト時の人数を変更出来ます（除くエキストラ）",
-							"??の使用回数を変更出来ます（除くエキストラ）",
-							"ＢＧＭに８６音源互換を使用します(Via PMDWin and DirectSound, not changeable)",
-							"効果音にＦＭ音源を使用します(Via DirectSound, not changeable)",
-							"処理落ちを?シンのスピ?ドに任せます（標?）(SlowMode not implemented)",
-							"このオプションを全て標?に戻します(Not implemented)",
+							"ゲームスタート時の人数を変更出来ます（除くエキストラ）",
+							"ボムの使用回数を変更出来ます（除くエキストラ）",
+							"",//"ＢＧＭに８６音源互換を使用します(Via PMDWin and DirectSound, not changeable)",
+							"",//"効果音にＦＭ音源を使用します(Via DirectSound, not changeable)",
+							"",//"処理落ちを?シンのスピ?ドに任せます（標?）(SlowMode not implemented)",
+							"このオプションを全て標準に戻します",
 							"オプションを終了します"};
-char difficultyDesc[][100]={"難易度をやさしくします?     （初心者向け）? ",
-							"難易度を標?にします???    （一般向け）??",
-							"難易度を難しくします???（ア?ケ???向け）",
-							"難易度を非常に難しくします?（シュ???向け）"};
+
+char optionMusicDesc[][100]={"ＢＧＭは流れません",
+						   "ＢＧＭに２６Ｋ音源互換を使用します",
+						   "ＢＧＭに８６音源互換を使用します",
+						   "ＢＧＭにＭＩＤＩ音源互換を使用します"};
+
+char optionSEDesc[][100]={"効果音は流れません",
+						   "効果音にＢｅｅｐ音源を使用します",
+						   "効果音にＦＭ音源を使用します"};
+
+char optionInputDesc[][100]={"処理落ちをマシンのスピードに任せます（標準）",
+						   "敵弾の多い場所で、わざと処理落ち（スロー）させます（初心者用）"};
+
+						   
+char difficultyDesc[][100]={"難易度をやさしくします　     （初心者向け）　 ",
+							"難易度を標準にします　　　    （一般向け）　　",
+							"難易度を難しくします　　　（アーケーダー向け）",
+							"難易度を非常に難しくします　（シューター向け）"};
 
 CTitleScreen::CTitleScreen(void)
 {
@@ -124,7 +145,7 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 		if (bSwitchMusic)
 		{
 			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP");
-			th5w::CPMDPlayer::Play();
+			th5w::CCommonFunctionMusicSE::Play();
 		}
 	}
 
@@ -193,7 +214,7 @@ int CTitleScreen::Step()
 			m_flagRollingTama=2;
 			OnRollTamaEnd();
 			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP");
-			th5w::CPMDPlayer::Play();
+			th5w::CCommonFunctionMusicSE::Play();
 			m_curScrFade=100;
 		}
 		return 0;
@@ -309,17 +330,20 @@ void CTitleScreen::DrawMainMenuItems()
 		}
 	}
 
-	if (m_mainMenuCursorPosition!=0)
-		DrawDescString(mainMenuDesc[m_mainMenuCursorPosition]);
-	else
+	if (m_mainMenuCursorPosition==0)
 		DrawDescString(startGameDesc[CGame::GVar().m_initDifficulty]);
+	else if(m_mainMenuCursorPosition==2)
+		DrawDescString(practiceGameDesc[CGame::GVar().m_initDifficulty]);
+	else
+		DrawDescString(mainMenuDesc[m_mainMenuCursorPosition]);
+		
 }
 
 void CTitleScreen::DrawDescString(char *descStr)
 {
-	CPC98Font::DrawString(descStr,1000,624-(int)strlen(descStr)*8,384+40,
+	CPC98Font::DrawString(descStr,1000,624-(int)strlen(descStr)*8,384+40+40,
 						  m_globalPalette[9*3]/255.0f,m_globalPalette[9*3+1]/255.0f,m_globalPalette[9*3+2]/255.0f);
-	CPC98Font::DrawString(descStr,1000,624-(int)strlen(descStr)*8-1,384+40,
+	CPC98Font::DrawString(descStr,1000,624-(int)strlen(descStr)*8-1,384+40+40,
 						  m_globalPalette[9*3]/255.0f,m_globalPalette[9*3+1]/255.0f,m_globalPalette[9*3+2]/255.0f);
 }
 
@@ -395,10 +419,18 @@ void CTitleScreen::DrawOptionMenuItems()
 		}
 	}
 
-	if (m_optionMenuCursorPosition!=0)
-		DrawDescString(optionMenuDesc[m_optionMenuCursorPosition]);
-	else
+	
+	if (m_optionMenuCursorPosition==0)
 		DrawDescString(difficultyDesc[CGame::GVar().m_initDifficulty]);
+	else if(m_optionMenuCursorPosition==3)
+		DrawDescString(optionMusicDesc[CGame::GVar().m_initMusic]);
+	else if(m_optionMenuCursorPosition==4)
+		DrawDescString(optionSEDesc[CGame::GVar().m_initSe]);
+	else if(m_optionMenuCursorPosition==5)
+		DrawDescString(optionInputDesc[CGame::CGame::GVar().m_initInput]);
+	else
+		DrawDescString(optionMenuDesc[m_optionMenuCursorPosition]);
+		
 }
 
 void CTitleScreen::DrawMainMenuCursor()

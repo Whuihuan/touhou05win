@@ -97,8 +97,8 @@ void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_patternArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"HI_M.BFT",0,NULL);
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_numberArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"SCNUM.BFT",0,m_palette);
 
-	CCommonFunctionMusicSE::LoadMusicToPMDFromDat(&CGame::s_pCurGame->m_th5Dat1,"NAME.M2");
-	CPMDPlayer::Play();
+	CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"NAME");
+	CCommonFunctionMusicSE::Play();
 
 	m_curFrame=0;
 	m_lastKeyState=0;
