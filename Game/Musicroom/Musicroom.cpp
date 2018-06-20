@@ -14,11 +14,126 @@
 #define MUSIC_POLYGONS 16
 
 namespace th5w {
-	char MusicRoom_TH[][36] = { "   ‘æ‚P’e?“Œ•ûèËˆÙ?  Arrange ver  ",
+	char MusicRoom_TH[][40] = { "   ‘æ‚P’e?“Œ•ûèËˆÙ?  Arrange ver  ",
 								"   ‘æ‚Q’e?“Œ•û••–‚?  Special MIX  ",
 								"   ‘æ‚R’e?“Œ•û–²Žž‹ó  Special MIX  ",
 								"   ‘æ‚S’e?“Œ•ûŒ¶‘z‹½  Special MIX  ",
 								"   ‘æ‚T’e?“Œ•û‰ö?’k MysticSquare  " };
+	int music_count[] = { 14+1,18+1,24+1,28+1,23+1 };
+	
+	char TH01_Title[][40] =    {"No.1           A Sacred Lot         ",
+								"No.2            ‰i‰“‚Ì›Þ—          ",
+								"No.3    The Positive and Negative   ",
+								"No.4   Highly Responsive to Prayers ",
+								"No.5            “Œ•û‰öŠï’k          ",
+								"No.6             “VŽg?à           ",
+								"No.7        Oriental Magician       ",
+								"No.8           ”jŽ×‚Ì¬‘¾“         ",
+								"No.9               –‚‹¾             ",
+								"No.10       the Legend of KAGE      ",
+								"No.11    ‚¢‚´A?‚êÀ‚­‚»‚ÌŽž‚Ü‚Å   ",
+								"No.12      Civilization of Magic    ",
+								"No.13            ¯—H“VŽg           ",
+								"No.14            ƒAƒCƒŠƒX           ",
+								"            ?ƒCƒgƒ‹‚É–ß‚é          ",
+								""};
+	char TH02_Title[][40] =    {"No.1      “Œ•û••–‚???ò“y™Öä¶—…  ",
+								"No.2      ? ”Ž—í??Eastern Wind   ",
+								"No.3      ?  She's in a temper!!   ",
+								"No.4      ?   End of Daylight?    ",
+								"No.5      ?  ? ‚â‚Ý‚Ì‚¿‚©‚ç??   ",
+								"No.6      ?????Œ¶–²ŠE????  ",
+								"No.7      ?????‚ð“q‚µ‚Ä???  ",
+								"No.8      ‚Ð‚à‚ë‚¬A‚Þ‚ç‚³‚«‚É‚à‚¦  ",
+								"No.9      ?  ? —öF?ƒWƒbƒN ?    ",
+								"No.10     ?“Œ•û••–‚???—HŒ¶—•‘  ",
+								"No.11         Complete Darkness     ",
+								"No.12        ? ƒGƒLƒXƒgƒ‰ƒ‰ƒu      ",
+								"No.13        íŽÔ‚Þ‚·‚ß‚Ì‚Ý‚é‚ä‚ß   ",
+								"No.14          ??‰“–ì‚ÌX???   ",
+								"No.15         Ì˜b‚í‚ñ‚¾?‚ç‚ñ‚Ç    ",
+								"–¢Žg—p.1         ”Ž—í?ŽÐ‹«“à       ",
+								"–¢Žg—p.2         ?—z—Ž‚¿‚Ä  ?     ",
+								"–¢Žg—p.3         ?••–‚I‰‰  ?     ",
+								"              ?ƒCƒgƒ‹‚É–ß‚é        " };
+	char TH03_Title[][40] =   { "No.1       ?–²‚ÍŽž‹ó‚ð‰z‚¦‚Ä       ",
+								"No.2      ? ? Selection           ",
+								"No.3            “Œ•û—d—ö’k          ",
+								"No.4          Reincarnation         ",
+								"No.5            Dim. Dream          ",
+								"No.6     Tabula rasa??‹ó”’­—    ",
+								"No.7     ?  Maniacal Princess      ",
+								"No.8        –²ÁŽ¸  ?Lost Dream    ",
+								"No.9       –²Œ¶—V‹Y  ?Dream War    ",
+								"No.10    –‚?ŒˆíI?Fight it out!  ",
+								"No.11      ? Sailor of Time        ",
+								"No.12       Strawberry Crisis!!     ",
+								"No.13        ”ñ“ˆê–‚?¢ŠE?       ",
+								"No.14          ?–‚?àˆ¤           ",
+								"No.15          ?‹v‰“‚Ì–²           ",
+								"No.16          “Œ•û‚ÌÂ‚¢‹ó         ",
+								"No.17           ‰i‰“‚Ì–žŒŽ          ",
+								"No.18         Maple Dream...        ",
+								"No.19           —ìl‚Ì‹x“ú          ",	
+								"No.20            Ÿ—˜ƒfƒ‚           ",
+								"No.21         ƒQ??ƒI?ƒo?        ",
+								"–¢Žg—p.1          Žž‚Ì•—            ",
+								"–¢Žg—p.2     ƒX???ƒEƒhƒŠ??     ",
+								"–¢Žg—p.3       Phantasmagoria       ",
+								"              ?ƒCƒgƒ‹‚É–ß‚é        "};
+	char TH04_Title[][40] = {	"No.1    Œ¶‘z‹½  ? Lotus Land Story ",
+								"No.2          Witching Dream        ",
+								"No.3          Selene's light        ",
+								"No.4   ‘•üí?? Decoration Battle ",
+								"No.5         Break the Sabbath      ",
+								"No.6    g‹¿‹È  ? Scarlet Phoneme  ",
+								"No.7            Bad Apple!!         ",
+								"No.8     —ìí?? Perdition crisis  ",
+								"No.9         ƒAƒŠƒX?ƒGƒXƒeƒ‰       ",
+								"No.10    ­—?‘z‹È?? Capriccio   ",
+								"No.11   ¯‚ÌŠí?? Casket of Star   ",
+								"No.12           Lotus Love          ",
+								"No.13  –°‚ê‚é‹°? ?Sleeping Terror ",
+								"No.14           Dream Land          ",
+								"No.15    —H–²?? Inanimate Dream   ",
+								"No.16      ‹Ö‚¶‚´‚é‚ð‚¦‚È‚¢—V‹Y     ",
+								"No.17  ƒƒCƒhŒ¶‘z?? Icemilk Magic ",
+								"No.18   ‚©‚í‚¢‚¢ˆ«–‚?? Innocence  ",
+								"No.19              Days             ",
+								"No.20            Peaceful           ",
+								"No.21         Arcadian Dream        ",
+								"No.22           Œ¶‘z‚ÌZl          ",
+								"–¢Žg—p.1        Lotus Road          ",
+								"–¢Žg—p.2       Dreamy pilot         ",
+								"–¢Žg—p.3      Incomplete Plot       ",
+								"–¢Žg—p.4        Border Land         ",
+								"–¢Žg—p.5   Magic Shop of Raspberry  ",
+								"–¢Žg—p.6       Crescent Dream       ",
+								"              ?ƒCƒgƒ‹‚É–ß‚é        " };
+	char TH05_Title[][40] = {	"No.1     ‰ö?’k?? Mystic Square   ",
+								"No.2           Dream Express        ",
+								"No.3      –‚?w?? Magic Square   ",
+								"No.4             –²‘zŽž‹ó           ",
+								"No.5     —ì“V?? Spiritual Heaven  ",
+								"No.6         Romantic Children      ",
+								"No.7       ƒvƒ‰ƒX?ƒbƒN?ƒCƒ“ƒh     ",
+								"No.8          ƒƒCƒvƒ‹ƒƒCƒY        ",
+								"No.9  ‹Ö’f‚Ì–‚?  ? Forbidden Magic",
+								"No.10  ?g‚Ì­—?? Crimson Dead!!",
+								"No.11  — Ø‚è‚Ì­—?? Judas Kiss  ",
+								"No.12       the Last Judgement      ",
+								"No.13  ”ß‚µ‚«l??? Doll of Misery",
+								"No.14   ¢ŠE‚Ì‰Ê‚Ä?? World's End  ",
+								"No.15   ?˜bŒ¶‘z?? Infinite Being ",
+								"No.16       •sŽv‹c‚Ì‘‚ÌƒAƒŠƒX      ",
+								"No.17     the Grimoire of Alice     ",
+								"No.18              ?ŽÐ             ",
+								"No.19            Endless            ",
+								"No.20          ‹v‰“‚ÌŠy?           ",
+								"No.21         Mystic Dream          ",
+								"No.22       Peaceful Romancer       ",
+								"No.23         °‚Ì‹x‚ç‚ÞŠ          ",
+								"              ?ƒCƒgƒ‹‚É–ß‚é        " };						
 	CMusicRoom::CMusicRoom(void)
 	{
 		m_pBGImage = NULL;
@@ -32,54 +147,38 @@ namespace th5w {
 		m_pBGImage = NULL;
 	}
 
-	void CMusicRoom::Initialize(bool bLoadMode, bool bSwitchMusic)
+	void CMusicRoom::Initialize()
 	{
-		//make sure replay sub directory exists
-		TCHAR subdir[1000];
-		wsprintf(subdir, _T("%S%S\\"), CGame::GVar().m_workingPath,
-			CGame::GVar().m_replaySubDir);
-		if (::PathFileExists(subdir) == FALSE)
-			::CreateDirectory(subdir, NULL);
-
 		m_curFrame = 0;
 		m_lastKeyState = 0;
 		m_curKeyState = 0;
 		m_bQuit = false;
 		m_curScrFade = 0;
 
-		m_bLoadMode = bLoadMode;
-		m_nFilePerPage = 20;
+		m_nFilePerPage = 16;
 		m_nPage = 5;
-		m_listUpperLeftX = 10;
-		m_listUpperLeftY = 4;
+		m_listUpperLeftX = 2;
+		m_listUpperLeftY = 6;
 		SwitchPage(4);
 		m_curCursorPos = 0;
-		m_curCursorColPos = 0;
+		m_curListTop = 0;
 
 		CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage, NULL, &CGame::s_pCurGame->m_th5Dat1, "MUSIC.PI");
-		CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray, NULL, &CGame::s_pCurGame->m_th5Dat1, "ZUN01.BFT", 0);
-		CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray, NULL, &CGame::s_pCurGame->m_th5Dat1, "ZUN02.BFT", 0);
-
-		if (bSwitchMusic)
-		{
-			if (bLoadMode)
-				CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
-			else
-				CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "NAME");
-			th5w::CCommonFunctionMusicSE::Play();
-		}
 	}
 
 	void CMusicRoom::SwitchPage(int pageIdx)
 	{
 		m_curPage = pageIdx;
-		char strBuf[100];
-		float color[] = { 1.0f,1.0f,1.0f };
-		float salpha = 0.5f;
-		sprintf(strBuf, "%s", MusicRoom_TH[pageIdx]);
-		CPC98Font::DrawString(strBuf, 100, 160, 128, color[0], color[1], color[2]);
+		m_curCursorPos = 0;
+		m_curListTop = 0;
+		Playmusic();
 	}
 
+	void CMusicRoom::Playmusic()
+	{
+	//	m_nnowPlayingTitle = m_curPage;
+		m_nnowPlayingNumber = m_curCursorPos;
+	}
 
 	int CMusicRoom::Step()
 	{
@@ -100,8 +199,8 @@ namespace th5w {
 
 		if (m_curScrFade < 100)
 		{
-			m_curScrFade += 6;
-			if (m_curScrFade > 100)
+		/*	m_curScrFade += 6;
+			if (m_curScrFade > 100)*/
 				m_curScrFade = 100;
 			return 0;
 		}
@@ -113,22 +212,27 @@ namespace th5w {
 		if (CCommonFunctionInput::LeftPressed(m_curKeyState, m_lastKeyState))
 		{
 			SwitchPage((m_curPage + m_nPage - 1) % m_nPage);
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
 		}
 		if (CCommonFunctionInput::RightPressed(m_curKeyState, m_lastKeyState))
 		{
 			SwitchPage((m_curPage + 1) % m_nPage);
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
 		}
 		if (CCommonFunctionInput::UpPressed(m_curKeyState, m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-			m_curCursorPos = (m_curCursorPos + m_nFilePerPage - 1) % m_nFilePerPage;
+			m_curCursorPos = (m_curCursorPos + music_count[m_curPage]-1) % (music_count[m_curPage]);
+			if (m_curCursorPos < m_curListTop )
+				m_curListTop--;
+			if ((m_curCursorPos == music_count[m_curPage]-1)&&(m_curPage!=0))
+				m_curListTop = music_count[m_curPage]- m_nFilePerPage;
+
 		}
 		if (CCommonFunctionInput::DownPressed(m_curKeyState, m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-			m_curCursorPos = (m_curCursorPos + 1) % m_nFilePerPage;
+			m_curCursorPos = (m_curCursorPos + 1) % (music_count[m_curPage]);
+			if (m_curCursorPos == 0)
+				m_curListTop = 0;
+			if (m_curCursorPos > m_curListTop + m_nFilePerPage -1)
+				m_curListTop++;
 		}
 		if (CCommonFunctionInput::ESCPressed(m_curKeyState, m_lastKeyState)
 			|| CCommonFunctionInput::XPressed(m_curKeyState, m_lastKeyState))
@@ -138,18 +242,15 @@ namespace th5w {
 		}
 		if (CCommonFunctionInput::ZPressed(m_curKeyState, m_lastKeyState))
 		{
-
-			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
-			m_curCharX = 0;
-			m_curCharY = 0;
-			m_selectedSlot = m_curCursorPos;
-			m_curRowY = (m_listUpperLeftY + m_selectedSlot) * 16;
-			memcpy(m_curEnterName, CGame::GVar().m_defaultReplayName, 10);
-			m_nameCursorPos = (int)strlen(m_curEnterName);
-			if (m_nameCursorPos > 7)
-				m_nameCursorPos = 7;
-			m_bEnterNameMode = true;
-
+			if (music_count[m_curPage] - 1 == m_curCursorPos )
+			{
+				m_bQuit = true;
+				m_quitCode = MUSICROOM_END_BACK;
+			}
+			else
+			{
+				Playmusic();
+			}
 		}
 		return 0;
 	}
@@ -162,79 +263,85 @@ namespace th5w {
 		if (m_curScrFade == 0)
 			return;
 
+		m_pBGImage->Draw(0,0);
 		m_pBGImage->Draw(0, 80);
+		CCommonFunctionGraphic::DrawRectangle(8, 108, 40,140, 0.19921875f, 0.0f, 0.3984375f);
+		CCommonFunctionGraphic::DrawRectangle(284, 108, 316, 140, 0.19921875f, 0.0f, 0.3984375f);
 
+		char strBuf[100];
+		float text_color[] = { 1.0f,0.796875f,1.0f };
+		float white_color[] = { 1.0f,1.0f,1.0f };
+		float list_color[] = { 0.7265625f,0.7265625f,1.0f };
+		CPC98Font::DrawString(MusicRoom_TH[m_curPage], 100, 8, 32, white_color[0], white_color[1], white_color[2]);
+		CPC98Font::DrawString(MusicRoom_TH[m_curPage], 100, 8 - 1, 32, white_color[0], white_color[1], white_color[2]);
+		switch (m_curPage)
+		{
+		case 0:
+			sprintf(strBuf, "%s", TH01_Title[m_nnowPlayingNumber]);
+			break;
+		case 1:
+			sprintf(strBuf, "%s", TH02_Title[m_nnowPlayingNumber]);
+			break;
+		case 2:
+			sprintf(strBuf, "%s", TH03_Title[m_nnowPlayingNumber]);
+			break;
+		case 3:
+			sprintf(strBuf, "%s", TH04_Title[m_nnowPlayingNumber]);
+			break;
+		case 4:
+			sprintf(strBuf, "%s", TH05_Title[m_nnowPlayingNumber]);
+			break;
+		}
+		CPC98Font::DrawString(strBuf, 100, 320, 32, text_color[0], text_color[1], text_color[2]);
+		CPC98Font::DrawString(strBuf, 100, 320 - 1, 32, text_color[0], text_color[1], text_color[2]);
+
+		
 		for (int i = 0; i < m_nFilePerPage; i++)
 		{
 			int x = m_listUpperLeftX * 8;
 			int y = (m_listUpperLeftY + i) * 16;
-			char strBuf[100];
+			
 
 			float color[] = { 0.5f,1.0f,0.5f };
 			float sc[] = { 0.2f,0.2f,0.2f };
 			float salpha = 0.5f;
 			int soffx = 2, soffy = 2;
-			if (i == m_curCursorPos)
+			switch (m_curPage)
 			{
-				color[0] = color[1] = 1;
-				x -= 1; y -= 1;
+			case 0:
+				sprintf(strBuf, "%s", TH01_Title[i + m_curListTop]);
+				break;
+			case 1:
+				sprintf(strBuf, "%s", TH02_Title[i + m_curListTop]);
+				break;
+			case 2:
+				sprintf(strBuf, "%s", TH03_Title[i + m_curListTop]);
+				break;
+			case 3:
+				sprintf(strBuf, "%s", TH04_Title[i + m_curListTop]);
+				break;
+			case 4:
+				sprintf(strBuf, "%s", TH05_Title[i + m_curListTop]);
+				break;
 			}
-
-			sprintf(strBuf, "No.%02d ", m_curPage*m_nFilePerPage + i);
-			CPC98Font::DrawString(strBuf, 100, x + soffx, y + soffy, sc[0], sc[1], sc[2], salpha);
-			CPC98Font::DrawString(strBuf, 100, x, y, color[0], color[1], color[2]);
-			x += 6 * 8;
-
-			if (!m_bCurPageRepFileExist[i])
+			if (i + m_curListTop == m_curCursorPos)
 			{
-				char *outInfo = NULL;
-				char errorInfo[][100] = { "-------- -------------- ------ ------- - - - - - - --",
-					"          Invalid replay file          - - - - - - --",
-					"    Replay under other game version    - - - - - - --",
-					"      Replay under other mod file      - - - - - - --",
-				};
-				CPC98Font::DrawString(outInfo, 100, x + soffx, y + soffy, sc[0], sc[1], sc[2], salpha);
-				CPC98Font::DrawString(outInfo, 100, x, y, color[0], color[1], color[2]);
+				CPC98Font::DrawString(strBuf, 100, x, y, white_color[0], white_color[1], white_color[2]);
+				CPC98Font::DrawString(strBuf, 100, x - 1, y, white_color[0], white_color[1], white_color[2]);
 			}
 			else
 			{
-				x += 15 * 8;
+				CPC98Font::DrawString(strBuf, 100, x, y, list_color[0], list_color[1], list_color[2]);
+				CPC98Font::DrawString(strBuf, 100, x - 1, y, list_color[0], list_color[1], list_color[2]);
 			}
 
-			{
-				char charaName[][10] = { "Reimu","Marisa","Mima","Yuka" };
-			}
-			if (i == m_curCursorPos && m_bLoadMode)
-			{
-				x = (m_listUpperLeftX + 45) * 8 + m_curCursorColPos * 16 + 4 - 1;
-				if (m_curCursorColPos == 6)
-					x += 4;
-				y += 8;		//no need to minus 1, as the original y already has 1 minused
-				int imgIdx = 1;
-				C2DImage *pImg = m_shineArray.GetImagePtr(imgIdx);
-				float angle = ((float)(m_curFrame % 64) / 64.0f)*(float)PI*2.0f;
-				float radius = fabs(8.0f - (float)(m_curFrame % 64) / 4.0f);
-				float alpha = 0.5f + radius / 16.0f;
-				radius += 4.0f;
-				pImg->Draw((float)x - pImg->m_width / 2 + (float)cos(angle)*radius, (float)y - pImg->m_height / 2 + (float)sin(angle)*radius, alpha);
-				angle += (float)PI;
-				pImg->Draw((float)x - pImg->m_width / 2 + (float)cos(angle)*radius, (float)y - pImg->m_height / 2 + (float)sin(angle)*radius, alpha);
+			x += 6 * 8;
 
-				pImg = m_shineArray.GetImagePtr(imgIdx + 8);
-				angle += (float)PI / 2.0f;
-				pImg->Draw((float)x - pImg->m_width / 2 + (float)cos(angle)*radius, (float)y - pImg->m_height / 2 + (float)sin(angle)*radius, alpha);
-				angle += (float)PI;
-				pImg->Draw((float)x - pImg->m_width / 2 + (float)cos(angle)*radius, (float)y - pImg->m_height / 2 + (float)sin(angle)*radius, alpha);
 			}
-		}
-		if (m_bCurPageRepFileExist[m_curCursorPos])
-		{
-			char str[100];
-			char ss[7][20];
 		}
 
 	}
-}
+
 
 
 

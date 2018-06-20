@@ -20,7 +20,7 @@ bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *music
 		strcat(bgmFileName, ".M");
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
 	}
-	else if (music == 2)
+		else if (music == 2)
 	{
 		strcat(bgmFileName, ".M2");
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
@@ -30,6 +30,7 @@ bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *music
 		bgmFileName[0] = 0;
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
 	}
+	
 		
 }
 

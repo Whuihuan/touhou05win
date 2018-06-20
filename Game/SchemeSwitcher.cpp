@@ -87,7 +87,7 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		if (curSchemeExitValue == TITLESCREEN_END_CHOOSE_MUSICROOM)
 		{
 			CMusicRoom *pScheme = new CMusicRoom;
-			pScheme->Initialize(true, false);
+			pScheme->Initialize();
 			*ppOutNextScheme = (CScheme*)pScheme;
 			*pOutNextSchemeID = SCHEME_MUSICROOM;
 			return true;

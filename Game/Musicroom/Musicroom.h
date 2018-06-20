@@ -18,11 +18,13 @@ namespace th5w {
 		int m_curPage;
 		int m_curCursorPos;
 		int m_curCursorColPos;
+		int m_curListTop;
 		int m_listUpperLeftX;
 		int m_listUpperLeftY;
 		bool m_bCurPageRepFileExist[50];
-		
-		th5w::C2DImageArray m_shineArray;
+		int m_nnowPlayingTitle;
+		int m_nnowPlayingNumber;
+
 		C2DImage *m_pBGImage;
 
 		bool m_bEnterNameMode;
@@ -41,10 +43,10 @@ namespace th5w {
 		void SwitchPage(int pageIdx);
 
 	public:
-		void Initialize(bool bLoadMode, bool bSwitchMusic);
+		void Initialize();
 		int Step();
 		void Draw();
-
+		void Playmusic();
 	public:
 		CMusicRoom(void);
 		~CMusicRoom(void);

@@ -46,7 +46,7 @@ void CEnemy::AddEnemy(unsigned char enemyType,unsigned char subType,float enemyX
 	for (int i=0;i<ENEMY_N_RECORD;i++)
 		if (m_enemy[i].flag==0)
 		{
-//			printf("add enemy\n");
+			printf("add enemy\n");
 			m_enemy[i].flag=3;
 			m_enemy[i].age=0;
 			m_enemy[i].accumulator=0;
@@ -116,7 +116,7 @@ void CEnemy::StepEnemyTable()
 	int nextAppearFrame=m_pEnemyTableReadPtr[0]+m_pEnemyTableReadPtr[1]*256;
 	if (nextAppearFrame==0)
 		return;
-//	printf("%d %d\n",nextAppearFrame,m_pStage->m_curFrame);
+	printf("%d %d\n",nextAppearFrame,m_pStage->m_curFrame);
 	if (nextAppearFrame==m_pStage->m_curFrame)
 	{
 		int nEnemy=m_pEnemyTableReadPtr[2];
@@ -126,7 +126,7 @@ void CEnemy::StepEnemyTable()
 			unsigned char enemyType=m_pEnemyTableReadPtr[0];
 			int xInt=*(short *)(m_pEnemyTableReadPtr+1);
 			int yInt=*(short *)(m_pEnemyTableReadPtr+3);
-//			printf("%d %d %d\n",enemyType,xInt,yInt);
+			printf("%d %d %d\n",enemyType,xInt,yInt);
 			float x=(float)xInt;
 			float y=(float)yInt;
 			if (xInt==999*16) x=(float)(rand()%(384*16));
@@ -156,8 +156,8 @@ void CEnemy::StepEnemyScript(ENEMY *pEnemy)
 	unsigned char *&ptr=pEnemy->pScript;
 	while(1)
 	{
-//		if (pEnemy==&m_enemy[0])
-//			printf("%d ggg %d\n",m_pStage->m_curFrame,*ptr);
+		if (pEnemy==&m_enemy[0])
+			printf("%d ggg %d\n",m_pStage->m_curFrame,*ptr);
 		switch(*ptr)
 		{
 		case 0:
@@ -169,7 +169,7 @@ void CEnemy::StepEnemyScript(ENEMY *pEnemy)
 			pEnemy->score=ptr[4]+ptr[5]*256;
 			pEnemy->bTakeDamage=true;
 			pEnemy->bCrashChara=true;
-			//printf("%d %d %d\n",pEnemy->imgIdx,pEnemy->life,pEnemy->score);
+			printf("%d %d %d\n",pEnemy->imgIdx,pEnemy->life,pEnemy->score);
 			ptr+=6;
 			break;
 		case 2:
@@ -518,7 +518,7 @@ void CEnemy::Step()
 {
 	m_pStage->m_bHomingEnemyExist=false;
 	int nAliveEnemy=0;
-//	printf("%d\n",m_pStage->m_curFrame);
+	printf("%d\n",m_pStage->m_curFrame);
 	for (int i=0;i<ENEMY_N_RECORD;i++)
 	{
 		m_enemy[i].hitThisFrame=false;
@@ -540,7 +540,7 @@ void CEnemy::Step()
 			continue;
 		}
 		StepEnemyScript(&m_enemy[i]);
-		//printf("\t%d %f %f %f %f\n",i,m_enemy[i].curX,m_enemy[i].curY,m_enemy[i].velX,m_enemy[i].velY);
+		printf("\t%d %f %f %f %f\n",i,m_enemy[i].curX,m_enemy[i].curY,m_enemy[i].velX,m_enemy[i].velY);
 		if (m_enemy[i].bCrashChara)
 			if (m_pStage->m_pChara->TestCrash(m_enemy[i].curX,m_enemy[i].curY,12.0f*16.0f,12.0f*16.0f))
 			{
@@ -599,7 +599,7 @@ void CEnemy::Step()
 		m_enemy[i].age++;
 	}
 
-	//printf("%d\n",nAliveEnemy);
+	printf("%d\n",nAliveEnemy);
 	if (nAliveEnemy>0)
 	{
 		int frameInterval;

@@ -200,7 +200,7 @@ bool CGame::Initialize()
 	if (GVar().m_bUseMod)
 		if (m_modDat.LoadFile(GVar().m_modFileName)==false)
 		{
-			//printf("%s\n",GVar().m_modFileName);
+			printf("%s\n",GVar().m_modFileName);
 			TCHAR msgText[1000];
 			wsprintf(msgText,_T("mod file %S missing or corrupted."),GVar().m_modFileName);
 			MessageBox(m_gameWindow.m_hWnd,msgText,NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
@@ -326,12 +326,12 @@ void CGame::Run()
 			if (m_gameWindow.m_bActive==false)
 				continue;
 
-			//LARGE_INTEGER a;
-			//QueryPerformanceCounter(&a);
+			LARGE_INTEGER a;
+			QueryPerformanceCounter(&a);
 			int stepRes=m_pCurScheme->Step();
-			//LARGE_INTEGER b;
-			//QueryPerformanceCounter(&b);
-			//printf("%lf\n",(double)m_performanceFreq.QuadPart/(b.QuadPart-a.QuadPart));
+			LARGE_INTEGER b;
+			QueryPerformanceCounter(&b);
+			printf("%lf\n",(double)m_performanceFreq.QuadPart/(b.QuadPart-a.QuadPart));
 
 			m_gameWindow.m_pGLContext->MakeCurrent();
 			m_pCurScheme->Draw();
@@ -343,8 +343,7 @@ void CGame::Run()
 				LARGE_INTEGER thisFrameTime;
 				QueryPerformanceCounter(&thisFrameTime);
 				double frameQuota=1000/m_fpsLimit;
-				//printf("%lf ",frameQuota-(thisFrameTime.QuadPart-m_lastFrameTime.QuadPart)
-				//			   /(double)m_performanceFreq.QuadPart*1000);
+				printf("%lf ", frameQuota - (thisFrameTime.QuadPart - m_lastFrameTime.QuadPart)/(double)m_performanceFreq.QuadPart*1000);
 			}
 			//fps limit
 			int fillcount=0;
@@ -360,7 +359,7 @@ void CGame::Run()
 					m_thisFrameDuration-=m_thisFrameLostTime;
 					m_lastFrameTime=thisFrameTime;
 					m_thisFrameLostTime=0.0f;
-					//printf("%d %d\n",fillcount,nMsg);
+					printf("%d %d\n",fillcount,nMsg);
 					nMsg=0;
 					break;
 				}
