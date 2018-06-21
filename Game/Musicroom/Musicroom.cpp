@@ -14,126 +14,136 @@
 #define MUSIC_POLYGONS 16
 
 namespace th5w {
-	char MusicRoom_TH[][40] = { "   ‘æ‚P’e?“Œ•ûèËˆÙ?  Arrange ver  ",
-								"   ‘æ‚Q’e?“Œ•û••–‚?  Special MIX  ",
-								"   ‘æ‚R’e?“Œ•û–²Žž‹ó  Special MIX  ",
-								"   ‘æ‚S’e?“Œ•ûŒ¶‘z‹½  Special MIX  ",
-								"   ‘æ‚T’e?“Œ•û‰ö?’k MysticSquare  " };
-	int music_count[] = { 14+1,18+1,24+1,28+1,23+1 };
+	nt music_count[] = { 14+1,18+1,24+1,28+1,23+1 };
+	char musicRoom_up[]= "             ------ â–² ------       ";
+	char musicRoom_down[]= "             ------ â–¼ ------       ";
+	char musicRoom_middle[]= "             ----------------       ";
+	char MusicRoom_TH[][40] = { "   ç¬¬ï¼‘å¼¾?æ±æ–¹éˆç•°?  Arrange ver  ",
+								"   ç¬¬ï¼’å¼¾?æ±æ–¹å°é­”?  Special MIX  ",
+								"   ç¬¬ï¼“å¼¾?æ±æ–¹å¤¢æ™‚ç©º  Special MIX  ",
+								"   ç¬¬ï¼”å¼¾?æ±æ–¹å¹»æƒ³éƒ·  Special MIX  ",
+								"   ç¬¬ï¼•å¼¾?æ±æ–¹æ€ª?è«‡ MysticSquare  " };
+	i
 	
 	char TH01_Title[][40] =    {"No.1           A Sacred Lot         ",
-								"No.2            ‰i‰“‚Ì›Þ—          ",
+								"No.2            æ°¸é ã®å·«å¥³          ",
 								"No.3    The Positive and Negative   ",
 								"No.4   Highly Responsive to Prayers ",
-								"No.5            “Œ•û‰öŠï’k          ",
-								"No.6             “VŽg?à           ",
+								"No.5            æ±æ–¹æ€ªå¥‡è«‡          ",
+								"No.6             å¤©ä½¿?èª¬           ",
 								"No.7        Oriental Magician       ",
-								"No.8           ”jŽ×‚Ì¬‘¾“         ",
-								"No.9               –‚‹¾             ",
+								"No.8           ç ´é‚ªã®å°å¤ªåˆ€         ",
+								"No.9               é­”é¡             ",
 								"No.10       the Legend of KAGE      ",
-								"No.11    ‚¢‚´A?‚êÀ‚­‚»‚ÌŽž‚Ü‚Å   ",
+								"No.11    ã„ã–ã€?ã‚Œé€ããã®æ™‚ã¾ã§   ",
 								"No.12      Civilization of Magic    ",
-								"No.13            ¯—H“VŽg           ",
-								"No.14            ƒAƒCƒŠƒX           ",
-								"            ?ƒCƒgƒ‹‚É–ß‚é          ",
+								"No.13            æ˜Ÿå¹½å¤©ä½¿           ",
+								"No.14            ã‚¢ã‚¤ãƒªã‚¹           ",
+								"            ?ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹          ",
 								""};
-	char TH02_Title[][40] =    {"No.1      “Œ•û••–‚???ò“y™Öä¶—…  ",
-								"No.2      ? ”Ž—í??Eastern Wind   ",
+	char TH02_Title[][40] =    {"No.1      æ±æ–¹å°é­”???æµ„åœŸæ›¼è¼ç¾…  ",
+								"No.2      ? åšéº—??Eastern Wind   ",
 								"No.3      ?  She's in a temper!!   ",
 								"No.4      ?   End of Daylight?    ",
-								"No.5      ?  ? ‚â‚Ý‚Ì‚¿‚©‚ç??   ",
-								"No.6      ?????Œ¶–²ŠE????  ",
-								"No.7      ?????‚ð“q‚µ‚Ä???  ",
-								"No.8      ‚Ð‚à‚ë‚¬A‚Þ‚ç‚³‚«‚É‚à‚¦  ",
-								"No.9      ?  ? —öF?ƒWƒbƒN ?    ",
-								"No.10     ?“Œ•û••–‚???—HŒ¶—•‘  ",
+								"No.5      ?  ? ã‚„ã¿ã®ã¡ã‹ã‚‰??   ",
+								"No.6      ?????å¹»å¤¢ç•Œ????  ",
+								"No.7      ?????ã‚’è³­ã—ã¦???  ",
+								"No.8      ã²ã‚‚ã‚ãŽã€ã‚€ã‚‰ã•ãã«ã‚‚ãˆ  ",
+								"No.9      ?  ? æ‹è‰²?ã‚¸ãƒƒã‚¯ ?    ",
+								"No.10     ?æ±æ–¹å°é­”???å¹½å¹»ä¹±èˆž  ",
 								"No.11         Complete Darkness     ",
-								"No.12        ? ƒGƒLƒXƒgƒ‰ƒ‰ƒu      ",
-								"No.13        íŽÔ‚Þ‚·‚ß‚Ì‚Ý‚é‚ä‚ß   ",
-								"No.14          ??‰“–ì‚ÌX???   ",
-								"No.15         Ì˜b‚í‚ñ‚¾?‚ç‚ñ‚Ç    ",
-								"–¢Žg—p.1         ”Ž—í?ŽÐ‹«“à       ",
-								"–¢Žg—p.2         ?—z—Ž‚¿‚Ä  ?     ",
-								"–¢Žg—p.3         ?••–‚I‰‰  ?     ",
-								"              ?ƒCƒgƒ‹‚É–ß‚é        " };
-	char TH03_Title[][40] =   { "No.1       ?–²‚ÍŽž‹ó‚ð‰z‚¦‚Ä       ",
+								"No.12        ? ã‚¨ã‚­ã‚¹ãƒˆãƒ©ãƒ©ãƒ–      ",
+								"No.13        æˆ¦è»Šã‚€ã™ã‚ã®ã¿ã‚‹ã‚†ã‚   ",
+								"No.14          ??é é‡Žã®æ£®???   ",
+								"No.15         æ˜”è©±ã‚ã‚“ã ?ã‚‰ã‚“ã©    ",
+								"æœªä½¿ç”¨.1         åšéº—?ç¤¾å¢ƒå†…       ",
+								"æœªä½¿ç”¨.2         ?é™½è½ã¡ã¦  ?     ",
+								"æœªä½¿ç”¨.3         ?å°é­”çµ‚æ¼”  ?     ",
+								"              ?ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹        " };
+	char TH03_Title[][40] =   { "No.1       ?å¤¢ã¯æ™‚ç©ºã‚’è¶Šãˆã¦       ",
 								"No.2      ? ? Selection           ",
-								"No.3            “Œ•û—d—ö’k          ",
+								"No.3            æ±æ–¹å¦–æ‹è«‡          ",
 								"No.4          Reincarnation         ",
 								"No.5            Dim. Dream          ",
-								"No.6     Tabula rasa??‹ó”’­—    ",
+								"No.6     Tabula rasa??ç©ºç™½å°‘å¥³    ",
 								"No.7     ?  Maniacal Princess      ",
-								"No.8        –²ÁŽ¸  ?Lost Dream    ",
-								"No.9       –²Œ¶—V‹Y  ?Dream War    ",
-								"No.10    –‚?ŒˆíI?Fight it out!  ",
+								"No.8        å¤¢æ¶ˆå¤±  ?Lost Dream    ",
+								"No.9       å¤¢å¹»éŠæˆ¯  ?Dream War    ",
+								"No.10    é­”?æ±ºæˆ¦ï¼?Fight it out!  ",
 								"No.11      ? Sailor of Time        ",
 								"No.12       Strawberry Crisis!!     ",
-								"No.13        ”ñ“ˆê–‚?¢ŠE?       ",
-								"No.14          ?–‚?àˆ¤           ",
-								"No.15          ?‹v‰“‚Ì–²           ",
-								"No.16          “Œ•û‚ÌÂ‚¢‹ó         ",
-								"No.17           ‰i‰“‚Ì–žŒŽ          ",
+								"No.13        éžçµ±ä¸€é­”?ä¸–ç•Œ?       ",
+								"No.14          ?é­”?é˜æ„›           ",
+								"No.15          ?ä¹…é ã®å¤¢           ",
+								"No.16          æ±æ–¹ã®é’ã„ç©º         ",
+								"No.17           æ°¸é ã®æº€æœˆ          ",
 								"No.18         Maple Dream...        ",
-								"No.19           —ìl‚Ì‹x“ú          ",	
-								"No.20            Ÿ—˜ƒfƒ‚           ",
-								"No.21         ƒQ??ƒI?ƒo?        ",
-								"–¢Žg—p.1          Žž‚Ì•—            ",
-								"–¢Žg—p.2     ƒX???ƒEƒhƒŠ??     ",
-								"–¢Žg—p.3       Phantasmagoria       ",
-								"              ?ƒCƒgƒ‹‚É–ß‚é        "};
-	char TH04_Title[][40] = {	"No.1    Œ¶‘z‹½  ? Lotus Land Story ",
+								"No.19           éœŠäººã®ä¼‘æ—¥          ",	
+								"No.20            å‹åˆ©ãƒ‡ãƒ¢           ",
+								"No.21         ã‚²??ã‚ª?ãƒ?        ",
+								"æœªä½¿ç”¨.1          æ™‚ã®é¢¨            ",
+								"æœªä½¿ç”¨.2     ã‚¹???ã‚¦ãƒ‰ãƒª??     ",
+								"æœªä½¿ç”¨.3       Phantasmagoria       ",
+								"              ?ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹        "};
+	char TH04_Title[][40] = {	"No.1    å¹»æƒ³éƒ·  ? Lotus Land Story ",
 								"No.2          Witching Dream        ",
 								"No.3          Selene's light        ",
-								"No.4   ‘•üí?? Decoration Battle ",
+								"No.4   è£…é£¾æˆ¦?? Decoration Battle ",
 								"No.5         Break the Sabbath      ",
-								"No.6    g‹¿‹È  ? Scarlet Phoneme  ",
+								"No.6    ç´…éŸ¿æ›²  ? Scarlet Phoneme  ",
 								"No.7            Bad Apple!!         ",
-								"No.8     —ìí?? Perdition crisis  ",
-								"No.9         ƒAƒŠƒX?ƒGƒXƒeƒ‰       ",
-								"No.10    ­—?‘z‹È?? Capriccio   ",
-								"No.11   ¯‚ÌŠí?? Casket of Star   ",
+								"No.8     éœŠæˆ¦?? Perdition crisis  ",
+								"No.9         ã‚¢ãƒªã‚¹?ã‚¨ã‚¹ãƒ†ãƒ©       ",
+								"No.10    å°‘å¥³?æƒ³æ›²?? Capriccio   ",
+								"No.11   æ˜Ÿã®å™¨?? Casket of Star   ",
 								"No.12           Lotus Love          ",
-								"No.13  –°‚ê‚é‹°? ?Sleeping Terror ",
+								"No.13  çœ ã‚Œã‚‹æ? ?Sleeping Terror ",
 								"No.14           Dream Land          ",
-								"No.15    —H–²?? Inanimate Dream   ",
-								"No.16      ‹Ö‚¶‚´‚é‚ð‚¦‚È‚¢—V‹Y     ",
-								"No.17  ƒƒCƒhŒ¶‘z?? Icemilk Magic ",
-								"No.18   ‚©‚í‚¢‚¢ˆ«–‚?? Innocence  ",
+								"No.15    å¹½å¤¢?? Inanimate Dream   ",
+								"No.16      ç¦ã˜ã–ã‚‹ã‚’ãˆãªã„éŠæˆ¯     ",
+								"No.17  ãƒ¡ã‚¤ãƒ‰å¹»æƒ³?? Icemilk Magic ",
+								"No.18   ã‹ã‚ã„ã„æ‚ªé­”?? Innocence  ",
 								"No.19              Days             ",
 								"No.20            Peaceful           ",
 								"No.21         Arcadian Dream        ",
-								"No.22           Œ¶‘z‚ÌZl          ",
-								"–¢Žg—p.1        Lotus Road          ",
-								"–¢Žg—p.2       Dreamy pilot         ",
-								"–¢Žg—p.3      Incomplete Plot       ",
-								"–¢Žg—p.4        Border Land         ",
-								"–¢Žg—p.5   Magic Shop of Raspberry  ",
-								"–¢Žg—p.6       Crescent Dream       ",
-								"              ?ƒCƒgƒ‹‚É–ß‚é        " };
-	char TH05_Title[][40] = {	"No.1     ‰ö?’k?? Mystic Square   ",
+								"No.22           å¹»æƒ³ã®ä½äºº          ",
+								"æœªä½¿ç”¨.1        Lotus Road          ",
+								"æœªä½¿ç”¨.2       Dreamy pilot         ",
+								"æœªä½¿ç”¨.3      Incomplete Plot       ",
+								"æœªä½¿ç”¨.4        Border Land         ",
+								"æœªä½¿ç”¨.5   Magic Shop of Raspberry  ",
+								"æœªä½¿ç”¨.6       Crescent Dream       ",
+								"              ?ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹        " };
+	char TH05_Title[][40] = {	"No.1     æ€ª?è«‡?? Mystic Square   ",
 								"No.2           Dream Express        ",
-								"No.3      –‚?w?? Magic Square   ",
-								"No.4             –²‘zŽž‹ó           ",
-								"No.5     —ì“V?? Spiritual Heaven  ",
+								"No.3      é­”?é™£?? Magic Square   ",
+								"No.4             å¤¢æƒ³æ™‚ç©º           ",
+								"No.5     éœŠå¤©?? Spiritual Heaven  ",
 								"No.6         Romantic Children      ",
-								"No.7       ƒvƒ‰ƒX?ƒbƒN?ƒCƒ“ƒh     ",
-								"No.8          ƒƒCƒvƒ‹ƒƒCƒY        ",
-								"No.9  ‹Ö’f‚Ì–‚?  ? Forbidden Magic",
-								"No.10  ?g‚Ì­—?? Crimson Dead!!",
-								"No.11  — Ø‚è‚Ì­—?? Judas Kiss  ",
+								"No.7       ãƒ—ãƒ©ã‚¹?ãƒƒã‚¯?ã‚¤ãƒ³ãƒ‰     ",
+								"No.8          ãƒ¡ã‚¤ãƒ—ãƒ«ãƒ¯ã‚¤ã‚º        ",
+								"No.9  ç¦æ–­ã®é­”?  ? Forbidden Magic",
+								"No.10  ?ç´…ã®å°‘å¥³?? Crimson Dead!!",
+								"No.11  è£åˆ‡ã‚Šã®å°‘å¥³?? Judas Kiss  ",
 								"No.12       the Last Judgement      ",
-								"No.13  ”ß‚µ‚«l??? Doll of Misery",
-								"No.14   ¢ŠE‚Ì‰Ê‚Ä?? World's End  ",
-								"No.15   ?˜bŒ¶‘z?? Infinite Being ",
-								"No.16       •sŽv‹c‚Ì‘‚ÌƒAƒŠƒX      ",
+								"No.13  æ‚²ã—ãäºº??? Doll of Misery",
+								"No.14   ä¸–ç•Œã®æžœã¦?? World's End  ",
+								"No.15   ?è©±å¹»æƒ³?? Infinite Being ",
+								"No.16       ä¸æ€è­°ã®å›½ã®ã‚¢ãƒªã‚¹      ",
 								"No.17     the Grimoire of Alice     ",
-								"No.18              ?ŽÐ             ",
+								"No.18              ?ç¤¾             ",
 								"No.19            Endless            ",
-								"No.20          ‹v‰“‚ÌŠy?           ",
+								"No.20          ä¹…é ã®æ¥½?           ",
 								"No.21         Mystic Dream          ",
 								"No.22       Peaceful Romancer       ",
-								"No.23         °‚Ì‹x‚ç‚ÞŠ          ",
-								"              ?ƒCƒgƒ‹‚É–ß‚é        " };						
+								"No.23         é­‚ã®ä¼‘ã‚‰ã‚€æ‰€          ",
+								"              ?ã‚¤ãƒˆãƒ«ã«æˆ»ã‚‹        " };
+	char TH01_Filename[][10] =    {"r_00","r_01",    "r_02",   "r_03",  "r_04",   "r_05",  "r_06",   "r_07",   "r_08",   "r_09",   "r_10",   "r_11",   "r_12",   "r_13"};
+	char TH02_Filename[][10] =    {"h_op","h_st00",  "h_st00b","h_st01","h_st01b","h_st02","h_st02b","h_st03", "h_st03b","h_st04", "h_st04b","h_st05", "h_st05b","h_end",  "h_staff","h_ng00", "h_ng01", "h_ng02"};
+	char TH03_Filename[][10] =    {"y_op","y_select","y_00mm", "y_01mm","y_02mm", "y_03mm","y_04mm", "y_05mm", "y_06mm", "y_dec",  "y_07mm", "y_08mm", "y_demo1","y_demo2","y_demo3","y_demo4","y_demo5","y_ed",  "y_score","y_win",  "y_over","y_ng00","y_ng0!","y_ng02"};
+	char TH04_Filename[][10] =    {"g_op","g_st00",  "g_st10", "g_st00b","g_st01","g_st01b","g_st02","g_st02b","g_st03", "g_st03b","g_st04", "g_st04b","g_st05", "g_st05b","g_st06", "g_st06b","g_st06c","g_end1","g_end2", "g_staff","g_name","g_ng00","g_ng01","g_ng02","g_ng03"};
+	char TH05_Filename[][10] =    {"op",  "st00",    "st00b",  "st01",   "st01b", "st02",   "st02b", "st03",   "st03b",  "st03c",  "st03d",  "st04",   "st04b",  "st05",   "st05b",  "st06",   "st06b",  "ed00",  "ed01",   "ed02",   "staff", "exed",  "name"};
+	
 	CMusicRoom::CMusicRoom(void)
 	{
 		m_pBGImage = NULL;
@@ -162,7 +172,8 @@ namespace th5w {
 		SwitchPage(4);
 		m_curCursorPos = 0;
 		m_curListTop = 0;
-
+		//musicroom comment==_MUSIC0.TXT
+		//music.dat
 		CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage, NULL, &CGame::s_pCurGame->m_th5Dat1, "MUSIC.PI");
 	}
 
@@ -179,7 +190,44 @@ namespace th5w {
 	//	m_nnowPlayingTitle = m_curPage;
 		m_nnowPlayingNumber = m_curCursorPos;
 	}
+	; int __pascal __near music_cmt_load(int track)
+/*
+MUSIC_CMT_LINE_LEN equ 40
+MUSIC_CMT_LINE_COUNT equ 10
+	void CMusicRoom::music_cmt_load()
+	arg @@track:word
+	local @@fn:dword
 
+	push	si
+	mov	word ptr @@fn+2, ds
+	mov	word ptr @@fn, offset _a_Music0_txt
+	les	bx, @@fn
+	mov	al, byte ptr music_game
+	add	al, '0'
+	mov	es:[bx+6], al
+	call	file_ropen pascal, word ptr @@fn+2, bx
+	mov	ax, @@track
+	imul	ax, MUSIC_CMT_LEN
+	cwde
+	call	file_seek pascal, eax, 0
+	call	file_read pascal, ds, offset _music_cmt, MUSIC_CMT_LEN
+	call	file_close
+	xor	si, si
+	jmp	short @@check
+
+@@terminate_line:
+	mov	bx, si
+	imul	bx, MUSIC_CMT_LINE_LEN
+	mov	(_music_cmt + MUSIC_CMT_LINE_LEN - 2)[bx], 0
+	inc	si
+
+@@check:
+	cmp	si, MUSIC_CMT_LINE_COUNT
+	jl	short @@terminate_line
+	pop	si
+	ret
+music_cmt_load	endp*/
+	
 	int CMusicRoom::Step()
 	{
 		m_curFrame++;
