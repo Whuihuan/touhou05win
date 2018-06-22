@@ -191,27 +191,19 @@ namespace th5w {
 		m_nnowPlayingNumber = m_curCursorPos;
 	}
 	; int __pascal __near music_cmt_load(int track)
-/*
-MUSIC_CMT_LINE_LEN equ 40
-MUSIC_CMT_LINE_COUNT equ 10
-	void CMusicRoom::music_cmt_load()
-	arg @@track:word
-	local @@fn:dword
 
-	push	si
-	mov	word ptr @@fn+2, ds
-	mov	word ptr @@fn, offset _a_Music0_txt
-	les	bx, @@fn
-	mov	al, byte ptr music_game
-	add	al, '0'
-	mov	es:[bx+6], al
-	call	file_ropen pascal, word ptr @@fn+2, bx
-	mov	ax, @@track
-	imul	ax, MUSIC_CMT_LEN
-	cwde
-	call	file_seek pascal, eax, 0
-	call	file_read pascal, ds, offset _music_cmt, MUSIC_CMT_LEN
-	call	file_close
+	void CMusicRoom::music_cmt_load()
+	{
+	char fileName[]="_MUSIC0.TXT";
+		fileName[6]='0'+m_curPage;
+		int fileIdx=CGame::s_pCurGame->m_musicDat.GetChildFileIndex(fileName);
+		if (fileIdx!=-1)
+		{
+			int eax=m_nnowPlayingNumber*MUSIC_CMT_LEN;
+			CGame::s_pCurGame->m_musicDat.Childfseek(fileIdx,eax,SEEK_SET);
+			CGame::s_pCurGame->m_modDat.Childfread(_music_cmt,size, MUSIC_CMT_LEN,fileIdx);
+		}
+	strlen(rateText[i])
 	xor	si, si
 	jmp	short @@check
 
@@ -226,6 +218,7 @@ MUSIC_CMT_LINE_COUNT equ 10
 	jl	short @@terminate_line
 	pop	si
 	ret
+	}
 music_cmt_load	endp*/
 	
 	int CMusicRoom::Step()
