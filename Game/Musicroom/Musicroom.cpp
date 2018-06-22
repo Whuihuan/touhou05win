@@ -191,7 +191,7 @@ namespace th5w {
 		m_nnowPlayingNumber = m_curCursorPos;
 	}
 	; int __pascal __near music_cmt_load(int track)
-
+/*
 	void CMusicRoom::music_cmt_load()
 	{
 	char fileName[]="_MUSIC0.TXT";
