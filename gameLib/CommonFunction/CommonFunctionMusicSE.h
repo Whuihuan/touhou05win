@@ -8,7 +8,7 @@ class CCommonFunctionMusicSE
 {
 public:
 	static bool LoadMusicToPMDFromDat(Cth5DatFile *pDatFile,char *musicFileName);
-	static bool LoadMusicFromDat(Cth5DatFile *pDatFile, char *musicFileName);
+	static bool LoadMusicFromDat(Cth5DatFile *pDatFile, char *musicFileName, bool m2exist = true);
 	static bool UnloadData();
 	static bool Play();
 	static bool Pause();

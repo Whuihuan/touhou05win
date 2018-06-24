@@ -24,7 +24,7 @@ protected:
 	C2DImageArray m_spriteArray;
 	C2DImage *m_pBGImage;
 	C2DImage *m_pExtendBgImg;
-
+	
 protected:
 	bool m_bQuit;
 	int m_quitCode;

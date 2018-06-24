@@ -23,7 +23,7 @@ namespace th5w{
 #define MAIN_MENU_QUIT 7
 
 
-char mainMenuDesc[][100]={"",//ゲ??を開始します
+char mainMenuDesc[][100]={"",//ゲ??を開始します／
 						  "エキストラステ?ジを開始します",
 					      "",//"プラクティスを開始します",
 						  "リプレ?を見ます",

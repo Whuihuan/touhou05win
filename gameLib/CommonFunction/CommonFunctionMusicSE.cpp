@@ -10,17 +10,17 @@ CCommonFunctionMusicSE::CCommonFunctionMusicSE(void)
 CCommonFunctionMusicSE::~CCommonFunctionMusicSE(void)
 {
 }
-bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *musicFileName)
+bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *musicFileName, bool m2exist)
 {
 	char bgmFileName[20] = { 0 };
 	strcpy(bgmFileName, musicFileName);
 	int music = CGame::GVar().m_initMusic;
-	if (music == 1)
+	if (music == 1 || (music == 2 && m2exist == false))
 	{
 		strcat(bgmFileName, ".M");
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
 	}
-		else if (music == 2)
+		else if (music == 2 && m2exist == true)
 	{
 		strcat(bgmFileName, ".M2");
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);

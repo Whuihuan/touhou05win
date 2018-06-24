@@ -14,9 +14,9 @@ CSelectCharaScreen::CSelectCharaScreen(void)
 
 CSelectCharaScreen::~CSelectCharaScreen(void)
 {
-	if (m_pBGImage!=NULL)
+	if (m_pBGImage != NULL)
 		m_pBGImage->Destroy();
-	m_pBGImage=NULL;
+	m_pBGImage = NULL;
 	if (m_pExtendBgImg != NULL)
 		m_pExtendBgImg->Destroy();
 	m_pExtendBgImg = NULL;
@@ -47,7 +47,7 @@ void CSelectCharaScreen::Initialize()
 
 	unsigned char pc[] = { 0,0,0 };
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pExtendBgImg, pc, "selectbg.bmp");
-
+	
 
 	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,m_palette,&CGame::s_pCurGame->m_th5Dat1,"SLB1.PI");
 
@@ -99,9 +99,13 @@ void CSelectCharaScreen::Draw()
 {
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	m_pBGImage->Draw(0,80);
 	if (m_pExtendBgImg != NULL)
-	 m_pExtendBgImg->DrawColorScaled((float)0, (float)0, 0.33203125f, 0.1328125f, 0.33203125f);
+	{
+		m_pExtendBgImg->DrawColorScaled((float)0, (float)0, 0.33203125f, 0.1328125f, 0.33203125f);
+		m_pExtendBgImg->DrawColorScaled((float)0, (float)400, 0.33203125f, 0.1328125f, 0.33203125f);
+
+	}
+	m_pBGImage->Draw(0,40);
 
 
 	float colorselect[] = { 1.0f,1.0f,0.0f };
@@ -110,7 +114,7 @@ void CSelectCharaScreen::Draw()
 
 	char strBuf[100];
 	int charaX[]={16,272,160,400};
-	int charaY[]={48+80,48+80,224+80,224+80};
+	int charaY[]={48+40,48+40,224+40,224+40};
 	int tempscore = 0;
 	if (m_curMenu == 0)
 	{
@@ -196,7 +200,7 @@ void CSelectCharaScreen::ParseKeyEvent()
 			m_lastKeyState = curState;
 			return;
 		}
-		if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState))
+		if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState) || CCommonFunctionInput::XPressed(curState, m_lastKeyState))
 		{
 			m_bQuit = true;
 			m_quitCode = SELECTCHARASCREEN_END_BACK;
@@ -234,7 +238,7 @@ void CSelectCharaScreen::ParseKeyEvent()
 					m_lastKeyState = curState;
 				return;
 			}
-			if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState))
+			if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState) || CCommonFunctionInput::XPressed(curState, m_lastKeyState))
 			{
 
 				m_curMenu = 0;

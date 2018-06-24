@@ -5,145 +5,169 @@
 #include "../../gameLib/CommonFunction/CommonFunctionMusicSE.h"
 #include "../../gameLib/Graphic/PC98Font.h"
 #include "../../gameLib/Graphic/Th5ExtFont.h"
+//#include "..\..\include\PMDWin\PMDWinImort.h"
 #include <time.h>
 #include <math.h>
 #include <shlwapi.h>
 #include <tchar.h>
 #define PI 3.1415926535897932384626433832795
+
+#define MUSIC_CMT_LINE_LEN 40
+#define MUSIC_CMT_LINE_COUNT 10
 //#define SEL_QUIT TRACK_COUNT + 1
 #define MUSIC_POLYGONS 16
+//OPEN_WORK *pmdwork = NULL;
 
 namespace th5w {
-	nt music_count[] = { 14+1,18+1,24+1,28+1,23+1 };
-	char musicRoom_up[]= "             ------ ‚ñ≤ ------       ";
-	char musicRoom_down[]= "             ------ ‚ñº ------       ";
-	char musicRoom_middle[]= "             ----------------       ";
-	char MusicRoom_TH[][40] = { "   Á¨¨ÔºëÂºæ?Êù±ÊñπÈùàÁï∞?  Arrange ver  ",
-								"   Á¨¨ÔºíÂºæ?Êù±ÊñπÂ∞ÅÈ≠î?  Special MIX  ",
-								"   Á¨¨ÔºìÂºæ?Êù±ÊñπÂ§¢ÊôÇÁ©∫  Special MIX  ",
-								"   Á¨¨ÔºîÂºæ?Êù±ÊñπÂπªÊÉ≥ÈÉ∑  Special MIX  ",
-								"   Á¨¨ÔºïÂºæ?Êù±ÊñπÊÄ™?Ë´á MysticSquare  " };
-	i
+	/*void pmd_get_current_notes(int *notes, int len)
+	{
+		int i = 0;
+
+		for (i = 0; i < len; i++) notes[i] = -1;
+
+		if (!pmdwork)
+			return;
+
+		for (i = 0; i < len; i++)
+		{
+			int data = pmdwork->MusPart[i]->onkai;
+
+			if (data == 0xff)
+				notes[i] = -1;
+			else
+				notes[i] = data;
+		}
+	}*/
+	//int notes[32];
+	char music_cmt_text[11][41];
+	int music_count[] = { 14+1,18+1,24+1,28+1,23+1 };
+	char musicRoom_up[]= "             ------ Å£ ------       ";
+	char musicRoom_down[]= "             ------ Å• ------       ";
+	char musicRoom_middle[]= "             ----------------       ";//dummy
 	
+	char MusicRoom_TH[][40] = { "   ëÊÇPíe?ìåï˚ËÀàŸ?  Arrange ver  ",
+								"   ëÊÇQíe?ìåï˚ïïñÇ?  Special MIX  ",
+								"   ëÊÇRíe?ìåï˚ñ≤éûãÛ  Special MIX  ",
+								"   ëÊÇSíe?ìåï˚å∂ëzãΩ  Special MIX  ",
+								"   ëÊÇTíe?ìåï˚âˆ?ík MysticSquare  " };
 	char TH01_Title[][40] =    {"No.1           A Sacred Lot         ",
-								"No.2            Ê∞∏ÈÅ†„ÅÆÂ∑´Â•≥          ",
+								"No.2            âiâìÇÃõﬁèó          ",
 								"No.3    The Positive and Negative   ",
 								"No.4   Highly Responsive to Prayers ",
-								"No.5            Êù±ÊñπÊÄ™Â•áË´á          ",
-								"No.6             Â§©‰Ωø?Ë™¨           ",
+								"No.5            ìåï˚âˆäÔík          ",
+								"No.6             ìVég?ê‡           ",
 								"No.7        Oriental Magician       ",
-								"No.8           Á†¥ÈÇ™„ÅÆÂ∞èÂ§™ÂàÄ         ",
-								"No.9               È≠îÈè°             ",
+								"No.8           îjé◊ÇÃè¨ëæìÅ         ",
+								"No.9               ñÇãæ             ",
 								"No.10       the Legend of KAGE      ",
-								"No.11    „ÅÑ„Åñ„ÄÅ?„ÇåÈÄù„Åè„Åù„ÅÆÊôÇ„Åæ„Åß   ",
+								"No.11    Ç¢Ç¥ÅA?ÇÍê¿Ç≠ÇªÇÃéûÇ‹Ç≈   ",
 								"No.12      Civilization of Magic    ",
-								"No.13            ÊòüÂπΩÂ§©‰Ωø           ",
-								"No.14            „Ç¢„Ç§„É™„Çπ           ",
-								"            ?„Ç§„Éà„É´„Å´Êàª„Çã          ",
+								"No.13            êØóHìVég           ",
+								"No.14            ÉAÉCÉäÉX           ",
+								"            ?ÉCÉgÉãÇ…ñﬂÇÈ          ",
 								""};
-	char TH02_Title[][40] =    {"No.1      Êù±ÊñπÂ∞ÅÈ≠î???ÊµÑÂúüÊõºËçºÁæÖ  ",
-								"No.2      ? ÂçöÈ∫ó??Eastern Wind   ",
+	char TH02_Title[][40] =    {"No.1      ìåï˚ïïñÇ???èÚìyô÷‰∂óÖ  ",
+								"No.2      ? îéóÌ??Eastern Wind   ",
 								"No.3      ?  She's in a temper!!   ",
 								"No.4      ?   End of Daylight?    ",
-								"No.5      ?  ? „ÇÑ„Åø„ÅÆ„Å°„Åã„Çâ??   ",
-								"No.6      ?????ÂπªÂ§¢Áïå????  ",
-								"No.7      ?????„ÇíË≥≠„Åó„Å¶???  ",
-								"No.8      „Å≤„ÇÇ„Çç„Åé„ÄÅ„ÇÄ„Çâ„Åï„Åç„Å´„ÇÇ„Åà  ",
-								"No.9      ?  ? ÊÅãËâ≤?„Ç∏„ÉÉ„ÇØ ?    ",
-								"No.10     ?Êù±ÊñπÂ∞ÅÈ≠î???ÂπΩÂπª‰π±Ëàû  ",
+								"No.5      ?  ? Ç‚Ç›ÇÃÇøÇ©ÇÁ??   ",
+								"No.6      ?????å∂ñ≤äE????  ",
+								"No.7      ?????ÇìqÇµÇƒ???  ",
+								"No.8      Ç–Ç‡ÇÎÇ¨ÅAÇﬁÇÁÇ≥Ç´Ç…Ç‡Ç¶  ",
+								"No.9      ?  ? óˆêF?ÉWÉbÉN ?    ",
+								"No.10     ?ìåï˚ïïñÇ???óHå∂óêïë  ",
 								"No.11         Complete Darkness     ",
-								"No.12        ? „Ç®„Ç≠„Çπ„Éà„É©„É©„Éñ      ",
-								"No.13        Êà¶Ëªä„ÇÄ„Åô„ÇÅ„ÅÆ„Åø„Çã„ÇÜ„ÇÅ   ",
-								"No.14          ??ÈÅ†Èáé„ÅÆÊ£Æ???   ",
-								"No.15         ÊòîË©±„Çè„Çì„Å†?„Çâ„Çì„Å©    ",
-								"Êú™‰ΩøÁî®.1         ÂçöÈ∫ó?Á§æÂ¢ÉÂÜÖ       ",
-								"Êú™‰ΩøÁî®.2         ?ÈôΩËêΩ„Å°„Å¶  ?     ",
-								"Êú™‰ΩøÁî®.3         ?Â∞ÅÈ≠îÁµÇÊºî  ?     ",
-								"              ?„Ç§„Éà„É´„Å´Êàª„Çã        " };
-	char TH03_Title[][40] =   { "No.1       ?Â§¢„ÅØÊôÇÁ©∫„ÇíË∂ä„Åà„Å¶       ",
+								"No.12        ? ÉGÉLÉXÉgÉâÉâÉu      ",
+								"No.13        êÌé‘ÇﬁÇ∑ÇﬂÇÃÇ›ÇÈÇ‰Çﬂ   ",
+								"No.14          ??âìñÏÇÃêX???   ",
+								"No.15         êÃòbÇÌÇÒÇæ?ÇÁÇÒÇ«    ",
+								"ñ¢égóp.1         îéóÌ?é–ã´ì‡       ",
+								"ñ¢égóp.2         ?ózóéÇøÇƒ  ?     ",
+								"ñ¢égóp.3         ?ïïñÇèIââ  ?     ",
+								"              ?ÉCÉgÉãÇ…ñﬂÇÈ        " };
+	char TH03_Title[][40] =   { "No.1       ?ñ≤ÇÕéûãÛÇâzÇ¶Çƒ       ",
 								"No.2      ? ? Selection           ",
-								"No.3            Êù±ÊñπÂ¶ñÊÅãË´á          ",
+								"No.3            ìåï˚ódóˆík          ",
 								"No.4          Reincarnation         ",
 								"No.5            Dim. Dream          ",
-								"No.6     Tabula rasa??Á©∫ÁôΩÂ∞ëÂ•≥    ",
+								"No.6     Tabula rasa??ãÛîíè≠èó    ",
 								"No.7     ?  Maniacal Princess      ",
-								"No.8        Â§¢Ê∂àÂ§±  ?Lost Dream    ",
-								"No.9       Â§¢ÂπªÈÅäÊàØ  ?Dream War    ",
-								"No.10    È≠î?Ê±∫Êà¶ÔºÅ?Fight it out!  ",
+								"No.8        ñ≤è¡é∏  ?Lost Dream    ",
+								"No.9       ñ≤å∂óVãY  ?Dream War    ",
+								"No.10    ñÇ?åàêÌÅI?Fight it out!  ",
 								"No.11      ? Sailor of Time        ",
 								"No.12       Strawberry Crisis!!     ",
-								"No.13        ÈùûÁµ±‰∏ÄÈ≠î?‰∏ñÁïå?       ",
-								"No.14          ?È≠î?ÈêòÊÑõ           ",
-								"No.15          ?‰πÖÈÅ†„ÅÆÂ§¢           ",
-								"No.16          Êù±Êñπ„ÅÆÈùí„ÅÑÁ©∫         ",
-								"No.17           Ê∞∏ÈÅ†„ÅÆÊ∫ÄÊúà          ",
+								"No.13        îÒìùàÍñÇ?ê¢äE?       ",
+								"No.14          ?ñÇ?è‡à§           ",
+								"No.15          ?ãvâìÇÃñ≤           ",
+								"No.16          ìåï˚ÇÃê¬Ç¢ãÛ         ",
+								"No.17           âiâìÇÃñûåé          ",
 								"No.18         Maple Dream...        ",
-								"No.19           Èúä‰∫∫„ÅÆ‰ºëÊó•          ",	
-								"No.20            ÂãùÂà©„Éá„É¢           ",
-								"No.21         „Ç≤??„Ç™?„Éê?        ",
-								"Êú™‰ΩøÁî®.1          ÊôÇ„ÅÆÈ¢®            ",
-								"Êú™‰ΩøÁî®.2     „Çπ???„Ç¶„Éâ„É™??     ",
-								"Êú™‰ΩøÁî®.3       Phantasmagoria       ",
-								"              ?„Ç§„Éà„É´„Å´Êàª„Çã        "};
-	char TH04_Title[][40] = {	"No.1    ÂπªÊÉ≥ÈÉ∑  ? Lotus Land Story ",
+								"No.19           óÏêlÇÃãxì˙          ",	
+								"No.20            èüóòÉfÉÇ           ",
+								"No.21         ÉQ??ÉI?Éo?        ",
+								"ñ¢égóp.1          éûÇÃïó            ",
+								"ñ¢égóp.2     ÉX???ÉEÉhÉä??     ",
+								"ñ¢égóp.3       Phantasmagoria       ",
+								"              ?ÉCÉgÉãÇ…ñﬂÇÈ        "};
+	char TH04_Title[][40] = {	"No.1    å∂ëzãΩ  ? Lotus Land Story ",
 								"No.2          Witching Dream        ",
 								"No.3          Selene's light        ",
-								"No.4   Ë£ÖÈ£æÊà¶?? Decoration Battle ",
+								"No.4   ëïè¸êÌ?? Decoration Battle ",
 								"No.5         Break the Sabbath      ",
-								"No.6    Á¥ÖÈüøÊõ≤  ? Scarlet Phoneme  ",
+								"No.6    çgãøã»  ? Scarlet Phoneme  ",
 								"No.7            Bad Apple!!         ",
-								"No.8     ÈúäÊà¶?? Perdition crisis  ",
-								"No.9         „Ç¢„É™„Çπ?„Ç®„Çπ„ÉÜ„É©       ",
-								"No.10    Â∞ëÂ•≥?ÊÉ≥Êõ≤?? Capriccio   ",
-								"No.11   Êòü„ÅÆÂô®?? Casket of Star   ",
+								"No.8     óÏêÌ?? Perdition crisis  ",
+								"No.9         ÉAÉäÉX?ÉGÉXÉeÉâ       ",
+								"No.10    è≠èó?ëzã»?? Capriccio   ",
+								"No.11   êØÇÃäÌ?? Casket of Star   ",
 								"No.12           Lotus Love          ",
-								"No.13  Áú†„Çå„ÇãÊÅê? ?Sleeping Terror ",
+								"No.13  ñ∞ÇÍÇÈã∞? ?Sleeping Terror ",
 								"No.14           Dream Land          ",
-								"No.15    ÂπΩÂ§¢?? Inanimate Dream   ",
-								"No.16      Á¶Å„Åò„Åñ„Çã„Çí„Åà„Å™„ÅÑÈÅäÊàØ     ",
-								"No.17  „É°„Ç§„ÉâÂπªÊÉ≥?? Icemilk Magic ",
-								"No.18   „Åã„Çè„ÅÑ„ÅÑÊÇ™È≠î?? Innocence  ",
+								"No.15    óHñ≤?? Inanimate Dream   ",
+								"No.16      ã÷Ç∂Ç¥ÇÈÇÇ¶Ç»Ç¢óVãY     ",
+								"No.17  ÉÅÉCÉhå∂ëz?? Icemilk Magic ",
+								"No.18   Ç©ÇÌÇ¢Ç¢à´ñÇ?? Innocence  ",
 								"No.19              Days             ",
 								"No.20            Peaceful           ",
 								"No.21         Arcadian Dream        ",
-								"No.22           ÂπªÊÉ≥„ÅÆ‰Ωè‰∫∫          ",
-								"Êú™‰ΩøÁî®.1        Lotus Road          ",
-								"Êú™‰ΩøÁî®.2       Dreamy pilot         ",
-								"Êú™‰ΩøÁî®.3      Incomplete Plot       ",
-								"Êú™‰ΩøÁî®.4        Border Land         ",
-								"Êú™‰ΩøÁî®.5   Magic Shop of Raspberry  ",
-								"Êú™‰ΩøÁî®.6       Crescent Dream       ",
-								"              ?„Ç§„Éà„É´„Å´Êàª„Çã        " };
-	char TH05_Title[][40] = {	"No.1     ÊÄ™?Ë´á?? Mystic Square   ",
+								"No.22           å∂ëzÇÃèZêl          ",
+								"ñ¢égóp.1        Lotus Road          ",
+								"ñ¢égóp.2       Dreamy pilot         ",
+								"ñ¢égóp.3      Incomplete Plot       ",
+								"ñ¢égóp.4        Border Land         ",
+								"ñ¢égóp.5   Magic Shop of Raspberry  ",
+								"ñ¢égóp.6       Crescent Dream       ",
+								"              ?ÉCÉgÉãÇ…ñﬂÇÈ        " };
+	char TH05_Title[][40] = {	"No.1     âˆ?ík?? Mystic Square   ",
 								"No.2           Dream Express        ",
-								"No.3      È≠î?Èô£?? Magic Square   ",
-								"No.4             Â§¢ÊÉ≥ÊôÇÁ©∫           ",
-								"No.5     ÈúäÂ§©?? Spiritual Heaven  ",
+								"No.3      ñÇ?êw?? Magic Square   ",
+								"No.4             ñ≤ëzéûãÛ           ",
+								"No.5     óÏìV?? Spiritual Heaven  ",
 								"No.6         Romantic Children      ",
-								"No.7       „Éó„É©„Çπ?„ÉÉ„ÇØ?„Ç§„É≥„Éâ     ",
-								"No.8          „É°„Ç§„Éó„É´„ÉØ„Ç§„Ç∫        ",
-								"No.9  Á¶ÅÊñ≠„ÅÆÈ≠î?  ? Forbidden Magic",
-								"No.10  ?Á¥Ö„ÅÆÂ∞ëÂ•≥?? Crimson Dead!!",
-								"No.11  Ë£èÂàá„Çä„ÅÆÂ∞ëÂ•≥?? Judas Kiss  ",
+								"No.7       ÉvÉâÉX?ÉbÉN?ÉCÉìÉh     ",
+								"No.8          ÉÅÉCÉvÉãÉèÉCÉY        ",
+								"No.9  ã÷ífÇÃñÇ?  ? Forbidden Magic",
+								"No.10  ?çgÇÃè≠èó?? Crimson Dead!!",
+								"No.11  ó†êÿÇËÇÃè≠èó?? Judas Kiss  ",
 								"No.12       the Last Judgement      ",
-								"No.13  ÊÇ≤„Åó„Åç‰∫∫??? Doll of Misery",
-								"No.14   ‰∏ñÁïå„ÅÆÊûú„Å¶?? World's End  ",
-								"No.15   ?Ë©±ÂπªÊÉ≥?? Infinite Being ",
-								"No.16       ‰∏çÊÄùË≠∞„ÅÆÂõΩ„ÅÆ„Ç¢„É™„Çπ      ",
+								"No.13  îﬂÇµÇ´êl??? Doll of Misery",
+								"No.14   ê¢äEÇÃâ Çƒ?? World's End  ",
+								"No.15   ?òbå∂ëz?? Infinite Being ",
+								"No.16       ïsévãcÇÃçëÇÃÉAÉäÉX      ",
 								"No.17     the Grimoire of Alice     ",
-								"No.18              ?Á§æ             ",
+								"No.18              ?é–             ",
 								"No.19            Endless            ",
-								"No.20          ‰πÖÈÅ†„ÅÆÊ•Ω?           ",
+								"No.20          ãvâìÇÃäy?           ",
 								"No.21         Mystic Dream          ",
 								"No.22       Peaceful Romancer       ",
-								"No.23         È≠Ç„ÅÆ‰ºë„Çâ„ÇÄÊâÄ          ",
-								"              ?„Ç§„Éà„É´„Å´Êàª„Çã        " };
+								"No.23         ç∞ÇÃãxÇÁÇﬁèä          ",
+								"              ?ÉCÉgÉãÇ…ñﬂÇÈ        " };						
 	char TH01_Filename[][10] =    {"r_00","r_01",    "r_02",   "r_03",  "r_04",   "r_05",  "r_06",   "r_07",   "r_08",   "r_09",   "r_10",   "r_11",   "r_12",   "r_13"};
 	char TH02_Filename[][10] =    {"h_op","h_st00",  "h_st00b","h_st01","h_st01b","h_st02","h_st02b","h_st03", "h_st03b","h_st04", "h_st04b","h_st05", "h_st05b","h_end",  "h_staff","h_ng00", "h_ng01", "h_ng02"};
-	char TH03_Filename[][10] =    {"y_op","y_select","y_00mm", "y_01mm","y_02mm", "y_03mm","y_04mm", "y_05mm", "y_06mm", "y_dec",  "y_07mm", "y_08mm", "y_demo1","y_demo2","y_demo3","y_demo4","y_demo5","y_ed",  "y_score","y_win",  "y_over","y_ng00","y_ng0!","y_ng02"};
-	char TH04_Filename[][10] =    {"g_op","g_st00",  "g_st10", "g_st00b","g_st01","g_st01b","g_st02","g_st02b","g_st03", "g_st03b","g_st04", "g_st04b","g_st05", "g_st05b","g_st06", "g_st06b","g_st06c","g_end1","g_end2", "g_staff","g_name","g_ng00","g_ng01","g_ng02","g_ng03"};
-	char TH05_Filename[][10] =    {"op",  "st00",    "st00b",  "st01",   "st01b", "st02",   "st02b", "st03",   "st03b",  "st03c",  "st03d",  "st04",   "st04b",  "st05",   "st05b",  "st06",   "st06b",  "ed00",  "ed01",   "ed02",   "staff", "exed",  "name"};
-	
+	char TH03_Filename[][10] =    {"y_op","y_select","y_00mm", "y_01mm","y_02mm", "y_03mm","y_04mm", "y_05mm", "y_06mm", "y_dec",  "y_07mm", "y_08mm", "y_demo1","y_demo2","y_demo3","y_demo4","y_demo5","y_ed",  "y_score","y_win",  "y_over","y_ng00","y_ng01","y_ng02"};
+	char TH04_Filename[][10] =    {"g_op","g_st00",  "g_st10", "g_st00b","g_st01","g_st01b","g_st02","g_st02b","g_st03", "g_st03b","g_st04", "g_st04b","g_st05", "g_st05b","g_st06", "g_st06b","g_st06c","g_end1","g_end2", "g_staff","g_name","g_ng00","g_ng01","g_ng02","g_ng03","g_ng04","g_ng05","g_ng06" };
+	char TH05_Filename[][10] =    {"OP",  "ST00",    "ST00B",  "ST01",   "ST01B", "ST02",   "ST02B", "ST03",   "ST03B",  "ST03C",  "ST03D",  "ST04",   "ST04B",  "ST05",   "ST05B",  "ST06",   "ST06B",  "ED00",  "ED01",   "ED02",   "STAFF", "EXED",  "NAME"};
 	CMusicRoom::CMusicRoom(void)
 	{
 		m_pBGImage = NULL;
@@ -164,6 +188,7 @@ namespace th5w {
 		m_curKeyState = 0;
 		m_bQuit = false;
 		m_curScrFade = 0;
+		m_texttrans = 1.0f;
 
 		m_nFilePerPage = 16;
 		m_nPage = 5;
@@ -172,9 +197,26 @@ namespace th5w {
 		SwitchPage(4);
 		m_curCursorPos = 0;
 		m_curListTop = 0;
-		//musicroom comment==_MUSIC0.TXT
-		//music.dat
+//		pmdwork = getopenwork();
 		CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage, NULL, &CGame::s_pCurGame->m_th5Dat1, "MUSIC.PI");
+	}
+	
+	void CMusicRoom::music_cmt_load()
+	{
+		char musicTxtFile[] = "_MUSIC0.TXT";
+		musicTxtFile[6] += m_curPage;
+
+		int offset = m_curCursorPos * 400;
+		int fileIdx = CGame::s_pCurGame->m_musicDat.GetChildFileIndex(musicTxtFile);
+		CGame::s_pCurGame->m_musicDat.Childfseek(fileIdx,offset, SEEK_SET);
+		for (int i = 0; i<10; i++)
+		{
+			CGame::s_pCurGame->m_musicDat.Childfgets(music_cmt_text[i], 40, fileIdx);
+			if (music_cmt_text[i][strlen(music_cmt_text[i]) - 1] == '\n')
+				music_cmt_text[i][strlen(music_cmt_text[i]) - 1] = 0;
+			if (music_cmt_text[i][0] == ';')
+				music_cmt_text[i][0] = 0;
+		}
 	}
 
 	void CMusicRoom::SwitchPage(int pageIdx)
@@ -187,50 +229,43 @@ namespace th5w {
 
 	void CMusicRoom::Playmusic()
 	{
-	//	m_nnowPlayingTitle = m_curPage;
+		m_texttrans = 0.0f;
 		m_nnowPlayingNumber = m_curCursorPos;
+		CCommonFunctionMusicSE::Pause();
+		CCommonFunctionMusicSE::UnloadData();
+		switch (m_curPage)
+		{
+		case 0:
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_musicDat,TH01_Filename[m_nnowPlayingNumber]);
+			break;
+		case 1:
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_musicDat,TH02_Filename[m_nnowPlayingNumber],false);
+			break;
+		case 2:
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_musicDat,TH03_Filename[m_nnowPlayingNumber], false);
+			break;
+		case 3:
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_musicDat,TH04_Filename[m_nnowPlayingNumber]);
+			break;
+		case 4:
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_musicDat, TH05_Filename[m_nnowPlayingNumber]);
+			break;
+		}
+		music_cmt_load();
+		CCommonFunctionMusicSE::Play();
+		
 	}
-	; int __pascal __near music_cmt_load(int track)
-/*
-MUSIC_CMT_LINE_LEN equ 40
-MUSIC_CMT_LINE_COUNT equ 10
-	void CMusicRoom::music_cmt_load()
-	arg @@track:word
-	local @@fn:dword
 
-	push	si
-	mov	word ptr @@fn+2, ds
-	mov	word ptr @@fn, offset _a_Music0_txt
-	les	bx, @@fn
-	mov	al, byte ptr music_game
-	add	al, '0'
-	mov	es:[bx+6], al
-	call	file_ropen pascal, word ptr @@fn+2, bx
-	mov	ax, @@track
-	imul	ax, MUSIC_CMT_LEN
-	cwde
-	call	file_seek pascal, eax, 0
-	call	file_read pascal, ds, offset _music_cmt, MUSIC_CMT_LEN
-	call	file_close
-	xor	si, si
-	jmp	short @@check
-
-@@terminate_line:
-	mov	bx, si
-	imul	bx, MUSIC_CMT_LINE_LEN
-	mov	(_music_cmt + MUSIC_CMT_LINE_LEN - 2)[bx], 0
-	inc	si
-
-@@check:
-	cmp	si, MUSIC_CMT_LINE_COUNT
-	jl	short @@terminate_line
-	pop	si
-	ret
-music_cmt_load	endp*/
-	
 	int CMusicRoom::Step()
 	{
 		m_curFrame++;
+		if (m_texttrans<1.0f)
+		{
+			m_texttrans += 0.1f;
+			if (m_texttrans>1.0f)
+				m_texttrans = 1.0f;
+			return 0;
+		}
 
 		if (m_bQuit)
 		{
@@ -252,6 +287,7 @@ music_cmt_load	endp*/
 				m_curScrFade = 100;
 			return 0;
 		}
+		//pmd_get_current_notes(notes, NumOfAllPart);
 
 		m_lastKeyState = m_curKeyState;
 		m_curKeyState = CCommonFunctionInput::GetAllKeyState();
@@ -288,7 +324,7 @@ music_cmt_load	endp*/
 			m_bQuit = true;
 			m_quitCode = MUSICROOM_END_BACK;
 		}
-		if (CCommonFunctionInput::ZPressed(m_curKeyState, m_lastKeyState))
+		if (CCommonFunctionInput::ZPressed(m_curKeyState, m_lastKeyState)||CCommonFunctionInput::EnterPressed(m_curKeyState, m_lastKeyState))
 		{
 			if (music_count[m_curPage] - 1 == m_curCursorPos )
 			{
@@ -322,28 +358,19 @@ music_cmt_load	endp*/
 		float list_color[] = { 0.7265625f,0.7265625f,1.0f };
 		CPC98Font::DrawString(MusicRoom_TH[m_curPage], 100, 8, 32, white_color[0], white_color[1], white_color[2]);
 		CPC98Font::DrawString(MusicRoom_TH[m_curPage], 100, 8 - 1, 32, white_color[0], white_color[1], white_color[2]);
-		switch (m_curPage)
-		{
-		case 0:
-			sprintf(strBuf, "%s", TH01_Title[m_nnowPlayingNumber]);
-			break;
-		case 1:
-			sprintf(strBuf, "%s", TH02_Title[m_nnowPlayingNumber]);
-			break;
-		case 2:
-			sprintf(strBuf, "%s", TH03_Title[m_nnowPlayingNumber]);
-			break;
-		case 3:
-			sprintf(strBuf, "%s", TH04_Title[m_nnowPlayingNumber]);
-			break;
-		case 4:
-			sprintf(strBuf, "%s", TH05_Title[m_nnowPlayingNumber]);
-			break;
-		}
-		CPC98Font::DrawString(strBuf, 100, 320, 32, text_color[0], text_color[1], text_color[2]);
-		CPC98Font::DrawString(strBuf, 100, 320 - 1, 32, text_color[0], text_color[1], text_color[2]);
 
+		CPC98Font::DrawString(music_cmt_text[0], 100, 320, 32, text_color[0], text_color[1], text_color[2], m_texttrans);
+		CPC98Font::DrawString(music_cmt_text[0], 100, 320 - 1, 32, text_color[0], text_color[1], text_color[2], m_texttrans);
 		
+		for (int i = 1; i < 10; i++)
+		{
+			CPC98Font::DrawString(music_cmt_text[i], 100, 320, 208 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
+			CPC98Font::DrawString(music_cmt_text[i], 100, 320 - 1, 208 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
+		}
+		CPC98Font::DrawString(musicRoom_up, 100, m_listUpperLeftX * 8, m_listUpperLeftY * 16 -16, list_color[0], list_color[1], list_color[2]);
+		
+		CPC98Font::DrawString(musicRoom_down, 100, m_listUpperLeftX * 8, (m_listUpperLeftY + m_nFilePerPage) * 16, list_color[0], list_color[1], list_color[2]);
+
 		for (int i = 0; i < m_nFilePerPage; i++)
 		{
 			int x = m_listUpperLeftX * 8;
@@ -353,7 +380,6 @@ music_cmt_load	endp*/
 			float color[] = { 0.5f,1.0f,0.5f };
 			float sc[] = { 0.2f,0.2f,0.2f };
 			float salpha = 0.5f;
-			int soffx = 2, soffy = 2;
 			switch (m_curPage)
 			{
 			case 0:
@@ -383,10 +409,19 @@ music_cmt_load	endp*/
 				CPC98Font::DrawString(strBuf, 100, x - 1, y, list_color[0], list_color[1], list_color[2]);
 			}
 
-			x += 6 * 8;
 
 			}
+
+		/*
+		for (int i = 0; i < NumOfAllPart; i++) {
+			sprintf(strBuf, "Note for channel %d is %x", i, notes[i]);
+			CPC98Font::DrawString(strBuf, 100, 0, i*16, white_color[0], white_color[1], white_color[2]);
+
+		}*/
 		}
+	
+
+
 
 	}
 

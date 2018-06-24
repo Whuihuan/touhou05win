@@ -28,7 +28,7 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 	m_modFileName[0]=0;
 	m_textCodePage=932;
 	m_bUseSystemFont=false;
-	m_fontCharset=134;
+	m_fontCharset=130;
 	FILE *fp=fopen("config.ini","r");
 	if (fp==NULL)
 		return;

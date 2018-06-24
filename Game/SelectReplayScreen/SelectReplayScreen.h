@@ -18,6 +18,7 @@ protected:
 	unsigned short m_lastKeyState,m_curKeyState;
 
 protected:
+	bool m_bStageSelect;
 	int m_nFilePerPage;
 	int m_nPage;
 	int m_curPage;

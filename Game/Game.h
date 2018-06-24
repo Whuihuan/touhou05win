@@ -32,6 +32,7 @@ public:
 
 	Cth5DatFile m_th5Dat1;
 	Cth5DatFile m_th5Dat2;
+	Cth5DatFile m_musicDat;
 	Cth5DatFile m_modDat;
 
 	CGlobalVariableAndStatistics m_globalVar;

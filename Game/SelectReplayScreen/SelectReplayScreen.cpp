@@ -13,14 +13,7 @@
 
 namespace th5w{
 
-	char charTable[7][20]={"ABCDEFGHIJKLM",
-						   "NOPQRSTUVWXYZ",
-						   "abcdefghijklm",
-						   "nopqrstuvwxyz",
-						   "0123456789-=\\",
-						   "!@#$%^&*()_+|",
-						   "[]{};':\"<>/~End"};
-
+	unsigned char charTable[3][17];
 CSelectReplayScreen::CSelectReplayScreen(void)
 {
 	m_pBGImage=NULL;
@@ -48,11 +41,11 @@ void CSelectReplayScreen::Initialize(bool bLoadMode,bool bSwitchMusic)
 	m_curKeyState=0;
 	m_bQuit=false;
 	m_curScrFade=0;
-
+	m_bStageSelect = false;
 	m_bLoadMode=bLoadMode;
-	m_nFilePerPage=20;
-	m_nPage=5;
-	m_listUpperLeftX=10;
+	m_nFilePerPage=15;
+	m_nPage=6;
+	m_listUpperLeftX=2;
 	m_listUpperLeftY=4;
 	SwitchPage(0);
 	m_curCursorPos=0;
@@ -65,7 +58,7 @@ void CSelectReplayScreen::Initialize(bool bLoadMode,bool bSwitchMusic)
 		return;
 	}
 
-	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,NULL,&CGame::s_pCurGame->m_th5Dat1,"UDE.PI");
+	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,NULL,&CGame::s_pCurGame->m_th5Dat1,"MS.PI");
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"ZUN01.BFT",0);
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"ZUN02.BFT",0);
 
@@ -113,28 +106,28 @@ void CSelectReplayScreen::StepEnterNameMode()
 	if (CCommonFunctionInput::LeftPressed(m_curKeyState,m_lastKeyState))
 	{
 		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_curCharX=(m_curCharX+12)%13;
+		m_curCharX=(m_curCharX+16)%17;
 	}
 	if (CCommonFunctionInput::RightPressed(m_curKeyState,m_lastKeyState))
 	{
 		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_curCharX=(m_curCharX+1)%13;
+		m_curCharX=(m_curCharX+1)%17;
 	}
 	if (CCommonFunctionInput::UpPressed(m_curKeyState,m_lastKeyState))
 	{
 		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_curCharY=(m_curCharY+6)%7;
+		m_curCharY=(m_curCharY+2)%3;
 	}
 	if (CCommonFunctionInput::DownPressed(m_curKeyState,m_lastKeyState))
 	{
 		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_curCharY=(m_curCharY+1)%7;
+		m_curCharY=(m_curCharY+1)%3;
 	}
 	if (CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
 	{
 		CGame::s_pCurGame->m_soundEffect.PlaySound(11);
 
-		if (m_curCharX==12&&m_curCharY==6)
+		if (m_curCharX==16&&m_curCharY==2)
 		{
 			memcpy(CGame::GVar().m_replay.m_playerName,m_curEnterName,8);
 			char repFileName[1000];
@@ -173,7 +166,21 @@ void CSelectReplayScreen::StepEnterNameMode()
 int CSelectReplayScreen::Step()
 {
 	m_curFrame++;
-
+	if(m_bStageSelect)
+	{
+	if (abs(m_curRowY - (m_listUpperLeftY + 4) * 16)>8)
+	{
+		if (m_curRowY<(m_listUpperLeftY + 4) * 16)
+			m_curRowY += 8;
+		else
+			m_curRowY -= 8;
+		if (abs(m_curRowY - (m_listUpperLeftY + 4) * 16)<8)
+			m_curRowY = (m_listUpperLeftY + 4) * 16;
+		return 0;
+	}
+	else
+		m_curRowY = (m_listUpperLeftY + 4) * 16;
+	}
 	if (m_bQuit)
 	{
 		if (m_curScrFade>0)
@@ -206,73 +213,81 @@ int CSelectReplayScreen::Step()
 
 	if (CCommonFunctionInput::LeftPressed(m_curKeyState,m_lastKeyState))
 	{
-		if (!CCommonFunctionInput::LShiftKey(m_curKeyState))
-		{
-			if (m_bLoadMode)
-			{
-				m_curCursorColPos=(m_curCursorColPos+6)%7;
-				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-			}
-		}
-		else
-		{
-			SwitchPage((m_curPage+m_nPage-1)%m_nPage);
+			SwitchPage((m_curPage+m_nPage - 1) % m_nPage);
 			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		}
 	}
 	if (CCommonFunctionInput::RightPressed(m_curKeyState,m_lastKeyState))
 	{
-		if (!CCommonFunctionInput::LShiftKey(m_curKeyState))
-		{
-			if (m_bLoadMode)
-			{
-				m_curCursorColPos=(m_curCursorColPos+1)%7;
-				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-			}
-		}
-		else
-		{
 			SwitchPage((m_curPage+1)%m_nPage);
 			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		}
 	}
 	if (CCommonFunctionInput::UpPressed(m_curKeyState,m_lastKeyState))
 	{
+		if (m_bStageSelect == false) {
 		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
 		m_curCursorPos=(m_curCursorPos+m_nFilePerPage-1)%m_nFilePerPage;
+		}
+		else
+		{
+			m_curCursorColPos = (m_curCursorColPos + 6) % 7;
+			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		}
+
 	}
 	if (CCommonFunctionInput::DownPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-		m_curCursorPos=(m_curCursorPos+1)%m_nFilePerPage;
+		if (m_bStageSelect == false) {
+			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			m_curCursorPos = (m_curCursorPos + 1) % m_nFilePerPage;
+		}
+		else {
+			m_curCursorColPos = (m_curCursorColPos + 1) % 7;
+			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		}
 	}
 	if (CCommonFunctionInput::ESCPressed(m_curKeyState,m_lastKeyState)
 		||CCommonFunctionInput::XPressed(m_curKeyState,m_lastKeyState))
 	{
+		if (m_bStageSelect == true) {
+			m_bStageSelect = false;
+		}
+		else {
 		m_bQuit=true;
 		m_quitCode=SELECTREPLAYSCREEN_END_BACK;
 		if (!m_bLoadMode)
 			m_quitCode=SELECTREPLAYSCREEN_END_SAVE_REPLAY_END;
+		}
 	}
 	if (CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
 	{
 		if (m_bLoadMode)
 		{
 			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
-			if (m_repInfo[m_curCursorPos].stageFlag[m_curCursorColPos]!=0)
+			if ((m_bStageSelect == false)&& (m_bCurPageRepFileExist[m_curCursorPos]==true))
 			{
-				int fileIdx=m_curPage*m_nFilePerPage+m_curCursorPos;
-				char repFileName[1000];
-				sprintf(repFileName,"%s%s\\replay%02d.rpy",CGame::GVar().m_workingPath,
-														   CGame::GVar().m_replaySubDir,
-														   fileIdx);
-				if (CGame::GVar().m_replay.LoadFile(repFileName))
+				m_curCharY = 0;
+				m_selectedSlot = m_curCursorPos;
+				m_curRowY = (m_listUpperLeftY +4+ m_selectedSlot) * 16;
+				m_bStageSelect = true;
+			}
+			else
+			{
+				if (m_repInfo[m_curCursorPos].stageFlag[m_curCursorColPos] != 0)
 				{
-					CGame::GVar().m_bReplayMode=true;
-					CGame::GVar().m_playStage=m_curCursorColPos;
-					CGame::GVar().OnBeginGame();
-					m_bQuit=true;
-					m_quitCode=SELECTREPLAYSCREEN_END_SELECTED_REPLAY;
+					int fileIdx = m_curPage * m_nFilePerPage + m_curCursorPos;
+					char repFileName[1000];
+					sprintf(repFileName, "%s%s\\replay%02d.rpy", CGame::GVar().m_workingPath,
+						CGame::GVar().m_replaySubDir,
+						fileIdx);
+					if (CGame::GVar().m_replay.LoadFile(repFileName))
+					{
+						CGame::GVar().m_bReplayMode = true;
+						CGame::GVar().m_playStage = m_curCursorColPos;
+						CGame::GVar().OnBeginGame();
+						m_bQuit = true;
+						m_quitCode = SELECTREPLAYSCREEN_END_SELECTED_REPLAY;
+
+					}
 				}
 			}
 		}
@@ -282,7 +297,7 @@ int CSelectReplayScreen::Step()
 			m_curCharX=0;
 			m_curCharY=0;
 			m_selectedSlot=m_curCursorPos;
-			m_curRowY=(m_listUpperLeftY+m_selectedSlot)*16;
+			m_curRowY=(m_listUpperLeftY+4+m_selectedSlot)*16;
 			memcpy(m_curEnterName,CGame::GVar().m_defaultReplayName,10);
 			m_nameCursorPos=(int)strlen(m_curEnterName);
 			if (m_nameCursorPos>7)
@@ -299,70 +314,81 @@ void CSelectReplayScreen::DrawEnterNameMode()
 	int x=m_listUpperLeftX*8;
 	int y=m_curRowY;
 	char strBuf[100];
-
+	for (int i = 0; i<17; i++)
+		charTable[0][i] = 0xaa + i;
+	for (int i = 0; i<11; i++)
+		charTable[1][i] = 0xbb + i;
+	charTable[1][11] = 0xd0;
+	charTable[1][12] = 0xc9;
+	charTable[1][13] = 0xc6;
+	charTable[1][14] = 0xc7;
+	charTable[1][15] = 0xc8;
+	charTable[1][16] = 0xcc;
+	for (int i = 0; i<10; i++)
+		charTable[2][i] = 0xa0 + i;
+	charTable[2][10] = 0x70;
+	charTable[2][11] = 0x71;
+	charTable[2][12] = 0x72;
+	charTable[2][13] = 0xce;
+	charTable[2][14] = 0xcf;
+	charTable[2][15] = 0xcd;
+	charTable[2][16] = 0xd5;
+	
 	float color[]={1.0f,1.0f,1.0f};
 	float sc[]={0.2f,0.2f,0.2f};
 	float salpha=0.5f;
 	int soffx=2,soffy=2;
 
-	sprintf(strBuf,"No.%02d ",m_curPage*m_nFilePerPage+m_selectedSlot);
-	CPC98Font::DrawString(strBuf,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-	CPC98Font::DrawString(strBuf,100,x,y,color[0],color[1],color[2]);
-	x+=6*8;
+	unsigned char numberText[] = { gb_N_,gb_O_,gb_PERIOD,gb_0_, gb_0_, 0 };
+	numberText[3] += (m_curPage * m_nFilePerPage + m_selectedSlot) / 10;
+	numberText[4] += (m_curPage * m_nFilePerPage + m_selectedSlot) % 10;
+	CTh5ExtFont::DrawExtString(numberText, 100, x, y, color[0], color[1], color[2]);
+	x += 6 * 16;
 
-	memcpy(strBuf,m_curEnterName,10);
-	CPC98Font::DrawString(strBuf,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-	CPC98Font::DrawString(strBuf,100,x,y,color[0],color[1],color[2]);
 
-	CCommonFunctionGraphic::DrawRectangle((float)x+m_nameCursorPos*8,(float)y+16,(float)x+m_nameCursorPos*8+7,(float)y+17,1,1,1);
-	x+=9*8;
-
-	{
-		time_t tt=time(NULL);
-		tm *ptm=localtime(&tt);
-		sprintf(strBuf,"%02d/%02d/%02d %02d:%02d",ptm->tm_year%100,ptm->tm_mon+1,ptm->tm_mday,ptm->tm_hour,ptm->tm_min);
-		CPC98Font::DrawString(strBuf,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-		CPC98Font::DrawString(strBuf,100,x,y,color[0],color[1],color[2]);
-		x+=15*8;
-	}
+	unsigned char playerName[11] = { 0,0,0,0,0,0,0,0,0,0 };
+	memcpy(playerName, m_curEnterName, 10);
+	CTh5ExtFont::DrawExtString(playerName, 100, x, y, color[0], color[1], color[2]);
+	CCommonFunctionGraphic::DrawRectangle((float)x+m_nameCursorPos*16,(float)y+16,(float)x+m_nameCursorPos*16+7,(float)y+17,1,1,1);
+	x += 10 * 16;
 
 	{
-		char charaName[][10]={"Reimu","Marisa","Mima","Yuka"};
-		CPC98Font::DrawString(charaName[pRep->m_playChara],100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-		CPC98Font::DrawString(charaName[pRep->m_playChara],100,x,y,color[0],color[1],color[2]);
-		x+=7*8;
+		time_t tt = time(NULL);
+		tm *ptm = localtime(&tt);
+		unsigned char dateText[] = { gb_0_, gb_0_,2, gb_0_, gb_0_ ,0 };
+		dateText[0] += (ptm->tm_mon + 1) / 10;
+		dateText[1] += (ptm->tm_mon + 1) % 10;
+		dateText[3] += (ptm->tm_mday) / 10;
+		dateText[4] += (ptm->tm_mday) % 10;
+		sprintf(strBuf, "/");//this will be changed to fullwidth /
+		CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
+		CPC98Font::DrawString(strBuf, 100, x + 32, y, color[0], color[1], color[2]);
+		x += 6 * 16;
 	}
 	{
-		char difficultyName[][10]={"Easy","Normal","Hard","Lunatic","Extra"};
-		CPC98Font::DrawString(difficultyName[pRep->m_playDifficulty],100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-		CPC98Font::DrawString(difficultyName[pRep->m_playDifficulty],100,x,y,color[0],color[1],color[2]);
-		x+=8*8;
+		unsigned char charaName[][10] = { { gb_R_,gb_E_,gb_I_,gb_M_,gb_U_,0 },{ gb_M_,gb_A_,gb_R_,gb_I_,gb_S_,gb_A_,0 },{ gb_M_,gb_I_,gb_M_,gb_A_,0 },{ gb_Y_,gb_U_,gb_K_,gb_A_,0 } };
+		CTh5ExtFont::DrawExtString(charaName[pRep->m_playChara], 100, x, y, color[0], color[1], color[2]);
+		x += 7 * 16;
+	}
+	{
+		unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0 },{ gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0 },{ gb_H_, gb_A_, gb_R_, gb_D_,0 },{ gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0 },{ gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0 } };
+		CTh5ExtFont::DrawExtString(difficultyName[pRep->m_playDifficulty], 100, x, y, color[0], color[1], color[2]);
+		x += 8 * 16;
 	}
 
-	{
-		char stgBriefName[][3]={"1","2","3","4","5","6","Ex"};
-		char stgBriefNameNone[][3]={"-","-","-","-","-","-","--"};
-		for (int j=0;j<7;j++)
-		{
-			char *name=pRep->m_stageFlag[j]!=0?stgBriefName[j]:stgBriefNameNone[j];
-			CPC98Font::DrawString(name,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-			CPC98Font::DrawString(name,100,x,y,color[0],color[1],color[2]);
-			x+=((int)strlen(name)+1)*8;
-		}
-	}
 
 	if (m_curRowY!=(m_listUpperLeftY+4)*16)
 		return;
 
 	int ulx=(m_listUpperLeftX+18)*8;
 	int uly=(m_listUpperLeftY+12)*16;
-	for (int i=0;i<7;i++)
-		for (int j=0;j<13;j++)
+	for (int i=0;i<3;i++)
+		for (int j=0;j<17;j++)
 		{
 			int len=1;
 			if (i==6&&j==12)
 				len=100;
-			CPC98Font::DrawString(&charTable[i][j],len,ulx+j*16+soffx,uly+i*16+soffy,sc[0],sc[1],sc[2],salpha);
+			CTh5ExtFont::DrawExtString(&charTable[i][j],len,ulx+j*16+soffx,uly+i*16+soffy,sc[0],sc[1],sc[2],salpha);
 			if (i==m_curCharY&&j==m_curCharX)
 			{
 				color[0]=1.0f;
@@ -375,188 +401,182 @@ void CSelectReplayScreen::DrawEnterNameMode()
 				color[1]=0.7f;
 				color[2]=0.3f;
 			}
-			CPC98Font::DrawString(&charTable[i][j],len,ulx+j*16,uly+i*16,color[0],color[1],color[2]);
+			CTh5ExtFont::DrawExtString(&charTable[i][j],len,ulx+j*16,uly+i*16,color[0],color[1],color[2]);
 		}
 }
 
 void CSelectReplayScreen::Draw()
 {
-	glClearColor(0,0,0,1);
+	glClearColor(0, 0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	if (m_curScrFade==0)
+	if (m_curScrFade == 0)
 		return;
 
-	m_pBGImage->Draw(0,40);
-	CCommonFunctionGraphic::DrawRectangle(0,0,639,39,1.0f,1.0f,1.0f);
-	CCommonFunctionGraphic::DrawRectangle(0,440,639,479,1.0f,13.0f/15.0f,13.0f/15.0f);
-	CCommonFunctionGraphic::ScreenFade(50);
-
-	if (m_bLoadMode)
-	{
-		unsigned char extLoadReplay[]={0xb5,0xb8,0xaa,0xad,0x02,0xbb,0xae,0xb9,0xb5,0xaa,0xc2,0};
-		CTh5ExtFont::DrawExtString(extLoadReplay,100,(m_listUpperLeftX-4)*8+4,(m_listUpperLeftY-2)*16+4,0,0,0,0.5);
-		CTh5ExtFont::DrawExtString(extLoadReplay,100,(m_listUpperLeftX-4)*8,(m_listUpperLeftY-2)*16,1,1,1);
-	}
-	else
-	{
-		unsigned char extSaveReplay[]={0xbc,0xaa,0xbf,0xae,0x02,0xbb,0xae,0xb9,0xb5,0xaa,0xc2,0};
-		CTh5ExtFont::DrawExtString(extSaveReplay,100,(m_listUpperLeftX-4)*8+4,(m_listUpperLeftY-2)*16+4,0,0,0,0.5);
-		CTh5ExtFont::DrawExtString(extSaveReplay,100,(m_listUpperLeftX-4)*8,(m_listUpperLeftY-2)*16,1,1,1);
-	}
+	m_pBGImage->Draw(0, 80);
+	CCommonFunctionGraphic::DrawRectangle(0, 0, 639, 79, 51.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f);
+	
+		if (m_bLoadMode)
+		{
+			unsigned char extLoadReplay[] = { 0xb5,0xb8,0xaa,0xad,0x02,0xbb,0xae,0xb9,0xb5,0xaa,0xc2,0 };
+			CTh5ExtFont::DrawExtString(extLoadReplay, 100, (m_listUpperLeftX) * 8 + 4, (m_listUpperLeftY - 2) * 16 + 4, 0, 0, 0, 0.5);
+			CTh5ExtFont::DrawExtString(extLoadReplay, 100, (m_listUpperLeftX) * 8, (m_listUpperLeftY - 2) * 16, 1, 1, 1);
+		}
+		else
+		{
+			unsigned char extSaveReplay[] = { 0xbc,0xaa,0xbf,0xae,0x02,0xbb,0xae,0xb9,0xb5,0xaa,0xc2,0 };
+			CTh5ExtFont::DrawExtString(extSaveReplay, 100, (m_listUpperLeftX) * 8 + 4, (m_listUpperLeftY - 2) * 16 + 4, 0, 0, 0, 0.5);
+			CTh5ExtFont::DrawExtString(extSaveReplay, 100, (m_listUpperLeftX) * 8, (m_listUpperLeftY - 2) * 16, 1, 1, 1);
+		}
 
 	if (m_bEnterNameMode)
 	{
 		DrawEnterNameMode();
 		return;
 	}
-
-	for (int i=0;i<m_nFilePerPage;i++)
-	{
-		int x=m_listUpperLeftX*8;
-		int y=(m_listUpperLeftY+i)*16;
-		char strBuf[100];
-
-		float color[]={0.5f,1.0f,0.5f};
-		float sc[]={0.2f,0.2f,0.2f};
-		float salpha=0.5f;
-		int soffx=2,soffy=2;
-		if (i==m_curCursorPos)
+	if (m_bStageSelect == false) {
+		for (int i = 0; i < m_nFilePerPage; i++)
 		{
-			color[0]=color[1]=1;
-			x-=1;y-=1;
-		}
+			int x = m_listUpperLeftX * 8;
+			int y = (m_listUpperLeftY + 4 + i) * 16;
+			char strBuf[100];
 
-		sprintf(strBuf,"No.%02d ",m_curPage*m_nFilePerPage+i);
-		CPC98Font::DrawString(strBuf,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-		CPC98Font::DrawString(strBuf,100,x,y,color[0],color[1],color[2]);
-		x+=6*8;
-
-		if (!m_bCurPageRepFileExist[i])
-		{
-			char *outInfo=NULL;
-			char errorInfo[][100]={"-------- -------------- ------ ------- - - - - - - --",
-								   "          Invalid replay file          - - - - - - --",
-								   "    Replay under other game version    - - - - - - --",
-								   "      Replay under other mod file      - - - - - - --",
-									};
-			switch(m_repInfo[i].infoRes)
+			float color[] = { 118.0f / 255.0f,118.0f / 255.0f,118.0f / 255.0f };
+			float sc[] = { 0.2f,0.2f,0.2f };
+			float salpha = 0.5f;
+			int soffx = 2, soffy = 2;
+			if (i == m_curCursorPos)
 			{
-			case InfoRes_FileNotExist:
-				outInfo=errorInfo[0];
-				break;
-			case InfoRes_InvalidReplay:
-				outInfo=errorInfo[1];
-				break;
-			case InfoRes_GameVersionMismatch:
-				outInfo=errorInfo[2];
-			    break;
-			case InfoRes_ModFileMisMatch:
-				outInfo=errorInfo[3];
-			    break;
+				color[0] = color[1] = color[2] = 1.0f;
 			}
-			CPC98Font::DrawString(outInfo,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-			CPC98Font::DrawString(outInfo,100,x,y,color[0],color[1],color[2]);
-		}
-		else
-		{
-			memcpy(strBuf,m_repInfo[i].playerName,8);
-			strBuf[8]=0;
-			CPC98Font::DrawString(strBuf,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-			CPC98Font::DrawString(strBuf,100,x,y,color[0],color[1],color[2]);
-			x+=9*8;
+			unsigned char numberText[] = { gb_N_,gb_O_,gb_PERIOD,gb_0_, gb_0_, 0 };
+			numberText[3] += (m_curPage * m_nFilePerPage + i) / 10;
+			numberText[4] += (m_curPage * m_nFilePerPage + i) % 10;
+			CTh5ExtFont::DrawExtString(numberText, 100, x, y, color[0], color[1], color[2]);
+			x += 6 * 16;
 
+			if (!m_bCurPageRepFileExist[i])
 			{
-				time_t tt=(time_t)m_repInfo[i].saveTime;
-				tm *ptm=localtime(&tt);
-				sprintf(strBuf,"%02d/%02d/%02d %02d:%02d",ptm->tm_year%100,ptm->tm_mon+1,ptm->tm_mday,ptm->tm_hour,ptm->tm_min);
-				CPC98Font::DrawString(strBuf,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-				CPC98Font::DrawString(strBuf,100,x,y,color[0],color[1],color[2]);
-				x+=15*8;
-			}
-
-			{
-				char charaName[][10]={"Reimu","Marisa","Mima","Yuka"};
-				CPC98Font::DrawString(charaName[m_repInfo[i].playChara],100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-				CPC98Font::DrawString(charaName[m_repInfo[i].playChara],100,x,y,color[0],color[1],color[2]);
-				x+=7*8;
-			}
-			{
-				char difficultyName[][10]={"Easy","Normal","Hard","Lunatic","Extra"};
-				CPC98Font::DrawString(difficultyName[m_repInfo[i].playDifficulty],100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-				CPC98Font::DrawString(difficultyName[m_repInfo[i].playDifficulty],100,x,y,color[0],color[1],color[2]);
-				x+=8*8;
-			}
-
-			{
-				char stgBriefName[][3]={"1","2","3","4","5","6","Ex"};
-				char stgBriefNameNone[][3]={"-","-","-","-","-","-","--"};
-				for (int j=0;j<7;j++)
+				char *outInfo = NULL;
+				char errorInfo[][100] = { "-------- -------------- ------ ------- - - - - - - --",
+									   "          Invalid replay file          - - - - - - --",
+									   "    Replay under other game version    - - - - - - --",
+									   "      Replay under other mod file      - - - - - - --",
+				};
+				switch (m_repInfo[i].infoRes)
 				{
-					char *name=m_repInfo[i].stageFlag[j]!=0?stgBriefName[j]:stgBriefNameNone[j];
-					CPC98Font::DrawString(name,100,x+soffx,y+soffy,sc[0],sc[1],sc[2],salpha);
-					CPC98Font::DrawString(name,100,x,y,color[0],color[1],color[2]);
-					x+=((int)strlen(name)+1)*8;
+				case InfoRes_FileNotExist:
+					outInfo = errorInfo[0];
+					break;
+				case InfoRes_InvalidReplay:
+					outInfo = errorInfo[1];
+					break;
+				case InfoRes_GameVersionMismatch:
+					outInfo = errorInfo[2];
+					break;
+				case InfoRes_ModFileMisMatch:
+					outInfo = errorInfo[3];
+					break;
 				}
+				CPC98Font::DrawString(outInfo, 100, x, y, color[0], color[1], color[2]);
 			}
-		}
-		if (i==m_curCursorPos&&m_bLoadMode)
-		{
-			x=(m_listUpperLeftX+45)*8+m_curCursorColPos*16+4-1;
-			if (m_curCursorColPos==6)
-				x+=4;
-			y+=8;		//no need to minus 1, as the original y already has 1 minused
-			int imgIdx=1;
-			C2DImage *pImg=m_shineArray.GetImagePtr(imgIdx);
-			float angle=((float)(m_curFrame%64)/64.0f)*(float)PI*2.0f;
-			float radius=fabs(8.0f-(float)(m_curFrame%64)/4.0f);
-			float alpha=0.5f+radius/16.0f;
-			radius+=4.0f;
-			pImg->Draw((float)x-pImg->m_width/2+(float)cos(angle)*radius,(float)y-pImg->m_height/2+(float)sin(angle)*radius,alpha);
-			angle+=(float)PI;
-			pImg->Draw((float)x-pImg->m_width/2+(float)cos(angle)*radius,(float)y-pImg->m_height/2+(float)sin(angle)*radius,alpha);
+			else
+			{
+				unsigned char playerName[9] = { 0,0,0,0,0,0,0,0 };
+				memcpy(playerName, m_repInfo[i].playerName, 8);
+				playerName[8] = 0;
+				CTh5ExtFont::DrawExtString(playerName, 100, x, y, color[0], color[1], color[2]);
+				x += 10 * 16;
 
-			pImg=m_shineArray.GetImagePtr(imgIdx+8);
-			angle+=(float)PI/2.0f;
-			pImg->Draw((float)x-pImg->m_width/2+(float)cos(angle)*radius,(float)y-pImg->m_height/2+(float)sin(angle)*radius,alpha);
-			angle+=(float)PI;
-			pImg->Draw((float)x-pImg->m_width/2+(float)cos(angle)*radius,(float)y-pImg->m_height/2+(float)sin(angle)*radius,alpha);
+				{
+					time_t tt = (time_t)m_repInfo[i].saveTime;
+					tm *ptm = localtime(&tt);
+					unsigned char dateText[] = { gb_0_, gb_0_,2, gb_0_, gb_0_ ,0 };
+					dateText[0] += (ptm->tm_mon + 1) / 10;
+					dateText[1] += (ptm->tm_mon + 1) % 10;
+					dateText[3] += (ptm->tm_mday) / 10;
+					dateText[4] += (ptm->tm_mday) % 10;
+					sprintf(strBuf, "/");//this will be changed to fullwidth /
+					CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
+					CPC98Font::DrawString(strBuf, 100, x+32, y, color[0], color[1], color[2]);
+					x += 6 * 16;
+				}
+
+				{
+					unsigned char charaName[][10] = { {gb_R_,gb_E_,gb_I_,gb_M_,gb_U_,0},{gb_M_,gb_A_,gb_R_,gb_I_,gb_S_,gb_A_,0},{ gb_M_,gb_I_,gb_M_,gb_A_,0},{ gb_Y_,gb_U_,gb_K_,gb_A_,0 } };
+					CTh5ExtFont::DrawExtString(charaName[m_repInfo[i].playChara], 100, x, y, color[0], color[1], color[2]);
+					x += 7 * 16;
+				}
+				{
+					unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0}, { gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0}, { gb_H_, gb_A_, gb_R_, gb_D_,0}, { gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0}, { gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0} };
+					CTh5ExtFont::DrawExtString(difficultyName[m_repInfo[i].playDifficulty], 100, x, y, color[0], color[1], color[2]);
+					x += 8 * 16;
+				}
+
+
+			}
 		}
 	}
-	if (m_bCurPageRepFileExist[m_curCursorPos])
+	else if (m_bCurPageRepFileExist[m_curCursorPos] && m_bStageSelect == true)
 	{
 		char str[100];
 		char ss[7][20];
-		for (int i=0;i<7;i++)
-			if (m_repInfo[m_curCursorPos].stageFlag[i]!=0)
-				sprintf(ss[i],"%08d0",m_repInfo[m_curCursorPos].stageScore[i]);
+		int x = (m_listUpperLeftX) * 8;
+		int y = m_curRowY;
+		unsigned char numberText[] = { gb_N_,gb_O_,gb_PERIOD,gb_0_, gb_0_, 0 };
+		numberText[3] += (m_curPage * m_nFilePerPage + m_curCursorPos) / 10;
+		numberText[4] += (m_curPage * m_nFilePerPage + m_curCursorPos) % 10;
+		CTh5ExtFont::DrawExtString(numberText, 100, x, y, 1, 1, 1);
+		x += 6 * 16;
+		unsigned char playerName[9] = { 0,0,0,0,0,0,0,0 };
+		memcpy(playerName, m_repInfo[m_curCursorPos].playerName, 8);
+		playerName[8] = 0;
+		CTh5ExtFont::DrawExtString(playerName, 100, x, y, 1, 1, 1);
+		x += 10 * 16;
+
+		time_t tt = (time_t)m_repInfo[m_curCursorPos].saveTime;
+		tm *ptm = localtime(&tt);
+		unsigned char dateText[] = { gb_0_, gb_0_,gb_BULLET, gb_0_, gb_0_ ,0 };
+		dateText[0] += (ptm->tm_mon + 1) / 10;
+		dateText[1] += (ptm->tm_mon + 1) % 10;
+		dateText[3] += (ptm->tm_mday) / 10;
+		dateText[4] += (ptm->tm_mday) % 10;
+		CTh5ExtFont::DrawExtString(dateText, 100, x, y, 1, 1, 1);
+		x += 6 * 16;
+
+		unsigned char charaName[][10] = { { gb_R_,gb_E_,gb_I_,gb_M_,gb_U_,0 },{ gb_M_,gb_A_,gb_R_,gb_I_,gb_S_,gb_A_,0 },{ gb_M_,gb_I_,gb_M_,gb_A_,0 },{ gb_Y_,gb_U_,gb_K_,gb_A_,0 } };
+		CTh5ExtFont::DrawExtString(charaName[m_repInfo[m_curCursorPos].playChara], 100, x, y, 1, 1,1);
+		x += 7 * 16;
+		
+		unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0 },{ gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0 },{ gb_H_, gb_A_, gb_R_, gb_D_,0 },{ gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0 },{ gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0 } };
+		CTh5ExtFont::DrawExtString(difficultyName[m_repInfo[m_curCursorPos].playDifficulty], 100, x, y, 1, 1, 1);
+		
+		for (int i = 0; i < 7; i++)
+		{
+			x = (m_listUpperLeftX + 1) * 8;
+			y = (m_listUpperLeftY + 2 + i) * 16;
+
+			if (m_repInfo[m_curCursorPos].stageFlag[i] != 0)
+				sprintf(ss[i], "%08d0", m_repInfo[m_curCursorPos].stageScore[i]);
 			else
-				sprintf(ss[i],"---------");
-		sprintf(str,"Stage 1  %s   Stage 2  %s   Stage 3  %s",ss[0],ss[1],ss[2]);
-		CPC98Font::DrawString(str,100,80+2,390+2,0.2f,0.2f,0.2f,0.5f);
-		CPC98Font::DrawString(str,100,80,390,1,1,1);
-		sprintf(str,"Stage 4  %s   Stage 5  %s   Stage 6  %s",ss[3],ss[4],ss[5]);
-		CPC98Font::DrawString(str,100,80+2,406+2,0.2f,0.2f,0.2f,0.5f);
-		CPC98Font::DrawString(str,100,80,406,1,1,1);
-		sprintf(str,"                     Stage Ex %s",ss[6]);
-		CPC98Font::DrawString(str,100,80+2,422+2,0.2f,0.2f,0.2f,0.5f);
-		CPC98Font::DrawString(str,100,80,422,1,1,1);
+				sprintf(ss[i], "---------");
+
+			if (i == 6)
+				sprintf(str, "Stage Extra  %s", ss[i]);
+			else
+				sprintf(str, "Stage %d  %s", i + 1, ss[i]);
+
+			if (m_curCursorColPos == i)
+				CPC98Font::DrawString(str, 100, x, y, 1, 1, 1);
+			else
+				CPC98Font::DrawString(str, 100, x, y, 118.0f / 255.0f, 118.0f / 255.0f, 118.0f / 255.0f);
+
+		}
 	}
 
-
-	char desc1[]="Up/Down: Select file         Shift + Left/Right: Previous/Next page";
-	char desc2[]="Left/Right: Select stage";
-
-	CPC98Font::DrawString(desc1,100,52+2,440+2,0.2f,0.2f,0.2f,0.5f);
-	CPC98Font::DrawString(desc1,100,52,440,1,1,1);
-	if (m_bLoadMode)
-	{
-		CPC98Font::DrawString(desc2,100,52+2,456+2,0.2f,0.2f,0.2f,0.5f);
-		CPC98Font::DrawString(desc2,100,52,456,1,1,1);
-	}
-
+	
 	CCommonFunctionGraphic::ScreenFade((float)m_curScrFade);
-}
+	}
 
 }
 

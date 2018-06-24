@@ -1,6 +1,5 @@
 #include ".\pmdplayer.h"
 #include "..\..\include\PMDWin\PMDWinImort.h"
-
 #pragma comment(lib,"lib/PMDWin.lib")
 
 namespace th5w{
@@ -17,7 +16,6 @@ int CPMDPlayer::s_localBufferReadHead;
 int CPMDPlayer::s_localBufferWriteHead;
 unsigned char CPMDPlayer::s_localBuffer[s_localBufferLength];
 CRITICAL_SECTION CPMDPlayer::s_csLocalBuf;
-
 
 #define BUFFER_SEG_LENGTH 44100
 
@@ -170,6 +168,7 @@ bool CPMDPlayer::LoadPMDData(unsigned char *musicData,int size)
 		return false;
 
 	getpcmdata((short *)pWriteBuf,(BUFFER_SEG_LENGTH/4)*s_bufNSeg);
+	
 	s_pDSoundBuffer8->Unlock(pWriteBuf,writeBufSize,NULL,0);
 
 	s_hPlayThread=CreateThread(NULL,0,PlayThread,NULL,0,&s_playThreadID);
@@ -333,6 +332,7 @@ DWORD CPMDPlayer::PlayThread(void *pParam)
 				else
 					continue;
 			}
+
 			CopyFromSoftwareBuffer((unsigned char *)pWriteBuf[0],BUFFER_SEG_LENGTH);
 			//getpcmdata((short *)pWriteBuf[0],BUFFER_SEG_LENGTH/4);
 			s_pDSoundBuffer8->Unlock(pWriteBuf[0],writeBufSize[0],pWriteBuf[1],writeBufSize[1]);

@@ -21,8 +21,7 @@ namespace th5w {
 		int m_curListTop;
 		int m_listUpperLeftX;
 		int m_listUpperLeftY;
-		bool m_bCurPageRepFileExist[50];
-		int m_nnowPlayingTitle;
+		float m_texttrans;
 		int m_nnowPlayingNumber;
 
 		C2DImage *m_pBGImage;
@@ -47,6 +46,7 @@ namespace th5w {
 		int Step();
 		void Draw();
 		void Playmusic();
+		void music_cmt_load();
 	public:
 		CMusicRoom(void);
 		~CMusicRoom(void);

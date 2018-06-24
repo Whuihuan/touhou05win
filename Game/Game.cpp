@@ -153,45 +153,27 @@ bool CGame::Initialize()
 
 	unsigned char md5[16];
 
-	//load kaiki1.dat
-	/*CCommonFunctionSystem::GetFileMD5(md5,"kaiki1.dat");
-	for (int i=0;i<16;i++)
-		if (md5[i]!=dat1MD5[i])
-		{
-			MessageBox(m_gameWindow.m_hWnd,_T("kaiki1.dat missing or corrupted."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
-			return false;
-		}*/
 	if (m_th5Dat1.LoadFile("kaiki1.dat")==false)
 	{
-		MessageBox(m_gameWindow.m_hWnd,_T("kaiki1.dat missing or corrupted."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
 
-	//load kaiki2.dat
-	/*CCommonFunctionSystem::GetFileMD5(md5,"kaiki2.dat");
-	for (int i=0;i<16;i++)
-		if (md5[i]!=dat2MD5[i])
-		{
-			MessageBox(m_gameWindow.m_hWnd,_T("kaiki2.dat missing or corrupted."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
-			return false;
-		}*/
+	if (m_musicDat.LoadFile("music.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("fail"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
+
 	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
 	{
-		MessageBox(m_gameWindow.m_hWnd,_T("kaiki2.dat missing or corrupted."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
 
-	//load zun.com
-	/*CCommonFunctionSystem::GetFileMD5(md5,"zun.com");
-	for (int i=0;i<16;i++)
-		if (md5[i]!=ZUNCOMMD5[i])
-		{
-			MessageBox(m_gameWindow.m_hWnd,_T("zun.com missing or corrupted."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
-			return false;
-		}*/
 	if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com")==false)
 	{
-		MessageBox(m_gameWindow.m_hWnd,_T("zun.com missing or corrupted."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
 
@@ -214,7 +196,7 @@ bool CGame::Initialize()
 	//load anex86 font
 	if (GVar().m_bUseSystemFont==false&&th5w::CPC98Font::LoadAnex86BMP("anex86.bmp")==false)
 	{
-		MessageBox(m_gameWindow.m_hWnd,_T("anex86.bmp not found. Using system font instead."),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
 		GVar().m_bUseSystemFont=true;
 	}
 
