@@ -20,17 +20,21 @@ bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *music
 		strcat(bgmFileName, ".M");
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
 	}
-		else if (music == 2 && m2exist == true)
+	else if (music == 2 && m2exist == true)
 	{
 		strcat(bgmFileName, ".M2");
 		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
 	}
+	else if (music == 3)
+	{
+		strcat(bgmFileName, ".MID");//or mmd...
+		//return th5w::CMMDPlayer::LoadMMDData(bgmFileName);
+		return false;
+	}
 	else
 	{
-		bgmFileName[0] = 0;
-		return CCommonFunctionMusicSE::LoadMusicToPMDFromDat(pDatFile, bgmFileName);
+			return true;
 	}
-	
 		
 }
 
@@ -57,6 +61,12 @@ bool CCommonFunctionMusicSE::UnloadData()
 		th5w::CPMDPlayer::UnloadPMDData();
 		return true;
 	}
+	else if (music == 3)
+	{
+		//th5w::CMMDPlayer::UnloadMMDData();
+		//return true;
+		return false;
+	}
 	return false;
 }
 bool CCommonFunctionMusicSE::Play()
@@ -66,6 +76,16 @@ bool CCommonFunctionMusicSE::Play()
 	{
 		th5w::CPMDPlayer::Play();
 		return true;
+	}
+	else if (music == 3)
+	{
+		//th5w::CMMDPlayer::Play();
+		//return true;
+		return false;
+	}
+	else
+	{
+		return ture;
 	}
 	return false;
 }
@@ -77,6 +97,12 @@ bool CCommonFunctionMusicSE::Pause()
 		th5w::CPMDPlayer::Pause();
 		return true;
 	}
+	else if (music == 3)
+	{
+		//th5w::CMMDPlayer::Pause();
+		//return true;
+		return false;
+	}
 	return false;
 }
 bool CCommonFunctionMusicSE::Resume()
@@ -87,6 +113,12 @@ bool CCommonFunctionMusicSE::Resume()
 		th5w::CPMDPlayer::Resume();
 		return true;
 	}
+	else if (music == 3)
+	{
+		//th5w::CMMDPlayer::Resume();
+		//return true;
+		return false;
+	}
 	return false;
 }
 bool CCommonFunctionMusicSE::Finalize()
@@ -96,6 +128,12 @@ bool CCommonFunctionMusicSE::Finalize()
 	{
 		th5w::CPMDPlayer::Finalize();
 		return true;
+	}
+	else if (music == 3)
+	{
+		//th5w::CMMDPlayer::Fianlize();
+		//return true;
+		return false;
 	}
 	return false;
 }

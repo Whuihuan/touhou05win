@@ -360,7 +360,7 @@ void CSelectReplayScreen::DrawEnterNameMode()
 		dateText[1] += (ptm->tm_mon + 1) % 10;
 		dateText[3] += (ptm->tm_mday) / 10;
 		dateText[4] += (ptm->tm_mday) % 10;
-		sprintf(strBuf, "/");//this will be changed to fullwidth /
+		sprintf(strBuf, "Å^");//this will be changed to fullwidth /
 		CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
 		CPC98Font::DrawString(strBuf, 100, x + 32, y, color[0], color[1], color[2]);
 		x += 6 * 16;
@@ -496,7 +496,7 @@ void CSelectReplayScreen::Draw()
 					dateText[1] += (ptm->tm_mon + 1) % 10;
 					dateText[3] += (ptm->tm_mday) / 10;
 					dateText[4] += (ptm->tm_mday) % 10;
-					sprintf(strBuf, "/");//this will be changed to fullwidth /
+					sprintf(strBuf, "Å^");//this will be changed to fullwidth /
 					CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
 					CPC98Font::DrawString(strBuf, 100, x+32, y, color[0], color[1], color[2]);
 					x += 6 * 16;

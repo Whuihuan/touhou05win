@@ -181,6 +181,41 @@ bool CReplay::LoadFile(const char *fileName)
 	return true;
 #undef FAIL_CLOSE_RETURN
 }
+/*
+bool CReplay::LoadDemoFile(const char *fileName)
+{
+	int fileIdx = CGame::s_pCurGame->m_kaikiDat1.GetChildFileIndex(fileName);
+	CGame::s_pCurGame->m_musicDat.Childfseek(fileIdx,0, SEEK_SET);
+	int demosize= GetChildFileLength(fileIdx)
+				m_keyState[i].resize(demosize);
+				CGame::s_pCurGame->m_musicDat.Childfread(&m_keyDemoState[0], 1, demosize, fileIdx);//need to size fix
+
+
+			FAIL_CLOSE_RETURN(fread(&m_nInitLife, 4, 1, fp) != 1)
+			FAIL_CLOSE_RETURN(fread(&m_nInitBomb, 4, 1, fp) != 1)
+			FAIL_CLOSE_RETURN(fread(&m_playDifficulty, 4, 1, fp) != 1)
+			FAIL_CLOSE_RETURN(fread(&m_playChara, 4, 1, fp) != 1)
+			FAIL_CLOSE_RETURN(fread(&m_bPracticeMode, 1, 1, fp) != 1)
+
+			FAIL_CLOSE_RETURN(fread(m_stageFlag, 1, 7, fp) != 7)
+
+			FAIL_CLOSE_RETURN(fread(m_nCurLife, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_nCurBomb, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_curPower, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_powerOverflowLevel, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_curDream, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_curScore, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_totalNPointItem, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_playerPerformance, 4, 7, fp) != 7)
+			FAIL_CLOSE_RETURN(fread(m_stageScore, 4, 7, fp) != 7)
+
+			FAIL_CLOSE_RETURN(fread(m_randSeed, 4, 7, fp) != 7)
+			
+	fclose(fp);
+	return true;
+#undef FAIL_CLOSE_RETURN
+}
+*/
 
 bool CReplay::OpenStage(int stageIdx,bool bRead)
 {
@@ -238,7 +273,20 @@ bool CReplay::GetNextData(unsigned short *pOut)
 	m_opIdx++;
 	return true;
 }
-
+/*
+bool CReplay::GetNextDemoData(unsigned short *pOut)
+{
+	if (m_opStage == -1)
+		return false;
+	if (!m_bOpRead)
+		return false;
+	if (m_opIdx >= (int)m_keyState[m_opStage].size())
+		return false;
+	(*pOut) = m_keyState[m_opStage][m_opIdx];
+	m_opIdx++;
+	return true;
+}
+*/
 bool CReplay::PutNextdata(unsigned short data)
 {
 	if (m_opStage==-1)
