@@ -360,7 +360,7 @@ void CSelectReplayScreen::DrawEnterNameMode()
 		dateText[1] += (ptm->tm_mon + 1) % 10;
 		dateText[3] += (ptm->tm_mday) / 10;
 		dateText[4] += (ptm->tm_mday) % 10;
-		sprintf(strBuf, "Å^");//this will be changed to fullwidth /
+		sprintf(strBuf, "/");//this will be changed to fullwidth /
 		CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
 		CPC98Font::DrawString(strBuf, 100, x + 32, y, color[0], color[1], color[2]);
 		x += 6 * 16;
@@ -458,10 +458,15 @@ void CSelectReplayScreen::Draw()
 			if (!m_bCurPageRepFileExist[i])
 			{
 				char *outInfo = NULL;
-				char errorInfo[][100] = { "-------- -------------- ------ ------- - - - - - - --",
-									   "          Invalid replay file          - - - - - - --",
-									   "    Replay under other game version    - - - - - - --",
-									   "      Replay under other mod file      - - - - - - --",
+				unsigned char errorInfo[] = { gb_BULLET,gb_BULLET ,gb_BULLET ,gb_BULLET ,
+											gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET,
+											2,2,gb_BULLET ,gb_BULLET ,2,gb_BULLET, gb_BULLET ,
+											2,gb_BULLET,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,
+											2,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET,0 };
+				/*char errorInfo[][100] = { "-------- -------------- ------ -------",
+									   "          Invalid replay file          ",
+									   "    Replay under other game version    ",
+									   "      Replay under other mod file      ",
 				};
 				switch (m_repInfo[i].infoRes)
 				{
@@ -478,7 +483,10 @@ void CSelectReplayScreen::Draw()
 					outInfo = errorInfo[3];
 					break;
 				}
-				CPC98Font::DrawString(outInfo, 100, x, y, color[0], color[1], color[2]);
+				CPC98Font::DrawString(outInfo, 100, x, y, color[0], color[1], color[2]);*/
+				CTh5ExtFont::DrawExtString(errorInfo, 100, x, y, color[0], color[1], color[2]);
+				sprintf(strBuf, "/");//this will be changed to fullwidth /
+				CPC98Font::DrawString(strBuf, 100, x + 192, y, color[0], color[1], color[2]);
 			}
 			else
 			{
@@ -496,12 +504,11 @@ void CSelectReplayScreen::Draw()
 					dateText[1] += (ptm->tm_mon + 1) % 10;
 					dateText[3] += (ptm->tm_mday) / 10;
 					dateText[4] += (ptm->tm_mday) % 10;
-					sprintf(strBuf, "Å^");//this will be changed to fullwidth /
+					sprintf(strBuf, "/");//this will be changed to fullwidth /
 					CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
 					CPC98Font::DrawString(strBuf, 100, x+32, y, color[0], color[1], color[2]);
 					x += 6 * 16;
 				}
-
 				{
 					unsigned char charaName[][10] = { {gb_R_,gb_E_,gb_I_,gb_M_,gb_U_,0},{gb_M_,gb_A_,gb_R_,gb_I_,gb_S_,gb_A_,0},{ gb_M_,gb_I_,gb_M_,gb_A_,0},{ gb_Y_,gb_U_,gb_K_,gb_A_,0 } };
 					CTh5ExtFont::DrawExtString(charaName[m_repInfo[i].playChara], 100, x, y, color[0], color[1], color[2]);
@@ -554,22 +561,24 @@ void CSelectReplayScreen::Draw()
 		for (int i = 0; i < 7; i++)
 		{
 			x = (m_listUpperLeftX + 1) * 8;
-			y = (m_listUpperLeftY + 2 + i) * 16;
-
+			//y = (m_listUpperLeftY + 5 + i) * 16;
+			y = m_curRowY + (3 + i) * 16;
 			if (m_repInfo[m_curCursorPos].stageFlag[i] != 0)
 				sprintf(ss[i], "%08d0", m_repInfo[m_curCursorPos].stageScore[i]);
 			else
 				sprintf(ss[i], "---------");
 
 			if (i == 6)
-				sprintf(str, "Stage Extra  %s", ss[i]);
+				sprintf(str, "STAGE EXTRA  %s", ss[i]);
 			else
-				sprintf(str, "Stage %d  %s", i + 1, ss[i]);
-
-			if (m_curCursorColPos == i)
-				CPC98Font::DrawString(str, 100, x, y, 1, 1, 1);
-			else
-				CPC98Font::DrawString(str, 100, x, y, 118.0f / 255.0f, 118.0f / 255.0f, 118.0f / 255.0f);
+				sprintf(str, "STAGE %d      %s", i + 1, ss[i]);
+			if (y <= (m_listUpperLeftY + 13) * 16)
+			{
+				if (m_curCursorColPos == i)
+					CPC98Font::DrawString(str, 100, x, y, 1, 1, 1);
+				else
+					CPC98Font::DrawString(str, 100, x, y, 118.0f / 255.0f, 118.0f / 255.0f, 118.0f / 255.0f);
+			}
 
 		}
 	}

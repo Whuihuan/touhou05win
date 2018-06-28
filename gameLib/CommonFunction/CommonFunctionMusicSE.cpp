@@ -27,7 +27,9 @@ bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *music
 	}
 	else if (music == 3)
 	{
-		strcat(bgmFileName, ".MID");//or mmd...
+		//strcat(bgmFileName, ".MID");//or mmd...
+		
+		strcat(bgmFileName, ".WAV");//or mmd...
 		//return th5w::CMMDPlayer::LoadMMDData(bgmFileName);
 		return false;
 	}
@@ -85,7 +87,7 @@ bool CCommonFunctionMusicSE::Play()
 	}
 	else
 	{
-		return ture;
+		return true;
 	}
 	return false;
 }
