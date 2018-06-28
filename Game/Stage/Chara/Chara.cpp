@@ -7,6 +7,7 @@
 #include "../PopupNumber/PopupNumber.h"
 #include "../CharaBullet/CharaBullet.h"
 #include "../../../gameLib/CommonFunction/CommonFunctionInput.h"
+#include "../../Game.h"
 #include <math.h>
 #ifndef PI
 #define PI 3.1415926535897932384626433832795
@@ -20,7 +21,7 @@ CChara::CChara(void)
 	m_deltaX=0;
 	m_deltaY=0;
 	m_bDraw=true;
-
+	m_bCollisionAreaUnDraw=CGame::GVar().m_bTurnOffCollisionArea;
 	m_collisionAreaAlpha=0;
 }
 
@@ -446,7 +447,7 @@ void CChara::DrawCollisionArea()
 		return;
 
 	//unlike PC98 ver, we draw the collision area
-	if (m_nextLifeComeTimeLeft==0||m_nextLifeComeTimeLeft>32)
+	if ((m_nextLifeComeTimeLeft==0||m_nextLifeComeTimeLeft>32)&&m_bCollisionAreaUnDraw!=true)
 	{
 		float drawX=floor(m_curX/16.0f)*16.0f;
 		float drawY=floor(m_curY/16.0f)*16.0f;

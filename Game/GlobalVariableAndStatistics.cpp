@@ -67,6 +67,22 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 			CCommonFunctionSystem::GetFileMD5(m_modMD5,m_modFileName);
 			continue;
 		}
+		if (strcmp(variable,"TURN_OFF_BULLET_POINT")==0)
+		{
+			int CollisionArea;
+			sscanf(value, "%d", &CollisionArea);
+			if (CollisionArea != 0)
+				m_bTurnOffCollisionArea=true;
+			continue;
+		}
+		if (strcmp(variable,"TURN_OFF_COLLISION_AREA")==0)
+		{
+			int CollisionArea;
+			sscanf(value, "%d", &CollisionArea);
+			if (CollisionArea != 0)
+				m_bTurnOffCollisionArea=true;
+			continue;
+		}
 		if (strcmp(variable,"CONSOLE_WINDOW")==0)
 		{
 			int console;

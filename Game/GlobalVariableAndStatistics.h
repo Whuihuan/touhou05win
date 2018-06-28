@@ -19,6 +19,8 @@ public:
 	bool m_bUseMod;
 	char m_modFileName[200];
 	unsigned char m_modMD5[16];
+	
+	bool m_bTurnOffCollisionArea;
 
 //these variables should be initialized before OnBeginGame
 
