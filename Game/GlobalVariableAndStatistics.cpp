@@ -29,6 +29,8 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 	m_textCodePage=932;
 	m_bUseSystemFont=false;
 	m_fontCharset=130;
+	m_binitCollisionArea=false;
+	m_binitPracticeCollisionArea=true;
 	FILE *fp=fopen("config.ini","r");
 	if (fp==NULL)
 		return;
@@ -67,20 +69,20 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 			CCommonFunctionSystem::GetFileMD5(m_modMD5,m_modFileName);
 			continue;
 		}
-		if (strcmp(variable,"TURN_OFF_BULLET_POINT")==0)
+		if (strcmp(variable,"COLLISION_AREA")==0)
 		{
 			int CollisionArea;
 			sscanf(value, "%d", &CollisionArea);
 			if (CollisionArea != 0)
-				m_bTurnOffCollisionArea=true;
+				m_binitCollisionArea=true;
 			continue;
 		}
-		if (strcmp(variable,"TURN_OFF_COLLISION_AREA")==0)
+		if (strcmp(variable,"COLLISION_AREA_PRACTICE")==0)
 		{
 			int CollisionArea;
 			sscanf(value, "%d", &CollisionArea);
 			if (CollisionArea != 0)
-				m_bTurnOffCollisionArea=true;
+				m_binitPracticeCollisionArea=true;
 			continue;
 		}
 		if (strcmp(variable,"CONSOLE_WINDOW")==0)
@@ -173,15 +175,24 @@ void CGlobalVariableAndStatistics::Initialize()
 
 void CGlobalVariableAndStatistics::LoadHighScore()
 {
-	for (int i=0;i<4;i++)
-		for (int j=0;j<5;j++)
-			for (int k=0;k<5;k++)
+	for (int i=0;i<4;i++)//Chara
+		for (int j=0;j<5;j++)//Difficult
+			for (int k=0;k<5;k++)//Rank
 			{
 				m_highScoreName[i][j][k][0]=0;
 				m_highScore[i][j][k]=20000*(5-k);
 				m_highScoreFlag[i][j][k]=(j==4?1:6-k);
 			}
-
+	/*
+	//for practicemode
+	for (int i=0;i<4;i++)//Chara
+		for (int j=0;j<5;j++)//Difficult
+			for (int k=0;k<6;k++)//Stage
+			{
+				m_practiceHighScore[i][j][k]=0;
+				m_bPracticeFlag[i][j][k]=flase;
+			}
+	*/
 	FILE *fp=fopen("score.dat","rb");
 	if (fp==NULL)
 		return;
@@ -200,6 +211,17 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 				fread(&m_highScore[i][j][k],4,1,fp);
 				fread(&m_highScoreFlag[i][j][k],1,1,fp);
 			}
+	
+	/*
+	//for practicemode
+	for (int i=0;i<4;i++)//Chara
+		for (int j=0;j<5;j++)//Difficult
+			for (int k=0;k<6;k++)//Stage
+			{
+				fread(&m_practiceHighScore[i][j][k],4,1,fp);
+				fread(&m_bPracticeFlag[i][j][k],1,1,fp);
+			}
+	*/
 	fclose(fp);
 }
 
@@ -216,6 +238,16 @@ void CGlobalVariableAndStatistics::SaveHighScore()
 				fwrite(&m_highScore[i][j][k],4,1,fp);
 				fwrite(&m_highScoreFlag[i][j][k],1,1,fp);
 			}
+		/*
+	//for practicemode
+	for (int i=0;i<4;i++)//Chara
+		for (int j=0;j<5;j++)//Difficult
+			for (int k=0;k<6;k++)//Stage
+			{
+				fwrite(&m_practiceHighScore[i][j][k],4,1,fp);
+				fwrite(&m_bPracticeFlag[i][j][k],1,1,fp);
+			}
+	*/
 	fclose(fp);
 }
 
@@ -226,6 +258,7 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	{
 		for (int i=0;i<7;i++)
 			m_randomSeed[i]=m_replay.m_randSeed[i];
+		
 		m_curPower=m_replay.m_curPower[m_playStage];
 		m_powerOverflowLevel=m_replay.m_powerOverflowLevel[m_playStage];
 		m_curDream=m_replay.m_curDream[m_playStage];
@@ -288,7 +321,10 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	m_playerPerformanceLowerBound=PL[m_playDifficulty];
 	m_playerPerformanceUpperBound=PU[m_playDifficulty];
 
-	m_curHighScore=m_highScore[m_playChara][m_playDifficulty][0];
+	/*if(m_bPracticeMod)
+		m_curHighScore=m_practiceHighScore[m_playChara][m_playDifficulty][m_playStage];
+	else*/
+		m_curHighScore=m_highScore[m_playChara][m_playDifficulty][0];
 	m_nContinueUsed=0;
 
 	int pScore[]={6000,10000,15000,20000,40000};
