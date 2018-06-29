@@ -25,12 +25,12 @@ void CCommonFunctionSystem::CreateConsoleWindow()
 	// allocate a console for this appc
 	AllocConsole();
 	// set the screen buffer to be big enough to let us scroll text
-	//    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),	&coninfo);
-	//  coninfo.dwSize.Y = MAX_CONSOLE_LINES;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&coninfo);
+	coninfo.dwSize.Y = MAX_CONSOLE_LINES;
 	// How many lines do you want to have in the console buffer
-	//    SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),	coninfo.dwSize);
+	etConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),coninfo.dwSize);
 	// redirect unbuffered STDOUT to the console
-	//    g_hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	g_hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	lStdHandle = (long)(__int64)GetStdHandle(STD_OUTPUT_HANDLE);
 	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 	fp = _fdopen( hConHandle, "w" );
