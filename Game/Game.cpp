@@ -56,11 +56,14 @@ Cth5DatFile* CGame::FindResource(const char *fileName)
 {
 	if (m_modDat.GetChildFileIndex(fileName)!=-1)
 		return &m_modDat;
+	//if (m_th5Dat0.GetChildFileIndex(fileName)!=-1)
+	//	return &m_th5Dat0;
 	if (m_th5Dat1.GetChildFileIndex(fileName)!=-1)
 		return &m_th5Dat1;
 	if (m_th5Dat2.GetChildFileIndex(fileName)!=-1)
 		return &m_th5Dat2;
-
+	if (m_musicDat.GetChildFileIndex(fileName)!=-1)
+		return &m_musicDat;
 	return NULL;
 }
 
@@ -145,32 +148,26 @@ bool CGame::Initialize()
 		MessageBox(m_gameWindow.m_hWnd,_T("Sound effect files cannot not be loaded and initialized."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
-
-	//md5 of kaiki1.dat and kaiki2.dat, used to verify these files
-	unsigned char dat1MD5[]={203,110,35,68,170,147,49,44,60,244,11,241,111,58,20,242};
-	unsigned char dat2MD5[]={202,32,227,240,57,70,193,115,160,42,98,243,123,172,175,209};
-	unsigned char ZUNCOMMD5[]={0,5,230,87,18,82,190,211,141,65,103,153,192,5,60,11};
-
-	unsigned char md5[16];
-
+	/*if (m_th5Dat0.LoadFile("kaiki0.dat")==false)
+	{
+		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		return false;
+	}*/
 	if (m_th5Dat1.LoadFile("kaiki1.dat")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
-
-	if (m_musicDat.LoadFile("music.dat") == false)
-	{
-		MessageBox(m_gameWindow.m_hWnd, _T("fail"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
-		return false;
-	}
-
 	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
-
+	if (m_musicDat.LoadFile("music.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("fail"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
 	if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
