@@ -14,13 +14,16 @@ public:
 	unsigned int m_textCodePage;
 	bool m_bUseSystemFont;
 	unsigned int m_fontCharset;
+	bool m_bTurnOffCollisionArea;//remove soon
+	bool m_binitCollisionArea;
+	bool m_binitPracticeCollisionArea;
 
 //mod
 	bool m_bUseMod;
 	char m_modFileName[200];
 	unsigned char m_modMD5[16];
 	
-	bool m_bTurnOffCollisionArea;
+
 
 //these variables should be initialized before OnBeginGame
 
@@ -60,6 +63,7 @@ public:
 //either initialize this set of variables
 	bool m_bReplayMode;
 	CReplay m_replay;
+	bool m_bDemoMode;
 //or this set
 	bool m_bPracticeMode;
 	int m_playDifficulty;
