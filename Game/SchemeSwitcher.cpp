@@ -8,6 +8,7 @@
 #include "SelectReplayScreen/SelectReplayScreen.h"
 #include "HighScoreScreen/HighScoreScreen.h"
 #include "MusicRoom/MusicRoom.h"
+//#include "StaffRoll/StaffRoll.h"
 
 
 #define SCHEME_DUMMY 0
@@ -19,6 +20,7 @@
 #define SCHEME_SELECTREPLAYSCREEN 6
 #define SCHEME_HIGHSCORESCREEN 7
 #define SCHEME_MUSICROOM 8
+//#define SCHEME_STAFFROLL 9
 
 namespace th5w{
 
@@ -199,6 +201,7 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			}
 			else
 			{
+				//At here, need to renew practice mode stage playable count
 				CHighScoreScreen *pScheme = new CHighScoreScreen;
 				pScheme->Initialize(false, false);
 				*ppOutNextScheme = (CScheme*)pScheme;
@@ -223,7 +226,6 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			return true;
 		}
 	}
-
 	if (curSchemeID==SCHEME_ENDING)
 	{
 		CHighScoreScreen *pScheme=new CHighScoreScreen;
@@ -232,6 +234,17 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		*pOutNextSchemeID=SCHEME_HIGHSCORESCREEN;
 		return true;
 	}
+	/*if (curSchemeID==SCHEME_ENDING)
+	{
+		CHighScoreScreen *pScheme=new CStaffRoolScreen;
+		if (CGame::GVar().m_playStage==5)
+					pScheme->Initialize(false,true);
+				else
+					pScheme->Initialize(false,false);
+		*ppOutNextScheme=(CScheme*)pScheme;
+		*pOutNextSchemeID=SCHEME_STAFFROLL;
+		return true;
+	}*/
 	if (curSchemeID==SCHEME_HIGHSCORESCREEN)
 	{
 		if (curSchemeExitValue==HIGHSCORESCREEN_END_ENTER_END||curSchemeExitValue==HIGHSCORESCREEN_END_ENTER_SKIPPED)
