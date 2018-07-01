@@ -145,6 +145,9 @@
     <Filter Include="Source Files\Game\Scheme\MusicRoom">
       <UniqueIdentifier>{8f87ca67-eeee-4d61-b81f-e1a3557fbfd1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameLib\MMDPlay">
+      <UniqueIdentifier>{f28cc281-e7ec-47db-a47c-97e620c85d06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -390,6 +393,9 @@
     <ClCompile Include="Game\Musicroom\MusicRoom.cpp">
       <Filter>Source Files\Game\Scheme\MusicRoom</Filter>
     </ClCompile>
+    <ClCompile Include="gameLib\MMDPlayer\MMDPlayer.cpp">
+      <Filter>Source Files\GameLib\MMDPlay</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h">
@@ -634,6 +640,9 @@
     </ClInclude>
     <ClInclude Include="Game\Musicroom\MusicRoom.h">
       <Filter>Source Files\Game\Scheme\MusicRoom</Filter>
+    </ClInclude>
+    <ClInclude Include="gameLib\MMDPlayer\MMDPlayer.h">
+      <Filter>Source Files\GameLib\MMDPlay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

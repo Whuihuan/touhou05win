@@ -21,17 +21,21 @@ void CCommonFunctionSystem::CreateConsoleWindow()
 {
 	int  hConHandle;
 	long lStdHandle;
+	CONSOLE_SCREEN_BUFFER_INFO coninfo;
+	HANDLE g_hConsoleOut;
 	FILE   *fp;
 	// allocate a console for this appc
 	AllocConsole();
+	freopen("CONOUT$", "wt", stdout);
 	// set the screen buffer to be big enough to let us scroll text
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&coninfo);
-	coninfo.dwSize.Y = MAX_CONSOLE_LINES;
+	//GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE),&coninfo);
+	//coninfo.dwSize.Y = 40;//MAX_CONSOLE_LINES;
 	// How many lines do you want to have in the console buffer
-	etConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),coninfo.dwSize);
+	//SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE),coninfo.dwSize);
 	// redirect unbuffered STDOUT to the console
-	g_hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	lStdHandle = (long)(__int64)GetStdHandle(STD_OUTPUT_HANDLE);
+	//g_hConsoleOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	//SetConsoleActiveScreenBuffer(g_hConsoleOut);
+	/*lStdHandle = (long)(__int64)g_hConsoleOut;//GetStdHandle(STD_OUTPUT_HANDLE);
 	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
 	fp = _fdopen( hConHandle, "w" );
 	*stdout = *fp;
@@ -48,9 +52,12 @@ void CCommonFunctionSystem::CreateConsoleWindow()
 	fp = _fdopen( hConHandle, "w" );
 	*stderr = *fp;
 	setvbuf( stderr, NULL, _IONBF, 0 );
-	SetConsoleTitle(_T("Console")); 
+	
 	// make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog m_lastPoint to console as well
 	// Uncomment the next line if you are using c++ cio or comment if you don't
+	SetStdHandle(STD_OUTPUT_HANDLE, g_hConsoleOut);*/
+	SetConsoleTitle(_T("Console"));
+	printf("test");
 }
 
 bool CCommonFunctionSystem::GetFileMD5(unsigned char *retMD5,const char *fileName)

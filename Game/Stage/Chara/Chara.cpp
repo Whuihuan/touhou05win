@@ -21,7 +21,7 @@ CChara::CChara(void)
 	m_deltaX=0;
 	m_deltaY=0;
 	m_bDraw=true;
-	m_bCollisionAreaUnDraw=CGame::GVar().m_bTurnOffCollisionArea;
+	m_bCollisionAreaDraw=CGame::GVar().m_bplayCollisionArea;
 	m_collisionAreaAlpha=0;
 }
 
@@ -447,7 +447,7 @@ void CChara::DrawCollisionArea()
 		return;
 
 	//unlike PC98 ver, we draw the collision area
-	if ((m_nextLifeComeTimeLeft==0||m_nextLifeComeTimeLeft>32)&&m_bCollisionAreaUnDraw!=true)
+	if ((m_nextLifeComeTimeLeft==0||m_nextLifeComeTimeLeft>32)&&m_bCollisionAreaDraw==true)
 	{
 		float drawX=floor(m_curX/16.0f)*16.0f;
 		float drawY=floor(m_curY/16.0f)*16.0f;

@@ -73,6 +73,7 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 		{
 			int CollisionArea;
 			sscanf(value, "%d", &CollisionArea);
+			m_binitCollisionArea = false;
 			if (CollisionArea != 0)
 				m_binitCollisionArea=true;
 			continue;
@@ -81,6 +82,7 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 		{
 			int CollisionArea;
 			sscanf(value, "%d", &CollisionArea);
+			m_binitPracticeCollisionArea = false;
 			if (CollisionArea != 0)
 				m_binitPracticeCollisionArea=true;
 			continue;
@@ -183,16 +185,16 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 				m_highScore[i][j][k]=20000*(5-k);
 				m_highScoreFlag[i][j][k]=(j==4?1:6-k);
 			}
-	/*
+	
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
 		for (int j=0;j<5;j++)//Difficult
 			for (int k=0;k<6;k++)//Stage
 			{
 				m_practiceHighScore[i][j][k]=0;
-				m_bPracticeFlag[i][j][k]=flase;
+				m_bPracticeFlag[i][j][k]=false;
 			}
-	*/
+	
 	FILE *fp=fopen("score.dat","rb");
 	if (fp==NULL)
 		return;
@@ -212,7 +214,7 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 				fread(&m_highScoreFlag[i][j][k],1,1,fp);
 			}
 	
-	/*
+	
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
 		for (int j=0;j<5;j++)//Difficult
@@ -221,7 +223,7 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 				fread(&m_practiceHighScore[i][j][k],4,1,fp);
 				fread(&m_bPracticeFlag[i][j][k],1,1,fp);
 			}
-	*/
+	
 	fclose(fp);
 }
 
@@ -238,7 +240,7 @@ void CGlobalVariableAndStatistics::SaveHighScore()
 				fwrite(&m_highScore[i][j][k],4,1,fp);
 				fwrite(&m_highScoreFlag[i][j][k],1,1,fp);
 			}
-		/*
+		
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
 		for (int j=0;j<5;j++)//Difficult
@@ -247,7 +249,7 @@ void CGlobalVariableAndStatistics::SaveHighScore()
 				fwrite(&m_practiceHighScore[i][j][k],4,1,fp);
 				fwrite(&m_bPracticeFlag[i][j][k],1,1,fp);
 			}
-	*/
+	
 	fclose(fp);
 }
 
@@ -321,9 +323,9 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	m_playerPerformanceLowerBound=PL[m_playDifficulty];
 	m_playerPerformanceUpperBound=PU[m_playDifficulty];
 
-	/*if(m_bPracticeMod)
+	if(m_bPracticeMode)
 		m_curHighScore=m_practiceHighScore[m_playChara][m_playDifficulty][m_playStage];
-	else*/
+	else
 		m_curHighScore=m_highScore[m_playChara][m_playDifficulty][0];
 	m_nContinueUsed=0;
 

@@ -14,6 +14,7 @@
     <ProjectGuid>{8CE8A1CF-EDEC-4294-8227-6821819D5662}</ProjectGuid>
     <RootNamespace>rt5sandbox</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -43,6 +44,7 @@
     <OutDir>Debug\</OutDir>
     <IntDir>Debug\</IntDir>
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);include\;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>Release\</OutDir>
@@ -103,6 +105,7 @@
     <ClCompile Include="gameLib\Input\KeyInputDI.cpp" />
     <ClCompile Include="gameLib\Misc\md5.cpp" />
     <ClCompile Include="gameLib\Misc\sha1.cpp" />
+    <ClCompile Include="gameLib\MMDPlayer\MMDPlayer.cpp" />
     <ClCompile Include="gameLib\PMDPlayer\PMDPlayer.cpp" />
     <ClCompile Include="gameLib\Se\SoundEffect.cpp" />
     <ClCompile Include="gameLib\th5DatFile\Bb\BBFile.cpp" />
@@ -186,6 +189,7 @@
     <ClInclude Include="gameLib\Input\KeyInputDI.h" />
     <ClInclude Include="gameLib\Misc\md5.h" />
     <ClInclude Include="gameLib\Misc\sha1.h" />
+    <ClInclude Include="gameLib\MMDPlayer\MMDPlayer.h" />
     <ClInclude Include="gameLib\PMDPlayer\PMDPlayer.h" />
     <ClInclude Include="gameLib\Se\SoundEffect.h" />
     <ClInclude Include="gameLib\th5DatFile\Bb\BBFile.h" />

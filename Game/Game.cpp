@@ -310,7 +310,7 @@ void CGame::Run()
 			int stepRes=m_pCurScheme->Step();
 			LARGE_INTEGER b;
 			QueryPerformanceCounter(&b);
-			printf("%lf\n",(double)m_performanceFreq.QuadPart/(b.QuadPart-a.QuadPart));
+			//printf("%lf\n",(double)m_performanceFreq.QuadPart/(b.QuadPart-a.QuadPart));
 
 			m_gameWindow.m_pGLContext->MakeCurrent();
 			m_pCurScheme->Draw();
@@ -322,7 +322,7 @@ void CGame::Run()
 				LARGE_INTEGER thisFrameTime;
 				QueryPerformanceCounter(&thisFrameTime);
 				double frameQuota=1000/m_fpsLimit;
-				printf("%lf ", frameQuota - (thisFrameTime.QuadPart - m_lastFrameTime.QuadPart)/(double)m_performanceFreq.QuadPart*1000);
+				//printf("%lf ", frameQuota - (thisFrameTime.QuadPart - m_lastFrameTime.QuadPart)/(double)m_performanceFreq.QuadPart*1000);
 			}
 			//fps limit
 			int fillcount=0;
@@ -338,7 +338,7 @@ void CGame::Run()
 					m_thisFrameDuration-=m_thisFrameLostTime;
 					m_lastFrameTime=thisFrameTime;
 					m_thisFrameLostTime=0.0f;
-					printf("%d %d\n",fillcount,nMsg);
+					//printf("%d %d\n",fillcount,nMsg);
 					nMsg=0;
 					break;
 				}

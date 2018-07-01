@@ -115,7 +115,7 @@ void CStage::DownloadVarFromGlobal()
 	//otherwise, replays may work incorrectly!
 	srand(CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
 	printf("------------------\n");
-	printf("%d\n",CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
+	printf("Rand Seed:%d\n",CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
 	printf("------------------\n");
 	m_nCurLife=CGame::GVar().m_nCurLife;
 	m_nCurBomb=CGame::GVar().m_nCurBomb;

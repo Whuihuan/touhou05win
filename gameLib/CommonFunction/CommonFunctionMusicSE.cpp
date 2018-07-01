@@ -1,5 +1,13 @@
+#include "..\..\include\cxxmidi/file.hpp"
+#include "..\..\include\cxxmidi/output/default.hpp"
+#include "..\..\include\cxxmidi/player/asynchronous.hpp"
+#include "..\..\include\cxxmidi/callback.hpp"
 #include ".\commonfunctionmusicse.h"
 #include "../../Game/Game.h"
+#pragma comment(lib,"winmm.lib")
+CxxMidi::Output::Default midioutput(0);
+CxxMidi::Player::Asynchronous midiplayer(&midioutput);
+CxxMidi::File midifile;
 
 namespace th5w{
 
@@ -12,6 +20,7 @@ CCommonFunctionMusicSE::~CCommonFunctionMusicSE(void)
 }
 bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *musicFileName, bool m2exist)
 {
+	
 	char bgmFileName[20] = { 0 };
 	strcpy(bgmFileName, musicFileName);
 	int music = CGame::GVar().m_initMusic;
@@ -27,11 +36,12 @@ bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *music
 	}
 	else if (music == 3)
 	{
-		//strcat(bgmFileName, ".MID");//or mmd...
-		
-		strcat(bgmFileName, ".WAV");//or mmd...
-		//return th5w::CMMDPlayer::LoadMMDData(bgmFileName);
-		return false;
+		sprintf(bgmFileName, "BGM/%s.mid", musicFileName);
+		if (midiplayer.isPlaying())
+			midiplayer.pause();
+		midifile.load(bgmFileName);
+		midiplayer.setFile(&midifile);
+		return true;
 	}
 	else
 	{
@@ -65,9 +75,9 @@ bool CCommonFunctionMusicSE::UnloadData()
 	}
 	else if (music == 3)
 	{
-		//th5w::CMMDPlayer::UnloadMMDData();
-		//return true;
-		return false;
+		if (midiplayer.isPlaying())
+			midiplayer.pause();
+		return true;
 	}
 	return false;
 }
@@ -81,13 +91,13 @@ bool CCommonFunctionMusicSE::Play()
 	}
 	else if (music == 3)
 	{
-		//th5w::CMMDPlayer::Play();
-		//return true;
-		return false;
+		//if(midifile!=NULL)
+			midiplayer.play();
+		return true;
 	}
 	else
 	{
-		return true;
+		return false;
 	}
 	return false;
 }
@@ -101,9 +111,8 @@ bool CCommonFunctionMusicSE::Pause()
 	}
 	else if (music == 3)
 	{
-		//th5w::CMMDPlayer::Pause();
-		//return true;
-		return false;
+		midiplayer.pause();
+		return true;
 	}
 	return false;
 }
@@ -117,9 +126,8 @@ bool CCommonFunctionMusicSE::Resume()
 	}
 	else if (music == 3)
 	{
-		//th5w::CMMDPlayer::Resume();
-		//return true;
-		return false;
+		midiplayer.play();
+		return true;
 	}
 	return false;
 }
@@ -133,9 +141,8 @@ bool CCommonFunctionMusicSE::Finalize()
 	}
 	else if (music == 3)
 	{
-		//th5w::CMMDPlayer::Fianlize();
-		//return true;
-		return false;
+		//midiplayer.goTo(CxxMidi::Time::Point::zero());
+		midiplayer.pause();
 	}
 	return false;
 }

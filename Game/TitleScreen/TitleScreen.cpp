@@ -23,7 +23,7 @@ namespace th5w{
 #define MAIN_MENU_QUIT 7
 
 
-char mainMenuDesc[][100]={"",//ゲ??を開始します／
+char mainMenuDesc[][100]={"",//ゲ??を開始します?
 						  "エキストラステ?ジを開始します",
 					      "",//"プラクティスを開始します",
 						  "リプレ?を見ます",
@@ -506,14 +506,16 @@ void CTitleScreen::ParseKeyEvent()
 					CGame::GVar().m_playStage=0;
 					CGame::GVar().m_bPracticeMode=false;
 					CGame::GVar().m_bReplayMode=false;
+					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitCollisionArea;
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_START_GAME;
 					break;
 				case MAIN_MENU_PRACTICE_START:
 					CGame::GVar().m_playDifficulty = CGame::GVar().m_initDifficulty;
-					CGame::GVar().m_playStage = 0;
+					//CGame::GVar().m_playStage = 0;
 					CGame::GVar().m_bPracticeMode = true;
 					CGame::GVar().m_bReplayMode = false;
+					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitPracticeCollisionArea;
 					m_bQuit = true;
 					m_quitCode = TITLESCREEN_END_START_GAME;
 					break;
@@ -522,6 +524,7 @@ void CTitleScreen::ParseKeyEvent()
 					CGame::GVar().m_playStage=6;
 					CGame::GVar().m_bPracticeMode=false;
 					CGame::GVar().m_bReplayMode=false;
+					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitCollisionArea;
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_START_EXTRA;
 					break;
@@ -592,7 +595,9 @@ void CTitleScreen::ParseKeyEvent()
 						ChangeValue(&CGame::GVar().m_nInitBomb,1,0,3);
 						break;
 					case 3:
-						ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
+						CCommonFunctionMusicSE::Pause();
+						//ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
+						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
 						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
 						CCommonFunctionMusicSE::Play();
 						break;

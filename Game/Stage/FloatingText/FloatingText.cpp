@@ -52,6 +52,7 @@ void CFloatingText::SetTextType(int textType,int number)
 
 void CFloatingText::Step()
 {
+	//printf("%d\n", m_textType);
 	if (m_textAge>=128)
 	{
 		m_textAge=0;
