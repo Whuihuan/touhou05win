@@ -160,14 +160,21 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		{
 			if (CGame::GVar().m_bPracticeMode == true)
 			{
-				CSelectReplayScreen *pScheme = new CSelectReplayScreen;
-				pScheme->Initialize(false, true);
+				CGame::GVar().m_practiceHighScore[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty]
+					[CGame::GVar().m_playStage] = CGame::GVar().m_curHighScore;//TODO:Move this to proper place and make automatically save score.dat
+				//CSelectReplayScreen *pScheme = new CSelectReplayScreen;
+				//pScheme->Initialize(false, true);
+				//*pOutNextSchemeID = SCHEME_SELECTREPLAYSCREEN;
+				//Dont save replay->Refered EoSD
+				CTitleScreen *pScheme = new CTitleScreen;
+				pScheme->Initialize(true, 0, true);
 				*ppOutNextScheme = (CScheme*)pScheme;
-				*pOutNextSchemeID = SCHEME_SELECTREPLAYSCREEN;
+				*pOutNextSchemeID = SCHEME_TITLESCREEN;
 				return true;
 			}
 			else if (CGame::GVar().m_playStage<5)
 			{
+				CGame::GVar().m_bPracticeFlag[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty][CGame::GVar().m_playStage] = true;//todo:just no use bool instad use int?
 				CGame::GVar().m_playStage++;
 				CStage *pScheme=new CStage;
 				pScheme->Initialize();
@@ -193,6 +200,7 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		{
 			if (CGame::GVar().m_bPracticeMode == true)
 			{
+				CGame::GVar().m_practiceHighScore[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty][CGame::GVar().m_playStage] = CGame::GVar().m_curHighScore;
 				CSelectReplayScreen *pScheme = new CSelectReplayScreen;
 				pScheme->Initialize(false, true);
 				*ppOutNextScheme = (CScheme*)pScheme;

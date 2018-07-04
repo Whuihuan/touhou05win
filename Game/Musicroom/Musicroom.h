@@ -1,6 +1,7 @@
 #pragma once
 #include "../scheme.h"
 #include "../../gameLib/Graphic/2DImageArray.h"
+#include "../../gameLib/th5DatFile/th5DatFile.h"
 
 #define MUSICROOM_END_BACK 1
 
@@ -22,6 +23,7 @@ namespace th5w {
 		bool m_bLoadMode;
 		int m_curFrame;
 		unsigned short m_lastKeyState, m_curKeyState;
+		unsigned char m_palette[48];
 
 	protected:
 		COORDF points[10];
@@ -43,22 +45,20 @@ namespace th5w {
 
 		C2DImage *m_pBGImage;
 
-		//bool m_bEnterNameMode;
 		int m_curCharX;
 		int m_curCharY;
-		//int m_nameCursorPos;
-		//int m_selectedSlot;
 		int m_curRowY;
-		//char m_curEnterName[10];
-
+		
 		int m_curScrFade;
 		bool m_bQuit;
 		int m_quitCode;
 
 	protected:
 		void SwitchPage(int pageIdx);
-		void polygon_build(COORDF *pts, float x, float y, float rad, int npoint, float angle);
-		void polygons_update_and_render(void);
+		void PolygonBuild(COORDF *pts, float x, float y, float rad, int npoint, float angle);
+		void PolygonsUpdate(void);
+		void PolygonsRender(void);
+		bool LoadPIFromDat(C2DImage** pRet,unsigned char *outPalette,Cth5DatFile *pDatFile,char *piFileName);
 	
 	
 	public:
@@ -66,7 +66,7 @@ namespace th5w {
 		int Step();
 		void Draw();
 		void Playmusic();
-		void music_cmt_load();
+		void MusicCommentLoad();
 	public:
 		CMusicRoom(void);
 		~CMusicRoom(void);

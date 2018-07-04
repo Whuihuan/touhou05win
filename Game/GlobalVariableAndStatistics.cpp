@@ -198,12 +198,12 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 	FILE *fp=fopen("score.dat","rb");
 	if (fp==NULL)
 		return;
-	fseek(fp,0,SEEK_END);
-	if (ftell(fp)!=1500)
+	//fseek(fp,0,SEEK_END);
+	/*if (ftell(fp)!=1500)
 	{
 		fclose(fp);
 		return;
-	}
+	}*/
 	fseek(fp,0,SEEK_SET);
 	for (int i=0;i<4;i++)
 		for (int j=0;j<5;j++)
@@ -213,8 +213,6 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 				fread(&m_highScore[i][j][k],4,1,fp);
 				fread(&m_highScoreFlag[i][j][k],1,1,fp);
 			}
-	
-	
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
 		for (int j=0;j<5;j++)//Difficult

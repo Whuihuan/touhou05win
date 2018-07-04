@@ -22,6 +22,7 @@ public:
 										 Cth5DatFile *pDatFile,char *bftFileName,int transparentColorIdx,
 										 unsigned char *inPalette=NULL);
 	static bool LoadBinaryImageFile(C2DImage **pRet,unsigned char transparentColor[3], const char *fileName);
+	static bool LoadBMPImageFile(C2DImage **pRet,unsigned char transparentColor[3], const char *fileName);
 	static void ScreenFade(float fadeScale);	//0: black, 100: normal, 200: white, value between: linearly interpolated
 	static void DrawRectangle(float XLow,float YLow,float XHigh,float YHigh,
 							  float colorR,float colorG,float colorB,float alpha=1.0f,bool bSolid=true);

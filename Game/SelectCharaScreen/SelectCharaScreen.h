@@ -14,6 +14,7 @@ protected:
 	int m_charaDisplayImg[4];
 	bool m_bCharaClearFlag[4];
 
+	bool m_bPracticeSelectable[4][5];
 	unsigned char m_palette[48];
 
 protected:

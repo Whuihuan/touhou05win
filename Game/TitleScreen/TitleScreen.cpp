@@ -23,52 +23,8 @@ namespace th5w{
 #define MAIN_MENU_QUIT 7
 
 
-char mainMenuDesc[][100]={"",//ゲ??を開始します?
-						  "エキストラステ?ジを開始します",
-					      "",//"プラクティスを開始します",
-						  "リプレ?を見ます",
-						  "現在のハイスコアを?示します",
-						  "音楽室に入ります",
-						  "各種設定を変更出来ます",
-						  "ＷＩＮＤＯＷＳに戻ります"};
-						  
-char startGameDesc[][100]={"ゲ??を開始します（イ?ジ?）",
-						   "ゲ??を開始します（ノ??ル）",
-						   "ゲ??を開始します（ハ?ド）",
-						   "ゲ??を開始します（ルナティック）"};
-						   
-char practiceGameDesc[][100]={"プラクティスを開始します（イ?ジ?）",
-						   "プラクティスを開始します（ノ??ル）",
-						   "プラクティスを開始します（ハ?ド）",
-						   "プラクティスを開始します（ルナティック）"};
-						   
-char optionMenuDesc[][100]={"",
-							"ゲ??ス??ト時の人数を変更出来ます（除くエキストラ）",
-							"??の使用回数を変更出来ます（除くエキストラ）",
-							"",//"ＢＧＭに８６音源互換を使用します(Via PMDWin and DirectSound, not changeable)",
-							"",//"効果音にＦＭ音源を使用します(Via DirectSound, not changeable)",
-							"",//"処理落ちを?シンのスピ?ドに任せます（標?）(SlowMode not implemented)",
-							"このオプションを全て標?に戻します",
-							"オプションを終了します"};
+#include ".\titlescreen_text.cpp"//to prevent visual studio make crash charater
 
-char optionMusicDesc[][100]={"ＢＧＭは流れません",
-						   "ＢＧＭに２６Ｋ音源互換を使用します",
-						   "ＢＧＭに８６音源互換を使用します",
-						   "ＢＧＭにＭＩＤＩ音源互換を使用します"};
-
-char optionSEDesc[][100]={"効果音は流れません",
-						   "効果音にＢｅｅｐ音源を使用します",
-						   "効果音にＦＭ音源を使用します"};
-
-char optionInputDesc[][100]={"処理落ちを?シンのスピ?ドに任せます（標?）",
-						   "敵弾の多い場所で、わざと処理落ち（スロ?）させます（初心者用）"};
-
-						   
-char difficultyDesc[][100]={"難易度をやさしくします?     （初心者向け）? ",
-							"難易度を標?にします???    （一般向け）??",
-							"難易度を難しくします???（ア?ケ???向け）",
-							"難易度を非常に難しくします?（シュ???向け）"};
-//怪?談
 CTitleScreen::CTitleScreen(void)
 {
 	m_mainMenuNItem=8;
@@ -166,7 +122,7 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 	unsigned char pc[]={64,64,64};
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pMenuImgPractice,pc,"practice.bmp");
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pMenuImgReplay,pc,"replay.bmp");
-
+	
 	m_lastKeyState=0;
 }
 
@@ -512,7 +468,7 @@ void CTitleScreen::ParseKeyEvent()
 					break;
 				case MAIN_MENU_PRACTICE_START:
 					CGame::GVar().m_playDifficulty = CGame::GVar().m_initDifficulty;
-					//CGame::GVar().m_playStage = 0;
+					CGame::GVar().m_playStage = 0;
 					CGame::GVar().m_bPracticeMode = true;
 					CGame::GVar().m_bReplayMode = false;
 					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitPracticeCollisionArea;
@@ -596,8 +552,8 @@ void CTitleScreen::ParseKeyEvent()
 						break;
 					case 3:
 						CCommonFunctionMusicSE::Pause();
-						//ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
-						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
+						ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
+						//ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
 						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
 						CCommonFunctionMusicSE::Play();
 						break;

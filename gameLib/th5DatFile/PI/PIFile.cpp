@@ -141,6 +141,7 @@ bool CPIFile::ExtractImageAndPalette(unsigned char *outImage, unsigned char *out
 		outImage[j*4+1]=palette[idx*3+1];
 		outImage[j*4+2]=palette[idx*3+2];
 		if (idx==transparentColorIdx)
+
 			outImage[j*4+3]=0;
 		else
 			outImage[j*4+3]=255;

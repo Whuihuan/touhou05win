@@ -202,6 +202,50 @@ bool CCommonFunctionGraphic::LoadBinaryImageFile(C2DImage **pRet,unsigned char t
 	return true;
 }
 
+bool CCommonFunctionGraphic::LoadBMPImageFile(C2DImage **pRet,unsigned char transparentColor[3], const char *fileName)
+{
+	CImage img;
+	TCHAR fileNameBuf[1000];
+	wsprintf(fileNameBuf,_T("%S"),fileName);
+	if (img.Load(fileNameBuf)!=0)
+		return false;
+	int width=img.GetWidth();
+	int height=img.GetHeight();
+	unsigned char *pData=(unsigned char *)img.GetBits();
+	pData+=img.GetPitch()*(height-1);			//move to last line
+
+	C2DImage *pImg=C2DImage::Create2DImage(width,height);
+	unsigned char *pWrite=pImg->GetDataPointer();
+	unsigned char *tc=transparentColor;
+	for (int i=0;i<height;i++)
+	{
+		for (int j=0;j<width;j++,pWrite+=4)
+		{
+			unsigned char v=255;
+			if (pData[j*3]==tc[0]&&pData[j*3+1]==tc[1]&&pData[j*3+2]==tc[2])
+			{
+				pWrite[0]=pWrite[1]=pWrite[2]=pWrite[3]=0;
+			}
+			else
+			{
+			pWrite[0]=pData[j*3];
+			pWrite[1]=pData[j*3+1];
+			pWrite[2]=pData[j*3+2];
+			pWrite[3]=255;
+			}
+		}
+		pData-=img.GetPitch();
+	}
+	if (pImg->UploadToTexture()==false)
+	{
+		pImg->Destroy();
+		return false;
+	}
+	*pRet=pImg;
+
+	return true;
+}
+
 void CCommonFunctionGraphic::ScreenFade(float fadeScale)
 {
 	if (fadeScale<0) fadeScale=0;

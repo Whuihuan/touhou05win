@@ -114,9 +114,9 @@ void CStage::DownloadVarFromGlobal()
 	//make sure that after creation of CStage, no rand() calls before this statement,
 	//otherwise, replays may work incorrectly!
 	srand(CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
-	printf("------------------\n");
-	printf("Rand Seed:%d\n",CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
-	printf("------------------\n");
+#if _DEBUG
+	printf("Rand Seed:%d\n", CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
+#endif // _DEBUG
 	m_nCurLife=CGame::GVar().m_nCurLife;
 	m_nCurBomb=CGame::GVar().m_nCurBomb;
 	m_powerOverflowLevel=CGame::GVar().m_powerOverflowLevel;

@@ -14,7 +14,7 @@ public:
 	unsigned int m_textCodePage;
 	bool m_bUseSystemFont;
 	unsigned int m_fontCharset;
-	bool m_bTurnOffCollisionArea;//remove soon
+	bool m_bTurnOffCollisionArea;//todo:remove this
 	bool m_binitCollisionArea;
 	bool m_binitPracticeCollisionArea;
 
