@@ -166,6 +166,8 @@ bool CCommonFunctionGraphic::LoadBFTAllPatternFromDat(C2DImageArray *pOutImgArra
 	return true;
 }
 
+
+
 bool CCommonFunctionGraphic::LoadBinaryImageFile(C2DImage **pRet,unsigned char transparentColor[3], const char *fileName)
 {
 	CImage img;

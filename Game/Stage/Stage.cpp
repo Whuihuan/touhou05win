@@ -132,6 +132,8 @@ void CStage::DownloadVarFromGlobal()
 	m_nContinueUsed=CGame::GVar().m_nContinueUsed;
 
 	m_nContinueLimit=CGame::GVar().m_nContinueLimit;
+	m_bCollisionAreaDraw = CGame::GVar().m_bplayCollisionArea;
+	m_bPracticeMode = CGame::GVar().m_bPracticeMode;
 	m_pointItemMaxScore=CGame::GVar().m_pointItemMaxScore;
 	m_grazeBonus=CGame::GVar().m_grazeBonus;
 	m_playerPerformanceLowerBound=CGame::GVar().m_playerPerformanceLowerBound;
@@ -889,7 +891,9 @@ void CStage::DrawStatistics()
 	//draw bomb row
 	if (m_nCurBomb>5)
 	{
-		CPC98Font::DrawString((char*)m_pStageRes->m_crossRow,100,0x3e*8,0xb*16+40,1,1,1);
+		char cross[]={0x81,0x40,0x81,0x40,0x81,0x7e,0x81,0x40,0x81,0x40,0};
+		//CPC98Font::DrawString(m_pStageRes->m_crossRow,100,0x3e*8,0xb*16+40,1,1,1);
+		CPC98Font::DrawString(cross,100,0x3e*8,0xb*16+40,1,1,1);
 		m_pStageRes->DrawNumber(0x44*8,0xb*16+40,m_nCurBomb,2,false,true,1,1,1);
 	}
 	else
@@ -899,8 +903,10 @@ void CStage::DrawStatistics()
 	}
 	//draw life row
 	if (m_nCurLife>6)
-	{
-		CPC98Font::DrawString((char*)m_pStageRes->m_crossRow,100,0x3e*8,0xd*16+40,1,1,1);
+	{	
+		char cross[]={0x81,0x40,0x81,0x40,0x81,0x7e,0x81,0x40,0x81,0x40,0};
+		//CPC98Font::DrawString(m_pStageRes->m_crossRow,100,0x3e*8,0xd*16+40,1,1,1);
+		CPC98Font::DrawString(cross,100,0x3e*8,0xd*16+40,1,1,1);
 		m_pStageRes->DrawNumber(0x44*8,0xd*16+40,m_nCurLife-1,2,false,true,1,1,1);
 	}
 	else

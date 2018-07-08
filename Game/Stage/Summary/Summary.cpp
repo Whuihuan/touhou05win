@@ -211,7 +211,7 @@ void CSummary::DrawNormalSummary()
 	}
 	else
 	{
-		if (m_pStage->m_nLifeOnContinue>=4)
+		if ((m_pStage->m_nLifeOnContinue>=4) && (m_pStage->m_bPracticeMode==false))
 		{
 			totalScore=totalScore*(15-m_pStage->m_nLifeOnContinue*2)/10;
 			DrawItem(7-m_pStage->m_nLifeOnContinue,0x12,true);

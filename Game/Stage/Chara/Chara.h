@@ -77,7 +77,6 @@ protected:
 	void OnMissDropItem();
 
 	bool m_bDraw;
-	bool m_bCollisionAreaDraw;
 	__forceinline void DisableDraw() {m_bDraw=false;}
 	__forceinline void EnableDraw() {m_bDraw=true;}
 

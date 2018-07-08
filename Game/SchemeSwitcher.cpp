@@ -8,7 +8,7 @@
 #include "SelectReplayScreen/SelectReplayScreen.h"
 #include "HighScoreScreen/HighScoreScreen.h"
 #include "MusicRoom/MusicRoom.h"
-//#include "StaffRoll/StaffRoll.h"
+#include "StaffRoll/StaffRoll.h"
 
 
 #define SCHEME_DUMMY 0
@@ -20,7 +20,8 @@
 #define SCHEME_SELECTREPLAYSCREEN 6
 #define SCHEME_HIGHSCORESCREEN 7
 #define SCHEME_MUSICROOM 8
-//#define SCHEME_STAFFROLL 9
+#define SCHEME_STAFFROLL 9
+#define SCHEME_RESULT 10
 
 namespace th5w{
 
@@ -162,17 +163,17 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			{
 				CGame::GVar().m_practiceHighScore[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty]
 					[CGame::GVar().m_playStage] = CGame::GVar().m_curHighScore;//TODO:Move this to proper place and make automatically save score.dat
-				//CSelectReplayScreen *pScheme = new CSelectReplayScreen;
-				//pScheme->Initialize(false, true);
-				//*pOutNextSchemeID = SCHEME_SELECTREPLAYSCREEN;
-				//Dont save replay->Refered EoSD
 				CTitleScreen *pScheme = new CTitleScreen;
 				pScheme->Initialize(true, 0, true);
 				*ppOutNextScheme = (CScheme*)pScheme;
 				*pOutNextSchemeID = SCHEME_TITLESCREEN;
 				return true;
 			}
+#ifdef _TRIAL
+			else if (CGame::GVar().m_playStage<2)
+#else
 			else if (CGame::GVar().m_playStage<5)
+#endif
 			{
 				CGame::GVar().m_bPracticeFlag[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty][CGame::GVar().m_playStage] = true;//todo:just no use bool instad use int?
 				CGame::GVar().m_playStage++;
@@ -184,6 +185,14 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			}
 			else
 			{
+#ifdef _TRIAL
+				CHighScoreScreen *pScheme = new CHighScoreScreen;
+				pScheme->Initialize(false, false);
+				*ppOutNextScheme = (CScheme*)pScheme;
+				*pOutNextSchemeID = SCHEME_HIGHSCORESCREEN;
+				return true;
+#else
+
 				CEnding *pScheme=new CEnding;
 				if (CGame::GVar().m_playStage==5)
 					pScheme->Initialize(CGame::GVar().m_nContinueUsed==0?1:0);
@@ -194,6 +203,7 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 				*ppOutNextScheme=(CScheme*)pScheme;
 				*pOutNextSchemeID=SCHEME_ENDING;
 				return true;
+#endif
 			}
 		}
 		if (curSchemeExitValue==STAGE_END_ALL_MISSED)

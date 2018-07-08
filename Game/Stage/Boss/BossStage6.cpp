@@ -71,6 +71,10 @@ void CBossStage6::Phase0()
 	{
 		m_curHP=22800;
 		m_curPhaseEndHP=20600;
+#ifdef _DEBUG_ENDING
+		m_curHP=2;
+		m_curPhaseEndHP=1;
+#endif
 		m_curImage=180;
 		m_velY=0;
 		m_imgGoLeft=183;
@@ -274,11 +278,20 @@ void CBossStage6::Phase2_3()
 	{
 		if (m_curPhase==2)
 		{
+#ifdef _DEBUG_ENDING
+			EndPhase(1, 1);
+#else
 			EndPhase(18400,1);
+#endif
 			m_curMode=1;
 		}
 		else
+#ifdef _DEBUG_ENDING
+			EndPhase(1, 1);
+#else
 			EndPhase(14600,1);
+#endif
+
 	}
 }
 
@@ -449,9 +462,17 @@ void CBossStage6::Phase6_7()
 		else
 			return;
 	if (m_curPhase==6)
+#ifdef _DEBUG_ENDING
+		EndPhase(1,2);
+#else		
 		EndPhase(11600,2);
+#endif
 	else
-		EndPhase(8600,3);
+#ifdef _DEBUG_ENDING
+		EndPhase(1,3);
+#else
+		EndPhase(8600, 3);
+#endif
 }
 
 int CBossStage6::Phase8Effect()
@@ -737,7 +758,11 @@ void CBossStage6::Phase9_10()
 			return;
 	}
 	if (m_curPhase==9)
-		EndPhase(2800,2);
+#ifdef _DEBUG_ENDING
+		EndPhase(1,2);
+#else
+		EndPhase(2800, 2);
+#endif
 	else
 	{
 		EndPhase(0,3);

@@ -158,6 +158,19 @@ bool CGame::Initialize()
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
+#ifdef _TRIAL
+	if (m_th5Dat2.LoadFile("kaiki1.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("fail"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
+	if (m_musicDat.LoadFile("kaiki1.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("fail"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
+
+#else
 	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
@@ -168,6 +181,7 @@ bool CGame::Initialize()
 		MessageBox(m_gameWindow.m_hWnd, _T("fail"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 		return false;
 	}
+#endif
 	if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);

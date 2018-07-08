@@ -110,7 +110,9 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 		m_bMainMenuItemEnabled[i]=true;
 
 	m_bMainMenuItemEnabled[1]=false;
-
+#ifdef _TRIAL
+	m_bMainMenuItemEnabled[2] = false;
+#endif
 	for (int i=0;i<4;i++)
 		if (CGame::GVar().m_bExtraPlayable[i])
 			m_bMainMenuItemEnabled[1]=true;
@@ -460,6 +462,9 @@ void CTitleScreen::ParseKeyEvent()
 				case MAIN_MENU_START:
 					CGame::GVar().m_playDifficulty=CGame::GVar().m_initDifficulty;
 					CGame::GVar().m_playStage=0;
+#ifdef _DEBUG_ENDING
+					CGame::GVar().m_playStage = 5;
+#endif
 					CGame::GVar().m_bPracticeMode=false;
 					CGame::GVar().m_bReplayMode=false;
 					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitCollisionArea;
@@ -516,6 +521,22 @@ void CTitleScreen::ParseKeyEvent()
 				return;
 			}
 			m_lastKeyState=curKeyState;
+			/*if (DEMO)
+			{
+					CGame::GVar().m_playDifficulty=1;
+					CGame::GVar().m_bPracticeMode=false;
+					CGame::GVar().m_bReplayMode=true;
+					CGame::GVar().m_bDemoMode=true;
+					CGame::GVar().m_bplayCollisionArea=false;
+					m_bQuit=true;
+					m_quitCode=TITLESCREEN_END_DEMO;
+					return;
+					reimu==4
+					marisa==2
+					mima==5
+					yukka3
+			}
+				*/
 			return;
 		}
 		if (m_curMenu==1)
@@ -552,8 +573,8 @@ void CTitleScreen::ParseKeyEvent()
 						break;
 					case 3:
 						CCommonFunctionMusicSE::Pause();
-						ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
-						//ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
+						//ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
+						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
 						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
 						CCommonFunctionMusicSE::Play();
 						break;

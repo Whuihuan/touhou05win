@@ -245,14 +245,18 @@ namespace th5w {
 			if (CCommonFunctionInput::ZPressed(curState, m_lastKeyState))
 			{
 				CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+#ifndef _TRIAL
 				if (m_bPracticeSelectable[m_cursorPos][m_cursorstage])
 				{
+#endif
 					CGame::GVar().m_playStage = m_cursorstage;
 					CGame::GVar().OnBeginGame();
 					m_bQuit = true;
 					m_quitCode = SELECTCHARASCREEN_END_SELECTED_CHARA;
 					m_lastKeyState = curState;
+#ifndef _TRIAL
 				}
+#endif
 				return;
 			}
 			if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState) || CCommonFunctionInput::XPressed(curState, m_lastKeyState))

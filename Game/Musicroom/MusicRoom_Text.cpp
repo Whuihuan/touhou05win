@@ -111,6 +111,11 @@
 									"No.13  悲しき人形　～ Doll of Misery",
 									"No.14   世界の果て　～ World's End  ",
 									"No.15   神話幻想　～ Infinite Being ",
+#ifdef _TRIAL
+									"No.16              神社             ",
+									"No.17            Endless            ",
+									"No.18          久遠の楽園           ",
+#else
 									"No.16       不思議の国のアリス      ",
 									"No.17     the Grimoire of Alice     ",
 									"No.18              神社             ",
@@ -118,5 +123,6 @@
 									"No.20          久遠の楽園           ",
 									"No.21         Mystic Dream          ",
 									"No.22       Peaceful Romancer       ",
-									"No.23         魂の休らむ所          ",
+									"No.23         魂の休らむ所          ",	
+#endif
 									"              タイトルに戻る        " } };

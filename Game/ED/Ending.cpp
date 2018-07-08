@@ -13,6 +13,7 @@ namespace th5w{
 CEnding::CEnding(void)
 {
 	m_pBGImage=NULL;
+	m_pExtendBgImage = NULL;
 	m_pCenterImage=NULL;
 	m_pCenterImageCandi=NULL;
 	m_lastKey=0;
@@ -27,7 +28,9 @@ CEnding::~CEnding(void)
 	if (m_pBGImage!=NULL)
 		m_pBGImage->Destroy();
 	m_pBGImage=NULL;
-
+	if (m_pExtendBgImage != NULL)
+		m_pExtendBgImage->Destroy();
+	m_pExtendBgImage = NULL;
 	if (m_pCenterImage!=NULL)
 		m_pCenterImage->Destroy();
 	m_pCenterImage=NULL;
@@ -51,6 +54,8 @@ void CEnding::Initialize(int edType)
 	m_bCtrImgFading=false;
 	m_ctrImgCurFade=0;
 	m_ctrImgTotalFade=4;
+	unsigned char pc[] = { 0,0,0 };
+	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pExtendBgImage, pc, "ending.bmp");
 
 	edType=edType*10+CGame::GVar().m_playChara;
 	char edFileName[20];
@@ -191,8 +196,18 @@ int CEnding::Step()
 						C2DImage *pImg;
 						CCommonFunctionGraphic::LoadPIFromDat(&pImg,m_palette,&CGame::s_pCurGame->m_th5Dat1,s);
 						C2DImage **ppTar;
-						if (strstr(s,"bk")!=NULL||strcmp(s,"white.pi")==0)			//hack here
-							ppTar=&m_pBGImage;
+						if (strstr(s, "bk") != NULL || strcmp(s, "white.pi") == 0) {	//hack here
+							ppTar = &m_pBGImage;
+							if (strcmp(s, "edbk0.pi") == 0)
+								m_bgnum = 0;
+							else if (strcmp(s, "edbk1.pi") == 0)
+								m_bgnum = 1;
+							else if (strcmp(s, "edbk2.pi") == 0)
+								m_bgnum = 2;
+							else
+								m_bgnum = -1;
+
+						}
 						else
 						{
 							ppTar=&m_pCenterImageCandi;
@@ -506,6 +521,29 @@ void CEnding::Draw()
 {
 	glClearColor(0,0,0,1);
 	glClear(GL_COLOR_BUFFER_BIT);
+	if (m_pExtendBgImage != NULL) {
+		if (m_bgnum == 0) {
+
+			m_pExtendBgImage->DrawColorScaled((float)0, (float)0-80, 0.0f, 0.0f, 240.0f/256.0f);
+			m_pExtendBgImage->DrawColorScaled((float)0, (float)400 - 80, 0.0f, 0.0f, 240.0f / 256.0f);
+
+		}
+		else if (m_bgnum == 1) {
+			CCommonFunctionGraphic::DrawRectangle(0, 0, 639, 39, 51.0f / 256.0f, 170.0f / 256.0f, 153.0f / 256.0f);
+			CCommonFunctionGraphic::DrawRectangle(0, 440, 639, 479, 34.0f / 256.0f, 170.0f / 256.0f, 34.0f / 256.0f);
+
+		}
+		else if (m_bgnum == 2) {
+			m_pExtendBgImage->DrawColorScaled((float)0, (float)0, 112.0f / 256.0f, 0.0f, 112.0f / 256.0f);
+			m_pExtendBgImage->DrawColorScaled((float)0, (float)400, 112.0f / 256.0f, 0.0f, 112.0f / 256.0f);
+
+		}
+		else if (m_bgnum == -1) {
+			CCommonFunctionGraphic::DrawRectangle(0, 0, 639, 39, 1.0f, 1.0f, 1.0f);
+			CCommonFunctionGraphic::DrawRectangle(0, 440, 639, 479, 1.0f, 1.0f, 1.0f);
+
+		}
+	}
 	if (m_pBGImage!=NULL)
 		m_pBGImage->Draw(0,40);
 
@@ -565,7 +603,7 @@ void CEnding::Draw()
 	else
 		overlayColor=1;
 	float overlayAlpha=fabs(m_curScrScale-100)/100;
-	CCommonFunctionGraphic::DrawRectangle(0,40,640,440,
+	CCommonFunctionGraphic::DrawRectangle(0,0,640,480,
 										  overlayColor,overlayColor,overlayColor,overlayAlpha);
 }
 

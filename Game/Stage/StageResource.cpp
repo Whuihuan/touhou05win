@@ -86,8 +86,9 @@ void CStageResource::InitTranslation()
 
 	//copy default cross row string to m_crossRow
 	{
-		unsigned char cross[]={0x81,0x40,0x81,0x40,0x81,0x7e,0x81,0x40,0x81,0x40,0};
-		strcpy(m_crossRow,(char*)cross);
+		//char cross[]={0x81,0x40,0x81,0x40,0x81,0x7e,0x81,0x40,0x81,0x40,0};
+		char cross[]="　　×　　";
+		strcpy(m_crossRow,cross);
 	}
 	fileIdx=CGame::s_pCurGame->m_modDat.GetChildFileIndex("marks.txt");
 	if (fileIdx!=-1)

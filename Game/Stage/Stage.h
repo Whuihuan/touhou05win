@@ -157,6 +157,9 @@ protected:
 	int m_playerPerformanceUpperBound;
 	int m_nLifeOnContinue;
 	int m_nBombOnMiss;
+	bool m_bPracticeMode;
+	bool m_bCollisionAreaDraw;
+
 
 	//local var
 	int m_nMiss;

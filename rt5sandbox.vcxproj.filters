@@ -148,6 +148,9 @@
     <Filter Include="Source Files\GameLib\MMDPlay">
       <UniqueIdentifier>{f28cc281-e7ec-47db-a47c-97e620c85d06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Scheme\StaffRoll">
+      <UniqueIdentifier>{ad56f8dc-5131-42f6-807f-fbcd389ce3ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -396,6 +399,9 @@
     <ClCompile Include="gameLib\MMDPlayer\MMDPlayer.cpp">
       <Filter>Source Files\GameLib\MMDPlay</Filter>
     </ClCompile>
+    <ClCompile Include="Game\StaffRoll\StaffRoll.cpp">
+      <Filter>Source Files\Game\Scheme\StaffRoll</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h">
@@ -643,6 +649,9 @@
     </ClInclude>
     <ClInclude Include="gameLib\MMDPlayer\MMDPlayer.h">
       <Filter>Source Files\GameLib\MMDPlay</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\StaffRoll\StaffRoll.h">
+      <Filter>Source Files\Game\Scheme\StaffRoll</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

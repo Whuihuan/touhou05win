@@ -13,7 +13,11 @@
 
 
 namespace th5w {
+#ifdef _TRIAL
+	int music_count[] = { 14,18,24,28,18 };
+#else
 	int music_count[] = { 14,18,24,28,23 };
+#endif
 #include ".\MusicRoom_Text.cpp"
 
 	char MUSIC_FILES[5][30][40] = { {"r_00","r_01",    "r_02",   "r_03",  "r_04",   "r_05",  "r_06",   "r_07",   "r_08",   "r_09",   "r_10",   "r_11",   "r_12",   "r_13"},
@@ -255,6 +259,14 @@ namespace th5w {
 		if (CCommonFunctionInput::UpPressed(m_curKeyState, m_lastKeyState))
 		{
 			m_curCursorPos = (m_curCursorPos + music_count[m_curPage]) % (music_count[m_curPage] + 1);
+#ifdef _TRIAL
+			if (m_curPage == 4 && m_curCursorPos > 6 && m_curCursorPos != music_count[m_curPage])
+				m_curCursorPos=6;
+			else if (m_curPage != 4 && m_curCursorPos > 0 && m_curCursorPos != music_count[m_curPage])
+				m_curCursorPos=0;
+			m_curListTop = 0;
+
+#endif
 			if (m_curListTop > m_curCursorPos)
 				m_curListTop--;
 			if ((m_curCursorPos == music_count[m_curPage]) && (m_curPage != 0))
@@ -264,6 +276,18 @@ namespace th5w {
 		if (CCommonFunctionInput::DownPressed(m_curKeyState, m_lastKeyState))
 		{
 			m_curCursorPos = (m_curCursorPos + 1) % (music_count[m_curPage] + 1);
+#ifdef _TRIAL
+			if (m_curPage == 4 && m_curCursorPos > 6 && m_curCursorPos != music_count[m_curPage])
+			{
+				m_curCursorPos = music_count[m_curPage];
+				m_curListTop = music_count[m_curPage] - m_nFilePerPage;
+			}
+			else if(m_curPage!=4 && m_curCursorPos > 0 && m_curCursorPos != music_count[m_curPage])
+			{
+				m_curCursorPos = music_count[m_curPage];
+				m_curListTop = music_count[m_curPage]- m_nFilePerPage;
+			}
+#endif
 			if (m_curCursorPos == 0)
 				m_curListTop = 0;
 			if (m_curCursorPos > m_curListTop + m_nFilePerPage - 1)
@@ -343,6 +367,21 @@ namespace th5w {
 				CPC98Font::DrawString(strBuf, 100, x, y, white_color[0], white_color[1], white_color[2]);
 				CPC98Font::DrawString(strBuf, 100, x - 1, y, white_color[0], white_color[1], white_color[2]);
 			}
+#ifdef _TRIAL
+			else if (m_curPage == 4 && i + m_curListTop > 6 && i + m_curListTop != music_count[m_curPage])
+			{
+				CPC98Font::DrawString(strBuf, 100, x, y, white_color[0], white_color[1], white_color[2],0.5f);
+				CPC98Font::DrawString(strBuf, 100, x - 1, y, white_color[0], white_color[1], white_color[2], 0.5f);
+
+			}
+			else if (m_curPage != 4 && i + m_curListTop > 0 && i + m_curListTop != music_count[m_curPage])
+			{
+				CPC98Font::DrawString(strBuf, 100, x, y, white_color[0], white_color[1], white_color[2], 0.5f);
+				CPC98Font::DrawString(strBuf, 100, x - 1, y, white_color[0], white_color[1], white_color[2], 0.5f);
+
+			}
+
+#endif
 			else
 			{
 				CPC98Font::DrawString(strBuf, 100, x, y, list_color[0], list_color[1], list_color[2]);

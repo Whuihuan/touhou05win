@@ -18,6 +18,8 @@ protected:
 	unsigned char *m_pScriptBase;
 
 	C2DImage *m_pBGImage;
+	C2DImage *m_pExtendBgImage;
+	int m_bgnum;//to extend bg
 	C2DImage *m_pCenterImage;
 	C2DImage *m_pCenterImageCandi;
 	int m_curCenterImgIdx;
