@@ -73,8 +73,13 @@ void CTextOverlay::DrawStageFadeOut()
 		s[i]=fontIdx;
 	s[24]=0;
 	for (int i=0;i<23;i++)
-		CTh5ExtFont::DrawExtString(s,24,m_pStage->m_playAreaUpperLeftX,i*16+m_pStage->m_playAreaUpperLeftY,
-								   0,0,0);
+	{
+		CTh5ExtFont::DrawExtString(s,24,m_pStage->m_playAreaUpperLeftX,i*16+m_pStage->m_playAreaUpperLeftY,0,0,0);
+#ifdef _TRIAL
+		if(fontIdx==0x94)
+			CTh5ExtFont::DrawExtString(s,24,m_pStage->m_playAreaUpperLeftX,i*16+m_pStage->m_playAreaUpperLeftY,0,0,0,1.0f,true,true);
+#endif
+	}
 	m_stageFadeTimer++;
 }
 

@@ -314,7 +314,7 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 		}
 		m_bCanSaveReplay=true;
 	}
-
+	
 	m_curNGraze=0;
 	int PL[]={16,24,44,48,32};
 	int PU[]={32,40,54,58,32};
@@ -331,10 +331,18 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	m_pointItemMaxScore=pScore[m_playDifficulty];
 	int grazeBonus[]={25,50,100,200,500};
 	m_grazeBonus=grazeBonus[m_playDifficulty];
-
+	
+	m_nBX2C=0;//unknown
+	m_nBX2E=0;//unknown
+	m_nBX30=0;
+	m_nBX32=0;
+	m_nBX34=0;
+	m_nBX36=0;
+	m_nBX38=0;
+	m_nBX3C=0;//unknown
+	m_nBX40=0;//unknown
+	
 }
-
-
 }
 
 

@@ -1,11 +1,12 @@
 #pragma once
+#include "../scheme.h"
 #include <windows.h>
-#include "../../gameLib/Graphic/2DImage.h"
+//#include "../../gameLib/Graphic/2DImage.h"
 #include "../../gameLib/Graphic/2DImageArray.h"
 
 namespace th5w{
 
-class CStaffRoll
+class CStaffRoll : public CScheme
 {
 protected:
 	int m_curScrFade;

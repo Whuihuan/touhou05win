@@ -67,7 +67,7 @@ protected:
 		pEnemy->velX=(float)cos(pEnemy->curAngle/256.0f*2*PI)*pEnemy->curSpeed;
 		pEnemy->velY=(float)sin(pEnemy->curAngle/256.0f*2*PI)*pEnemy->curSpeed;
 	}
-	__forceinline static bool MoveAndTestLeave(ENEMY *pEnemy)
+	/*__forceinline static bool MoveAndTestLeave(ENEMY *pEnemy)
 	{
 		pEnemy->lastX=pEnemy->curX;
 		pEnemy->lastY=pEnemy->curY;
@@ -77,8 +77,10 @@ protected:
 			return true;
 		if ((pEnemy->canLeave&0x10)&&(pEnemy->curY<=-16.0f*16.0f||pEnemy->curY>=384.0f*16.0f))
 			return true;
+		m_pStage->m_nBX36++;
 		return false;
-	}
+	}*/
+	bool MoveAndTestLeave(ENEMY *pEnemy);
 
 public:
 	void Initialize();

@@ -50,40 +50,47 @@ void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 	else
 		m_curPage=CGame::GVar().m_playDifficulty;
 
+	
+		m_bNewHighScore=false;
 	if (bViewMode==false)
 	{
 		int curScore=CGame::GVar().m_curScore;
 		m_opChara=CGame::GVar().m_playChara;
-		if (curScore<=CGame::GVar().m_highScore[m_opChara][m_curPage][4])
+		if(curScore>CGame::GVar().m_highScore[m_opChara][m_curPage][4])
+			m_bNewHighScore=true;
+		/*if (curScore<=CGame::GVar().m_highScore[m_opChara][m_curPage][4])
 		{
 			m_bQuit=true;
-			m_quitCode=HIGHSCORESCREEN_END_ENTER_SKIPPED;
+			m_quitCode=HIGHSCORESCREEN_END_ENTER_SKIPPED;//need to fixed, anytime shows highscore, but not able to input
 			m_curScrFade=0;
 			return;
-		}
-		m_opRank=4;
-		for (int i=4;i>=0;i--)
+		}*/
+		if(m_bNewHighScore==true)
 		{
-			if (curScore>CGame::GVar().m_highScore[m_opChara][m_curPage][i])
+			m_opRank=4;
+			for (int i=4;i>=0;i--)
 			{
-				if (i<4)
+				if (curScore>CGame::GVar().m_highScore[m_opChara][m_curPage][i])
 				{
-					CGame::GVar().m_highScore[m_opChara][m_curPage][i+1]=CGame::GVar().m_highScore[m_opChara][m_curPage][i];
-					memcpy(CGame::GVar().m_highScoreName[m_opChara][m_curPage][i+1],CGame::GVar().m_highScoreName[m_opChara][m_curPage][i],10);
-					CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i+1]=CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i];
+					if (i<4)
+					{
+						CGame::GVar().m_highScore[m_opChara][m_curPage][i+1]=CGame::GVar().m_highScore[m_opChara][m_curPage][i];
+						memcpy(CGame::GVar().m_highScoreName[m_opChara][m_curPage][i+1],CGame::GVar().m_highScoreName[m_opChara][m_curPage][i],10);
+						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i+1]=CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i];
+					}
+					m_opRank=i;
+					CGame::GVar().m_highScore[m_opChara][m_curPage][i]=curScore;
+					CGame::GVar().m_highScoreName[m_opChara][m_curPage][i][0]=0;
+					CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=CGame::GVar().m_playStage+1;
+					if (CGame::GVar().m_playStage==6)
+						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=1;
+					else
+						if (clearFlag)
+							CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=128;
 				}
-				m_opRank=i;
-				CGame::GVar().m_highScore[m_opChara][m_curPage][i]=curScore;
-				CGame::GVar().m_highScoreName[m_opChara][m_curPage][i][0]=0;
-				CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=CGame::GVar().m_playStage+1;
-				if (CGame::GVar().m_playStage==6)
-					CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=1;
 				else
-					if (clearFlag)
-						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=128;
-			}
-			else
-				break;
+					break;
+				}
 		}
 		m_curCursorPos=0;
 		m_curCharX=0;
@@ -137,7 +144,7 @@ int CHighScoreScreen::Step()
 
 	m_lastKeyState=m_curKeyState;
 	m_curKeyState=CCommonFunctionInput::GetAllKeyState();
-
+	
 	if (m_bViewMode)
 	{
 		if (CCommonFunctionInput::LeftPressed(m_curKeyState,m_lastKeyState)&&m_curPage>0)
@@ -148,6 +155,15 @@ int CHighScoreScreen::Step()
 		{
 			m_bQuit=true;
 			m_quitCode=HIGHSCORESCREEN_END_VIEW_END;
+		}
+		return 0;
+	}
+	else if (!m_bNewHighScore)//&&!m_ViewMode
+	{
+		if (CCommonFunctionInput::ESCPressed(m_curKeyState,m_lastKeyState) || CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
+		{
+			m_bQuit=true;
+			m_quitCode=HIGHSCORESCREEN_END_ENTER_END;	
 		}
 		return 0;
 	}
@@ -250,7 +266,7 @@ void CHighScoreScreen::DrawItem(int x,int y,unsigned char name[10],int score,uns
 	for (int i=0;i<9;i++,score/=10)
 		digit[8-i]=score%10;
 	int baseIdx=0;
-	if (bHighLight&&!m_bViewMode)
+	if (bHighLight&&!m_bViewMode&&m_bNewHighScore)
 		baseIdx=10;
 	for (int i=0;i<9;i++)
 	{
@@ -259,7 +275,7 @@ void CHighScoreScreen::DrawItem(int x,int y,unsigned char name[10],int score,uns
 	}
 
 	x+=152;
-	if (bHighLight||m_bViewMode)
+	if (bHighLight||m_bViewMode||m_bNewHighScore)
 		for (int i=0;i<3;i++)
 			c[i]=m_palette[7*3+i]/255.0f;
 	else
@@ -310,7 +326,7 @@ void CHighScoreScreen::Draw()
 		}
 	}
 
-	if (!m_bViewMode)
+	if (!m_bViewMode && m_bNewHighScore)
 	{
 		int x=184;
 		int y=336+40;

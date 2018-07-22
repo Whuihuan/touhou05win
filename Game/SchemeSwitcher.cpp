@@ -9,7 +9,7 @@
 #include "HighScoreScreen/HighScoreScreen.h"
 #include "MusicRoom/MusicRoom.h"
 #include "StaffRoll/StaffRoll.h"
-
+#include "PlayResultScreen/PlayResultScreen.h"
 
 #define SCHEME_DUMMY 0
 #define SCHEME_OPENING 1
@@ -68,6 +68,13 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 	{
 		if (curSchemeExitValue==TITLESCREEN_END_QUIT_GAME)
 		{
+#ifdef _DEBUG
+			CPlayResultScreen *pScheme = new CPlayResultScreen;
+			pScheme->Initialize(0,true);
+			*ppOutNextScheme = (CScheme*)pScheme;
+			*pOutNextSchemeID = SCHEME_RESULT;
+			return true;
+#endif
 			*ppOutNextScheme=NULL;
 			return true;
 		}
@@ -127,6 +134,28 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			return true;
 		}
 	}
+	
+	if (curSchemeID==SCHEME_RESULT)
+	{
+		if (curSchemeExitValue==PLAYRESULTSCREEN_END||PLAYRESULTSCREEN_SKIPPED)
+		{
+			CSelectReplayScreen *pScheme=new CSelectReplayScreen;
+			if (curSchemeExitValue==PLAYRESULTSCREEN_END)
+				pScheme->Initialize(false,false);
+			else
+				pScheme->Initialize(false,true);
+			*ppOutNextScheme=(CScheme*)pScheme;
+			*pOutNextSchemeID=SCHEME_SELECTREPLAYSCREEN;
+			return true;
+			
+			// CTitleScreen *pScheme=new CTitleScreen;
+			// pScheme->Initialize(false,0,true);
+			// *ppOutNextScheme=(CScheme*)pScheme;
+			// *pOutNextSchemeID=SCHEME_TITLESCREEN;
+			// return true;
+		}
+	}
+	
 	if (curSchemeID==SCHEME_SELECTREPLAYSCREEN)
 	{
 		if (curSchemeExitValue==SELECTREPLAYSCREEN_END_SELECTED_REPLAY)
@@ -195,9 +224,9 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 
 				CEnding *pScheme=new CEnding;
 				if (CGame::GVar().m_playStage==5)
-					pScheme->Initialize(CGame::GVar().m_nContinueUsed==0?1:0);
+					pScheme->Initialize(CGame::GVar().m_nContinueUsed==0?1:0);//nocoutinue:FFh, continue:FEh
 				else
-					pScheme->Initialize(2);
+					pScheme->Initialize(2);//FDh
 				CGame::GVar().OnClear();
 				CGame::GVar().SaveConfig();
 				*ppOutNextScheme=(CScheme*)pScheme;
@@ -267,14 +296,27 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 	{
 		if (curSchemeExitValue==HIGHSCORESCREEN_END_ENTER_END||curSchemeExitValue==HIGHSCORESCREEN_END_ENTER_SKIPPED)
 		{
-			CSelectReplayScreen *pScheme=new CSelectReplayScreen;
+			CPlayResultScreen *pScheme = new CPlayResultScreen;
+			bool musicini;
 			if (curSchemeExitValue==HIGHSCORESCREEN_END_ENTER_END)
-				pScheme->Initialize(false,false);
+				musicini=false;
 			else
-				pScheme->Initialize(false,true);
-			*ppOutNextScheme=(CScheme*)pScheme;
-			*pOutNextSchemeID=SCHEME_SELECTREPLAYSCREEN;
+				musicini=true;
+			
+			if (CGame::GVar().m_playStage==5)
+					pScheme->Initialize(musicini,CGame::GVar().m_nContinueUsed==0?1:2);//nocoutinue:FFh, continue:FEh
+			else if (CGame::GVar().m_playStage==6)
+					pScheme->Initialize(musicini,3);//nocoutinue:FFh, continue:FEh
+			else
+					pScheme->Initialize(musicini,0);//FDh
+				
+			*ppOutNextScheme = (CScheme*)pScheme;
+			*pOutNextSchemeID = SCHEME_RESULT;
 			return true;
+			// CSelectReplayScreen *pScheme=new CSelectReplayScreen;
+			// *ppOutNextScheme=(CScheme*)pScheme;
+			// *pOutNextSchemeID=SCHEME_SELECTREPLAYSCREEN;
+			// return true;
 		}
 		if (curSchemeExitValue==HIGHSCORESCREEN_END_VIEW_END)
 		{

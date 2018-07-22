@@ -4,6 +4,9 @@
 #include "../../gameLib/PMDPlayer/PMDPlayer.h"
 #include "../Game.h"
 #include "../../gameLib/CommonFunction/CommonFunctionMusicSE.h"
+#ifdef _TRIAL
+#include "../../gameLib/Graphic/PC98Font.h"
+#endif
 
 namespace th5w{
 

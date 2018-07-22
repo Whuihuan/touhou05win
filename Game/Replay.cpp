@@ -118,7 +118,11 @@ bool CReplay::SaveFile(const char *fileName)
 	FAIL_CLOSE_RETURN(fwrite(m_stageScore,4,7,fp)!=7)
 
 	FAIL_CLOSE_RETURN(fwrite(m_randSeed,4,7,fp)!=7)
+#ifdef _TRIAL
+	for (int i=0;i<3;i++)
+#else
 	for (int i=0;i<7;i++)
+#endif
 		if (m_stageFlag[i]!=0)
 		{
 			int nkey=(int)m_keyState[i].size();
@@ -169,7 +173,12 @@ bool CReplay::LoadFile(const char *fileName)
 	FAIL_CLOSE_RETURN(fread(m_stageScore,4,7,fp)!=7)
 
 	FAIL_CLOSE_RETURN(fread(m_randSeed,4,7,fp)!=7)
+
+#ifdef _TRIAL
+	for (int i=0;i<3;i++)
+#else
 	for (int i=0;i<7;i++)
+#endif
 		if (m_stageFlag[i]!=0)
 		{
 			int nkey;

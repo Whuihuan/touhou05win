@@ -209,6 +209,8 @@ void CChara::CaughtItem(float itemX,float itemY,unsigned char itemType)
 					int deltaDream=6-((int)itemY)/1024;
 					m_pStage->SetDream(m_pStage->GetDream()+deltaDream);
 				}
+				//word_2264C++;//[bx+34h]
+				m_pStage->m_nBX34++;
 				popupNumberColor=1;
 			}
 			else
@@ -216,6 +218,8 @@ void CChara::CaughtItem(float itemX,float itemY,unsigned char itemType)
 			score=maxScore;
 			m_getPointItemPerformance++;
 			m_pStage->m_totalNPointItem++;
+			//inc	word_2264A//[bx+32h]
+			m_pStage->m_nBX32++;
 			if (m_pStage->m_curNPointItem<999)
 				m_pStage->m_curNPointItem++;
 			
@@ -297,6 +301,9 @@ void CChara::CaughtItem(float itemX,float itemY,unsigned char itemType)
 		m_getPointItemPerformance-=32;
 		m_pStage->ChangePlayerPerformance(1);
 	}
+	m_pStage->m_nBX30++;
+	//inc	word_22646//[bx+30h]
+	
 }
 
 void CChara::Step()

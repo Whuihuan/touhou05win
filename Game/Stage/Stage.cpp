@@ -107,6 +107,16 @@ void CStage::UploadVarToGlobal()
 	CGame::GVar().m_playerPerformance=m_playerPerformance;
 	CGame::GVar().m_nContinueUsed=m_nContinueUsed;
 	CGame::GVar().m_curPower=m_pChara->GetPower();
+	CGame::GVar().m_nBX2C=m_nBX2C;
+	CGame::GVar().m_nBX2E=m_nBX2E;
+	CGame::GVar().m_nBX30=m_nBX30;
+	CGame::GVar().m_nBX32=m_nBX32;
+	CGame::GVar().m_nBX34=m_nBX34;
+	CGame::GVar().m_nBX36=m_nBX36;//need to find one more reference
+	CGame::GVar().m_nBX38=m_nBX38;
+	CGame::GVar().m_nBX3C=m_nBX3C;
+	CGame::GVar().m_nBX40=m_nBX40;
+	
 }
 
 void CStage::DownloadVarFromGlobal()
@@ -114,9 +124,6 @@ void CStage::DownloadVarFromGlobal()
 	//make sure that after creation of CStage, no rand() calls before this statement,
 	//otherwise, replays may work incorrectly!
 	srand(CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
-#if _DEBUG
-	printf("Rand Seed:%d\n", CGame::GVar().m_randomSeed[CGame::GVar().m_playStage]);
-#endif // _DEBUG
 	m_nCurLife=CGame::GVar().m_nCurLife;
 	m_nCurBomb=CGame::GVar().m_nCurBomb;
 	m_powerOverflowLevel=CGame::GVar().m_powerOverflowLevel;
@@ -146,7 +153,16 @@ void CStage::DownloadVarFromGlobal()
 		m_nLifeOnContinue=3;
 		m_nBombOnMiss=3;
 	}
-
+	m_nBX2C=CGame::GVar().m_nBX2C;
+	m_nBX2E=CGame::GVar().m_nBX2E;
+	m_nBX30=CGame::GVar().m_nBX30;
+	m_nBX32=CGame::GVar().m_nBX32;
+	m_nBX34=CGame::GVar().m_nBX34;
+	m_nBX36=CGame::GVar().m_nBX36;
+	m_nBX38=CGame::GVar().m_nBX38;
+	m_nBX3C=CGame::GVar().m_nBX3C;
+	m_nBX40=CGame::GVar().m_nBX40;
+	
 	//curPower is given to m_pChara in InitChara
 }
 
@@ -187,8 +203,6 @@ void CStage::InitChara()
 	m_pChara->m_charaShootTimer=0;
 	m_pChara->m_power=CGame::GVar().m_curPower;		//assign twice to avoid floating text "FullPower"
 	m_pChara->SetPower(CGame::GVar().m_curPower);
-//	m_pChara->m_power=128;					//TODO: remove these two lines which are only for test use
-//	m_pChara->SetPower(128);
 	m_pChara->m_getPointItemPerformance=0;
 }
 
@@ -210,7 +224,7 @@ void CStage::Initialize()
 
 	m_curFrame=-1;					//assign -1 so that when Step() is called the first time,
 									//its first statement, which is m_curFrame++ will make it 0
-
+	starttime = time(NULL);
 	m_bInCharaBomb=false;
 	m_bInCharaBombForItem=false;
 	m_bInBossBattle=false;
@@ -254,7 +268,6 @@ void CStage::Initialize()
 	//CPMDPlayer::Pause();
 
 	CGame::s_pCurGame->m_fpsLimit=56;
-
 	m_lastGameKeyState=0;
 	m_curGameKeyState=0;
 }
@@ -370,6 +383,12 @@ int CStage::Step()
 {
 	CGame::s_pCurGame->m_fpsLimit=56;
 	CGame::s_pCurGame->SetVSYNC(true);
+#ifdef _DEBUG
+	//CGame::s_pCurGame->SetVSYNC(false);
+#endif
+#ifdef _TRIAL
+	CGame::s_pCurGame->SetVSYNC(false);
+#endif
 	if (m_bQuit)
 	{
 		if (m_nQuitFrameLeft>0)
@@ -946,9 +965,11 @@ void CStage::DrawStatistics()
 		m_pMidBoss->DrawStatistics();
 	if (m_pBoss)
 		m_pBoss->DrawStatistics();
-
 	//draw fps
-	char str[20];
+	char str[80];
+	sprintf(str, "%d  %d ", time(NULL) - starttime, m_curFrame);
+	CPC98Font::DrawString(str, 80, 0, 460, 1, 1, 1);
+
 	if (CGame::s_pCurGame->m_fps>100)
         sprintf(str,"FPS:%.1lf",CGame::s_pCurGame->m_fps);
 	else
@@ -1022,19 +1043,3 @@ int CStage::GetDamageFromChara(float ctrX,float ctrY,float halfWidth,float halfH
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

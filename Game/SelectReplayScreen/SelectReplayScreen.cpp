@@ -13,7 +13,10 @@
 
 namespace th5w{
 
-	unsigned char charTable[3][17];
+	unsigned char charTable[3][17] = {{0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba},
+						   {0xbb, 0xbc, 0xbd, 0xbe, 0xbf, 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd0, 0xc9, 0xc6, 0xc7, 0xc8, 0xcc},
+							{0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0x70, 0x71, 0x72, 0xce, 0xcf, 0xcd, 0xd5}};
+	;
 CSelectReplayScreen::CSelectReplayScreen(void)
 {
 	m_pBGImage=NULL;
@@ -35,7 +38,7 @@ void CSelectReplayScreen::Initialize(bool bLoadMode,bool bSwitchMusic)
 								 CGame::GVar().m_replaySubDir);
 	if (::PathFileExists(subdir)==FALSE)
 		::CreateDirectory(subdir,NULL);
-
+	
 	m_curFrame=0;
 	m_lastKeyState=0;
 	m_curKeyState=0;
@@ -59,8 +62,8 @@ void CSelectReplayScreen::Initialize(bool bLoadMode,bool bSwitchMusic)
 	}
 
 	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,NULL,&CGame::s_pCurGame->m_th5Dat1,"MS.PI");
-	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"ZUN01.BFT",0);
-	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"ZUN02.BFT",0);
+	//CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"ZUN01.BFT",0);
+	//CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_shineArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"ZUN02.BFT",0);
 
 	if (bSwitchMusic)
 	{
@@ -147,7 +150,44 @@ void CSelectReplayScreen::StepEnterNameMode()
 			m_curEnterName[m_nameCursorPos]=charTable[m_curCharY][m_curCharX];
 			if (m_nameCursorPos<7)
 				m_nameCursorPos++;
-		}
+		}		
+/*		switch(m_curCharY*17+m_curCharX)
+		{
+			case 47:
+				if (m_curCursorPos>0)
+					m_curCursorPos--;
+				break;
+			case 48:
+				if (m_curCursorPos<7)
+					m_curCursorPos++;
+				break;
+			case 49:
+				m_curEnterName[m_curCursorPos]=0x02;
+				if (m_curCursorPos<7)
+					m_curCursorPos++;
+				break;
+			case 50:
+				memcpy(CGame::GVar().m_replay.m_playerName,m_curEnterName,8);
+				//int fileIdx_temp = ;
+				char repFileName[1000];
+				sprintf(repFileName,"%s%s\\replay%02d.rpy",CGame::GVar().m_workingPath,
+													   CGame::GVar().m_replaySubDir,
+													  m_curPage * m_nFilePerPage + m_selectedSlot);
+				CGame::GVar().m_replay.SaveFile(repFileName);
+				memcpy(CGame::GVar().m_defaultReplayName,m_curEnterName,8);
+				CGame::GVar().SaveConfig();
+				m_bEnterNameMode=false;
+
+				CGame::s_pCurGame->m_soundEffect.PlaySound(14);
+				m_bCurPageRepFileExist[m_selectedSlot]=CReplay::GetRepFileInfo(&m_repInfo[m_selectedSlot],repFileName);
+				break;
+			default:
+				m_curEnterName[m_curCursorPos]=charTable[m_curCharY][m_curCharX];
+				if (m_curCursorPos<7)
+					m_curCursorPos++;
+				break;
+		}*/
+		
 	}
 	if (CCommonFunctionInput::XPressed(m_curKeyState,m_lastKeyState))
 	{
@@ -164,8 +204,9 @@ void CSelectReplayScreen::StepEnterNameMode()
 }
 
 int CSelectReplayScreen::Step()
-{
+{	
 	m_curFrame++;
+	printf("%d",m_curFrame);
 	if(m_bStageSelect)
 	{
 	if (abs(m_curRowY - (m_listUpperLeftY + 4) * 16)>8)
@@ -298,7 +339,7 @@ int CSelectReplayScreen::Step()
 			m_curCharY=0;
 			m_selectedSlot=m_curCursorPos;
 			m_curRowY=(m_listUpperLeftY+4+m_selectedSlot)*16;
-			memcpy(m_curEnterName,CGame::GVar().m_defaultReplayName,10);
+			memcpy(m_curEnterName,CGame::GVar().m_defaultReplayName,8);
 			m_nameCursorPos=(int)strlen(m_curEnterName);
 			if (m_nameCursorPos>7)
 				m_nameCursorPos=7;
@@ -314,34 +355,15 @@ void CSelectReplayScreen::DrawEnterNameMode()
 	int x=m_listUpperLeftX*8;
 	int y=m_curRowY;
 	char strBuf[100];
-	for (int i = 0; i<17; i++)
-		charTable[0][i] = 0xaa + i;
-	for (int i = 0; i<11; i++)
-		charTable[1][i] = 0xbb + i;
-	charTable[1][11] = 0xd0;
-	charTable[1][12] = 0xc9;
-	charTable[1][13] = 0xc6;
-	charTable[1][14] = 0xc7;
-	charTable[1][15] = 0xc8;
-	charTable[1][16] = 0xcc;
-	for (int i = 0; i<10; i++)
-		charTable[2][i] = 0xa0 + i;
-	charTable[2][10] = 0x70;
-	charTable[2][11] = 0x71;
-	charTable[2][12] = 0x72;
-	charTable[2][13] = 0xce;
-	charTable[2][14] = 0xcf;
-	charTable[2][15] = 0xcd;
-	charTable[2][16] = 0xd5;
-	
+		
 	float color[]={1.0f,1.0f,1.0f};
 	float sc[]={0.2f,0.2f,0.2f};
 	float salpha=0.5f;
 	int soffx=2,soffy=2;
 
 	unsigned char numberText[] = { gb_N_,gb_O_,gb_PERIOD,gb_0_, gb_0_, 0 };
-	numberText[3] += (m_curPage * m_nFilePerPage + m_selectedSlot) / 10;
-	numberText[4] += (m_curPage * m_nFilePerPage + m_selectedSlot) % 10;
+	numberText[3] += (m_curPage * m_nFilePerPage + m_selectedSlot+1) / 10;
+	numberText[4] += (m_curPage * m_nFilePerPage + m_selectedSlot+1) % 10;
 	CTh5ExtFont::DrawExtString(numberText, 100, x, y, color[0], color[1], color[2]);
 	x += 6 * 16;
 
@@ -360,7 +382,7 @@ void CSelectReplayScreen::DrawEnterNameMode()
 		dateText[1] += (ptm->tm_mon + 1) % 10;
 		dateText[3] += (ptm->tm_mday) / 10;
 		dateText[4] += (ptm->tm_mday) % 10;
-		sprintf(strBuf, "/");//this will be changed to fullwidth /
+		sprintf(strBuf, "Å^");//this will be changed to fullwidth /
 		CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
 		CPC98Font::DrawString(strBuf, 100, x + 32, y, color[0], color[1], color[2]);
 		x += 6 * 16;
@@ -450,8 +472,8 @@ void CSelectReplayScreen::Draw()
 				color[0] = color[1] = color[2] = 1.0f;
 			}
 			unsigned char numberText[] = { gb_N_,gb_O_,gb_PERIOD,gb_0_, gb_0_, 0 };
-			numberText[3] += (m_curPage * m_nFilePerPage + i) / 10;
-			numberText[4] += (m_curPage * m_nFilePerPage + i) % 10;
+			numberText[3] += (m_curPage * m_nFilePerPage + i+1) / 10;
+			numberText[4] += (m_curPage * m_nFilePerPage + i+1) % 10;
 			CTh5ExtFont::DrawExtString(numberText, 100, x, y, color[0], color[1], color[2]);
 			x += 6 * 16;
 
@@ -463,29 +485,9 @@ void CSelectReplayScreen::Draw()
 											2,2,gb_BULLET ,gb_BULLET ,2,gb_BULLET, gb_BULLET ,
 											2,gb_BULLET,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,
 											2,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET ,gb_BULLET,0 };
-				/*char errorInfo[][100] = { "-------- -------------- ------ -------",
-									   "          Invalid replay file          ",
-									   "    Replay under other game version    ",
-									   "      Replay under other mod file      ",
-				};
-				switch (m_repInfo[i].infoRes)
-				{
-				case InfoRes_FileNotExist:
-					outInfo = errorInfo[0];
-					break;
-				case InfoRes_InvalidReplay:
-					outInfo = errorInfo[1];
-					break;
-				case InfoRes_GameVersionMismatch:
-					outInfo = errorInfo[2];
-					break;
-				case InfoRes_ModFileMisMatch:
-					outInfo = errorInfo[3];
-					break;
-				}
-				CPC98Font::DrawString(outInfo, 100, x, y, color[0], color[1], color[2]);*/
+				
+				sprintf(strBuf,"Å^");//this will be changed to fullwidth /
 				CTh5ExtFont::DrawExtString(errorInfo, 100, x, y, color[0], color[1], color[2]);
-				sprintf(strBuf, "/");//this will be changed to fullwidth /
 				CPC98Font::DrawString(strBuf, 100, x + 192, y, color[0], color[1], color[2]);
 			}
 			else
@@ -495,7 +497,7 @@ void CSelectReplayScreen::Draw()
 				playerName[8] = 0;
 				CTh5ExtFont::DrawExtString(playerName, 100, x, y, color[0], color[1], color[2]);
 				x += 10 * 16;
-
+				
 				{
 					time_t tt = (time_t)m_repInfo[i].saveTime;
 					tm *ptm = localtime(&tt);
@@ -504,21 +506,25 @@ void CSelectReplayScreen::Draw()
 					dateText[1] += (ptm->tm_mon + 1) % 10;
 					dateText[3] += (ptm->tm_mday) / 10;
 					dateText[4] += (ptm->tm_mday) % 10;
-					sprintf(strBuf, "/");//this will be changed to fullwidth /
+					sprintf(strBuf, "Å^");//this will be changed to fullwidth /
+		
 					CTh5ExtFont::DrawExtString(dateText, 100, x, y, color[0], color[1], color[2]);
 					CPC98Font::DrawString(strBuf, 100, x+32, y, color[0], color[1], color[2]);
 					x += 6 * 16;
 				}
+				
 				{
 					unsigned char charaName[][10] = { {gb_R_,gb_E_,gb_I_,gb_M_,gb_U_,0},{gb_M_,gb_A_,gb_R_,gb_I_,gb_S_,gb_A_,0},{ gb_M_,gb_I_,gb_M_,gb_A_,0},{ gb_Y_,gb_U_,gb_K_,gb_A_,0 } };
 					CTh5ExtFont::DrawExtString(charaName[m_repInfo[i].playChara], 100, x, y, color[0], color[1], color[2]);
 					x += 7 * 16;
 				}
+#ifndef _TRIAL
 				{
 					unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0}, { gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0}, { gb_H_, gb_A_, gb_R_, gb_D_,0}, { gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0}, { gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0} };
 					CTh5ExtFont::DrawExtString(difficultyName[m_repInfo[i].playDifficulty], 100, x, y, color[0], color[1], color[2]);
 					x += 8 * 16;
 				}
+#endif
 
 
 			}
@@ -530,11 +536,13 @@ void CSelectReplayScreen::Draw()
 		char ss[7][20];
 		int x = (m_listUpperLeftX) * 8;
 		int y = m_curRowY;
+		
 		unsigned char numberText[] = { gb_N_,gb_O_,gb_PERIOD,gb_0_, gb_0_, 0 };
-		numberText[3] += (m_curPage * m_nFilePerPage + m_curCursorPos) / 10;
-		numberText[4] += (m_curPage * m_nFilePerPage + m_curCursorPos) % 10;
+		numberText[3] += (m_curPage * m_nFilePerPage + m_curCursorPos+1) / 10;
+		numberText[4] += (m_curPage * m_nFilePerPage + m_curCursorPos+1) % 10;
 		CTh5ExtFont::DrawExtString(numberText, 100, x, y, 1, 1, 1);
 		x += 6 * 16;
+		
 		unsigned char playerName[9] = { 0,0,0,0,0,0,0,0 };
 		memcpy(playerName, m_repInfo[m_curCursorPos].playerName, 8);
 		playerName[8] = 0;
@@ -543,12 +551,14 @@ void CSelectReplayScreen::Draw()
 
 		time_t tt = (time_t)m_repInfo[m_curCursorPos].saveTime;
 		tm *ptm = localtime(&tt);
-		unsigned char dateText[] = { gb_0_, gb_0_,gb_BULLET, gb_0_, gb_0_ ,0 };
+		unsigned char dateText[] = { gb_0_, gb_0_,2, gb_0_, gb_0_ ,0 };
 		dateText[0] += (ptm->tm_mon + 1) / 10;
 		dateText[1] += (ptm->tm_mon + 1) % 10;
 		dateText[3] += (ptm->tm_mday) / 10;
 		dateText[4] += (ptm->tm_mday) % 10;
+		sprintf(str, "Å^");//this will be changed to fullwidth /
 		CTh5ExtFont::DrawExtString(dateText, 100, x, y, 1, 1, 1);
+		CPC98Font::DrawString(str, 100, x + 32, y, 1, 1, 1);
 		x += 6 * 16;
 
 		unsigned char charaName[][10] = { { gb_R_,gb_E_,gb_I_,gb_M_,gb_U_,0 },{ gb_M_,gb_A_,gb_R_,gb_I_,gb_S_,gb_A_,0 },{ gb_M_,gb_I_,gb_M_,gb_A_,0 },{ gb_Y_,gb_U_,gb_K_,gb_A_,0 } };
@@ -561,7 +571,6 @@ void CSelectReplayScreen::Draw()
 		for (int i = 0; i < 7; i++)
 		{
 			x = (m_listUpperLeftX + 1) * 8;
-			//y = (m_listUpperLeftY + 5 + i) * 16;
 			y = m_curRowY + (3 + i) * 16;
 			if (m_repInfo[m_curCursorPos].stageFlag[i] != 0)
 				sprintf(ss[i], "%08d0", m_repInfo[m_curCursorPos].stageScore[i]);
@@ -572,7 +581,7 @@ void CSelectReplayScreen::Draw()
 				sprintf(str, "STAGE EXTRA  %s", ss[i]);
 			else
 				sprintf(str, "STAGE %d      %s", i + 1, ss[i]);
-			if (y <= (m_listUpperLeftY + 13) * 16)
+			if (m_curRowY == (m_listUpperLeftY + 4) * 16)
 			{
 				if (m_curCursorColPos == i)
 					CPC98Font::DrawString(str, 100, x, y, 1, 1, 1);
@@ -588,27 +597,6 @@ void CSelectReplayScreen::Draw()
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

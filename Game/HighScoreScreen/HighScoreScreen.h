@@ -15,6 +15,7 @@ protected:
 
 protected:
 	bool m_bViewMode;
+	bool m_bNewHighScore;
 	int m_curFrame;
 	unsigned short m_lastKeyState,m_curKeyState;
 

@@ -863,7 +863,7 @@ void CBossStage6::Step()
 	m_pStage->m_homingEnemyY=m_curY;
 	StepExplodeEffect();
 
-	switch(m_curPhase)
+	switch(m_curPhase)//bx+0Ch?
 	{
 	case 0:
 		Phase0();

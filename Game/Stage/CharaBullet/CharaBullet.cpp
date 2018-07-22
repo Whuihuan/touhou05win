@@ -240,27 +240,3 @@ int CCharaBullet::GetDamage(float ctrX,float ctrY,float halfWidth,float halfHeig
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

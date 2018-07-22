@@ -61,26 +61,26 @@ public:
 	//determined by user choice in main menu
 	//make sure to set these values before call OnBeginGame
 //this one must be set
-	int m_playStage;
+	int m_playStage;//13h
 //either initialize this set of variables
-	bool m_bReplayMode;
-	CReplay m_replay;
-	bool m_bDemoMode;
+	bool m_bReplayMode;//not in pc98
+	CReplay m_replay;//not in pc98
+	bool m_bDemoMode;//
 //or this set
-	bool m_bPracticeMode;
-	int m_playDifficulty;
-	int m_playChara;
+	bool m_bPracticeMode;//not in pc98
+	int m_playDifficulty;//11h
+	int m_playChara;//12h?
 	bool m_bplayCollisionArea;
 
 //these variables are initialized by OnBeginGame
 
 	//changeable during game
-	int m_nCurLife;
+	int m_nCurLife;//
 	int m_nCurBomb;
 	int m_curPower;
 	int m_powerOverflowLevel;
 	int m_curDream;
-	int m_curScore;
+	int m_curScore;//00h-03h
 	int m_totalNPointItem;
 	int m_curNGraze;
 	int m_playerPerformance;
@@ -93,12 +93,23 @@ public:
 	int m_grazeBonus;
 	int m_playerPerformanceLowerBound;
 	int m_playerPerformanceUpperBound;
-	int m_nLifeOnContinue;
-	int m_nBombOnMiss;
+	int m_nLifeOnContinue;//0Dh?
+	int m_nBombOnMiss;//0Eh?
 	int m_randomSeed[7];
 
 	bool m_bCanSaveReplay;
 
+	
+	int m_nBX2C;
+	int m_nBX2E;
+	int m_nBX30;
+	int m_nBX32;
+	int m_nBX34;
+	int m_nBX36;
+	int m_nBX38;
+	int m_nBX3C;
+	int m_nBX40;
+	
 //environment
 	char m_workingPath[1000];
 	char m_replaySubDir[100];

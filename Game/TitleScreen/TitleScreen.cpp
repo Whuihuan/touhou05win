@@ -120,7 +120,10 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 	m_optionMenuCursorPosition=0;
 	for (int i=0;i<m_optionMenuNItem;i++)
 		m_bOptionMenuItemEnabled[i]=true;
-
+#ifdef _TRIAL
+	m_bOptionMenuItemEnabled[4] = false;
+	m_bOptionMenuItemEnabled[5] = false;
+#endif
 	unsigned char pc[]={64,64,64};
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pMenuImgPractice,pc,"practice.bmp");
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pMenuImgReplay,pc,"replay.bmp");
@@ -573,16 +576,23 @@ void CTitleScreen::ParseKeyEvent()
 						break;
 					case 3:
 						CCommonFunctionMusicSE::Pause();
-						//ChangeValue(&CGame::GVar().m_initMusic, 1,0,3);
+#ifdef _TRIAL
 						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
+#else
+						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 3);
+#endif
 						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
 						CCommonFunctionMusicSE::Play();
 						break;
 					case 4:
+#ifndef _TRIAL
 						ChangeValue(&CGame::GVar().m_initSe, 1, 0, 2);
+#endif
 						break;
 					case 5:
+#ifndef _TRIAL
 						ChangeValue(&CGame::GVar().m_initInput, 1, 0, 1);
+#endif
 						break;
 					case 6:
 						CGame::GVar().m_initDifficulty = 1;

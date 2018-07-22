@@ -164,6 +164,7 @@
     <ClCompile Include="Game\Musicroom\MusicRoom.cpp" />
     <ClCompile Include="Game\Op\Opening.cpp" />
     <ClCompile Include="Game\Op\OpParticle.cpp" />
+    <ClCompile Include="Game\PlayResultScreen\PlayResultScreen.cpp" />
     <ClCompile Include="Game\Replay.cpp" />
     <ClCompile Include="Game\Scheme.cpp" />
     <ClCompile Include="Game\SchemeSwitcher.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="Game\Musicroom\MusicRoom.h" />
     <ClInclude Include="Game\Op\Opening.h" />
     <ClInclude Include="Game\Op\OpParticle.h" />
+    <ClInclude Include="Game\PlayResultScreen\PlayResultScreen.h" />
     <ClInclude Include="Game\Replay.h" />
     <ClInclude Include="Game\Scheme.h" />
     <ClInclude Include="Game\SchemeSwitcher.h" />

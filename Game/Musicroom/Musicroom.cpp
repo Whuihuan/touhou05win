@@ -263,8 +263,10 @@ namespace th5w {
 			if (m_curPage == 4 && m_curCursorPos > 6 && m_curCursorPos != music_count[m_curPage])
 				m_curCursorPos=6;
 			else if (m_curPage != 4 && m_curCursorPos > 0 && m_curCursorPos != music_count[m_curPage])
-				m_curCursorPos=0;
-			m_curListTop = 0;
+			{
+				m_curCursorPos = 0;
+				m_curListTop = 0;
+			}
 
 #endif
 			if (m_curListTop > m_curCursorPos)

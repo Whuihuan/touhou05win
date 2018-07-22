@@ -172,7 +172,11 @@ bool CGameWindow::Create(bool bCreateFullScr,int width, int height)
 	// Create The Window
 	if (!(m_hWnd=CreateWindowEx(dwExStyle,							// Extended Style For The Window
 								_T("MyGameWindowClass"),			// Class Name
-								_T("“Œ•û‰öãY’k@?@Mystic Square"),							// Window Title
+#ifdef _TRIAL
+								_T("“Œ•û‰öãY’k@`@Mystic Square ver 0.01"),	// Window Title
+#else
+								_T("“Œ•û‰öãY’k@`@Mystic Square ver 1.00"),	// Window Title
+#endif
 								dwStyle |							// Defined Window Style
 								WS_CLIPSIBLINGS |					// Required Window Style
 								WS_CLIPCHILDREN,					// Required Window Style

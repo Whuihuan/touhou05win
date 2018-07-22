@@ -57,7 +57,7 @@ void CCommonFunctionSystem::CreateConsoleWindow()
 	// Uncomment the next line if you are using c++ cio or comment if you don't
 	SetStdHandle(STD_OUTPUT_HANDLE, g_hConsoleOut);*/
 	SetConsoleTitle(_T("Console"));
-	printf("test");
+	//printf("test");
 }
 
 bool CCommonFunctionSystem::GetFileMD5(unsigned char *retMD5,const char *fileName)

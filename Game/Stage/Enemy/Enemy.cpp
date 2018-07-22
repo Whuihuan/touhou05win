@@ -109,6 +109,11 @@ void CEnemy::EnemyDie(ENEMY *pEnemy)
 	m_pStage->m_bPlaySound[3]=true;
 	m_pStage->AddScore(pEnemy->score);
 	m_pStage->m_pSparkEffect->AddEffect(pEnemy->curX,pEnemy->curY,64,7,false);
+	//inc	word_221C2//[bx+36h]
+	//inc	word_221C4//[bx+38h]
+	m_pStage->m_nBX36++;
+	m_pStage->m_nBX38++;
+	
 }
 
 void CEnemy::StepEnemyTable()
@@ -513,12 +518,30 @@ void CEnemy::StepEnemyScript(ENEMY *pEnemy)
 #undef TEST_LOOP
 #undef VANISH_AND_RETURN
 }
+bool CEnemy::MoveAndTestLeave(ENEMY *pEnemy)
+{
+		pEnemy->lastX=pEnemy->curX;
+		pEnemy->lastY=pEnemy->curY;
+		pEnemy->curX+=pEnemy->velX;
+		pEnemy->curY+=pEnemy->velY;
+		if ((pEnemy->canLeave&1)&&(pEnemy->curX<=-16.0f*16.0f||pEnemy->curX>=400.0f*16.0f))
+		{	
+			m_pStage->m_nBX36++;
+			return true;
+		}
+		if ((pEnemy->canLeave&0x10)&&(pEnemy->curY<=-16.0f*16.0f||pEnemy->curY>=384.0f*16.0f))
+		{	
+			m_pStage->m_nBX36++;
+			return true;
+		}
+		return false;
+}
 
 void CEnemy::Step()
 {
 	m_pStage->m_bHomingEnemyExist=false;
 	int nAliveEnemy=0;
-	//printf("%d\n",m_pStage->m_curFrame);
+	//printf("%d",m_pStage->m_curFrame);
 	for (int i=0;i<ENEMY_N_RECORD;i++)
 	{
 		m_enemy[i].hitThisFrame=false;
@@ -550,7 +573,9 @@ void CEnemy::Step()
 			}
 		if (m_enemy[i].bTakeDamage)
 			if (m_enemy[i].life!=0xffff)			//life of 0xffff for not targetable and invulnerable
+			{
 				if (m_enemy[i].curX>=-16.0f*16.0f&&m_enemy[i].curX<=400.0f*16.0f)
+				{	
 					if (m_enemy[i].curY>=-16.0f*16.0f&&m_enemy[i].curY<=384.0f*16.0f)
 					{
 						nAliveEnemy++;
@@ -580,6 +605,8 @@ void CEnemy::Step()
 							}
 						}
 					}
+				}
+			}
 		if (m_enemy[i].bAutoShoot)
 		{
 			m_enemy[i].autoShootTimer++;
@@ -641,22 +668,3 @@ void CEnemy::Draw()
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

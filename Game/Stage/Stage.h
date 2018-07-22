@@ -9,6 +9,7 @@
 #include "../../gameLib/th5DatFile/std/STDFile.h"
 #include "StageResource.h"
 
+#include <time.h>
 #include <math.h>
 
 #ifdef PI
@@ -164,7 +165,17 @@ protected:
 	//local var
 	int m_nMiss;
 	int m_nBomb;
-
+	
+	int m_nBX2C;
+	int m_nBX2E;
+	int m_nBX30;
+	int m_nBX32;
+	int m_nBX34;
+	int m_nBX36;
+	int m_nBX38;
+	int m_nBX3C;
+	int m_nBX40;
+	
 protected:
 	int m_drawScore;
 	int m_drawScoreDelta;
@@ -172,7 +183,7 @@ protected:
 
 protected:
 	int m_curFrame;
-
+	time_t starttime;
 public:
 	__forceinline int GetCurFrameCount(){return m_curFrame;}
 

@@ -48,7 +48,7 @@ public:
 	int m_stageScore[7];
 	int m_randSeed[7];
 	vector<unsigned short> m_keyState[7];
-
+	vector<unsigned char> m_keyDemoState;
 protected:
 	int m_opIdx;
 	int m_opStage;

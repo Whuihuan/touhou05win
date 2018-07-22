@@ -151,6 +151,9 @@
     <Filter Include="Source Files\Game\Scheme\StaffRoll">
       <UniqueIdentifier>{ad56f8dc-5131-42f6-807f-fbcd389ce3ad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game\Scheme\PlayResultScreen">
+      <UniqueIdentifier>{ff758db7-f418-456f-a010-86d884e363f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -402,6 +405,9 @@
     <ClCompile Include="Game\StaffRoll\StaffRoll.cpp">
       <Filter>Source Files\Game\Scheme\StaffRoll</Filter>
     </ClCompile>
+    <ClCompile Include="Game\PlayResultScreen\PlayResultScreen.cpp">
+      <Filter>Source Files\Game\Scheme\PlayResultScreen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Game.h">
@@ -652,6 +658,9 @@
     </ClInclude>
     <ClInclude Include="Game\StaffRoll\StaffRoll.h">
       <Filter>Source Files\Game\Scheme\StaffRoll</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\PlayResultScreen\PlayResultScreen.h">
+      <Filter>Source Files\Game\Scheme\PlayResultScreen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
