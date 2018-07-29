@@ -121,11 +121,3 @@ void CBackground::Draw()
 }
 
 
-
-
-
-
-
-
-
-

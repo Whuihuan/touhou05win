@@ -1,5 +1,6 @@
 #include ".\pmdplayer.h"
 #include "..\..\include\PMDWin\PMDWinImort.h"
+#include <stdio.h>
 #pragma comment(lib,"lib/PMDWin.lib")
 
 namespace th5w{
@@ -166,9 +167,11 @@ bool CPMDPlayer::LoadPMDData(unsigned char *musicData,int size)
 	DWORD writeBufSize;
 	if (s_pDSoundBuffer8->Lock(0,0,&pWriteBuf,&writeBufSize,NULL,NULL,DSBLOCK_ENTIREBUFFER)!=DS_OK)
 		return false;
-
-	getpcmdata((short *)pWriteBuf,(BUFFER_SEG_LENGTH/4)*s_bufNSeg);
 	
+	
+	getpcmdata((short *)pWriteBuf,(BUFFER_SEG_LENGTH/4)*s_bufNSeg);
+	qqtag *temp = getpartwork(1);
+	printf("%d", temp->step);
 	s_pDSoundBuffer8->Unlock(pWriteBuf,writeBufSize,NULL,0);
 
 	s_hPlayThread=CreateThread(NULL,0,PlayThread,NULL,0,&s_playThreadID);
@@ -244,12 +247,16 @@ bool CPMDPlayer::FillSoftwareBuffer(int nSample)
 		int part0Sample=(s_localBufferLength-s_localBufferWriteHead)/4;
 		int part1Sample=nSample-part0Sample;
 		getpcmdata((short*)(s_localBuffer+s_localBufferWriteHead),part0Sample);
+		qqtag *temp = getpartwork(1);
 		getpcmdata((short*)(s_localBuffer),part1Sample);
+		temp = getpartwork(1);
+
 		s_localBufferWriteHead=part1Sample*4;
 	}
 	else
 	{
 		getpcmdata((short*)(s_localBuffer+s_localBufferWriteHead),nSample);
+		qqtag *temp = getpartwork(1);
 		s_localBufferWriteHead+=nSample*4;
 		s_localBufferWriteHead%=s_localBufferLength;
 	}
@@ -380,24 +387,5 @@ void CPMDPlayer::OnActivate()
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

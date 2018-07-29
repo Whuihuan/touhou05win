@@ -9,12 +9,14 @@
 #define TITLESCREEN_END_CHOOSE_REPLAY 4
 #define TITLESCREEN_END_VIEW_HIGHSCORE 5
 #define TITLESCREEN_END_CHOOSE_MUSICROOM 6
+#define TITLESCREEN_END_DEMO_PLAY 7
 namespace th5w{
 
 class CTitleScreen : public CScheme
 {
 protected:
 	int m_curFrame;
+	int m_noInputTimer;
 
 	C2DImage *m_pMenuImgPractice;
 	C2DImage *m_pMenuImgReplay;
@@ -28,6 +30,7 @@ protected:
 	CTitleRollingTama m_tama;
 
 	bool m_bInitWithRollTama;
+	bool m_bInitWithMusic;
 
 	C2DImage *m_pLastTamaWithAlpha;
 	th5w::C2DImage *m_pBGImage;

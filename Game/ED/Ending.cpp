@@ -105,7 +105,7 @@ int CEnding::Step()
 			m_curMusicFade=0;
 			m_bMusicFadeOut=false;
 		}
-		CPMDPlayer::SetVolume(m_curMusicFade);
+		CCommonFunctionMusicSE::SetVolume(m_curMusicFade);
 	}
 	if (m_bWaitNFrame)
 	{
@@ -337,7 +337,7 @@ int CEnding::Step()
 				break;
 			case '$':
 				CCommonFunctionMusicSE::Pause();
-				CPMDPlayer::SetVolume(100.0f);
+				CCommonFunctionMusicSE::SetVolume(100.0f);
 				return 1;
 			case 'v':
 				m_pScript+=2;

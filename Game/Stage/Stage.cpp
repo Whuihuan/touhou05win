@@ -148,6 +148,8 @@ void CStage::DownloadVarFromGlobal()
 
 	m_nLifeOnContinue=CGame::GVar().m_nLifeOnContinue;
 	m_nBombOnMiss=CGame::GVar().m_nBombOnMiss;
+	
+	m_demoIndex=0;
 	if (CGame::GVar().m_playDifficulty==4)
 	{
 		m_nLifeOnContinue=3;
@@ -190,9 +192,8 @@ void CStage::InitChara()
 	m_pChara->m_moveAreaYLow=128.0f;
 	m_pChara->m_moveAreaYHigh=5632.0f;
 
-	m_pChara->m_curX=3072;
-	m_pChara->m_curY=5120;
-
+	m_pChara->m_curX=3072.0f;
+	m_pChara->m_curY=5120.0f;
 	m_pChara->m_bBombDisabled=false;
 	m_pChara->m_bCharaCanShoot=true;
 	m_pChara->m_bCharaCanMove=true;
@@ -254,7 +255,7 @@ void CStage::Initialize()
 	m_pFloatingText=new CFloatingText(this);
 	m_pBackground=new CBackground(this);
 	m_pEnemy=new CEnemy(this);
-	m_pTextOverlay=new CTextOverlay(this);
+	m_pTextOverlay = new CTextOverlay(this);
 	m_pDialogue=new CDialogue(this);
 	m_pLaser=new CLaser(this);
 	m_pSummary=new CSummary(this);
@@ -270,6 +271,26 @@ void CStage::Initialize()
 	CGame::s_pCurGame->m_fpsLimit=56;
 	m_lastGameKeyState=0;
 	m_curGameKeyState=0;
+
+	if (CGame::GVar().m_demonum != 0)
+	{
+		char filename[] = "DEMO0.REC";
+		filename[4] += CGame::GVar().m_demonum;
+		filename[4]--;
+		int size = 5000;
+		if (CGame::GVar().m_demonum == 5)
+			size = 20000;
+		int fileIdx = CGame::s_pCurGame->m_th5Dat2.GetChildFileIndex(filename);
+		CGame::s_pCurGame->m_th5Dat2.Childfseek(fileIdx, 0, SEEK_SET);
+		CGame::s_pCurGame->m_th5Dat2.Childfread(&m_demoplayinput[0], 1, size, fileIdx);
+		fileIdx = CGame::s_pCurGame->m_th5Dat2.GetChildFileIndex(filename);
+		CGame::s_pCurGame->m_th5Dat2.Childfseek(fileIdx, size, SEEK_SET);
+		CGame::s_pCurGame->m_th5Dat2.Childfread(&m_demoplayshiftinput[0], 1, size, fileIdx);
+		m_pStageRes->m_pStageStd->m_stageName = NULL;
+		m_pStageRes->m_pStageStd->m_stageBGMName = NULL;
+
+	}
+
 }
 
 void CStage::StepScore()
@@ -384,7 +405,7 @@ int CStage::Step()
 	CGame::s_pCurGame->m_fpsLimit=56;
 	CGame::s_pCurGame->SetVSYNC(true);
 #ifdef _DEBUG
-	//CGame::s_pCurGame->SetVSYNC(false);
+	CGame::s_pCurGame->SetVSYNC(false);
 #endif
 #ifdef _TRIAL
 	CGame::s_pCurGame->SetVSYNC(false);
@@ -394,14 +415,16 @@ int CStage::Step()
 		if (m_nQuitFrameLeft>0)
 		{
 			m_nQuitFrameLeft--;
-			CPMDPlayer::SetVolume((float)(m_nQuitFrameLeft*2));
+			if (CGame::GVar().m_demonum == 0 || CGame::GVar().m_demonum == 5)
+				CCommonFunctionMusicSE::SetVolume((float)(m_nQuitFrameLeft*2));
 			m_curScrFade-=2;
 			if (m_curScrFade<=0)
 				m_curScrFade=0;
 			return 0;
 		}
-		CCommonFunctionMusicSE::Pause();
-		CPMDPlayer::SetVolume(100);
+		if (CGame::GVar().m_demonum == 0 || CGame::GVar().m_demonum == 5)	
+			CCommonFunctionMusicSE::Pause();
+		CCommonFunctionMusicSE::SetVolume(100);
 		UploadVarToGlobal();
 		//make sure to upload var before close stage
 		//otherwise, replay will not get the correct score
@@ -412,6 +435,9 @@ int CStage::Step()
 		if (CGame::GVar().m_bReplayMode)
 			if (m_quitCode!=STAGE_END_CLEAR||CGame::GVar().m_playStage>=5)
 				m_quitCode=STAGE_END_REPLAY_END;
+		if (CGame::GVar().m_demonum>=5)
+			if(m_quitCode==STAGE_END_DEMO_END)
+				m_quitCode=STAGE_END_PLAYER_QUIT;
 		return m_quitCode;
 	}
 
@@ -423,13 +449,16 @@ int CStage::Step()
 		if (StepLogo()==0)
 			return 0;
 		m_bLogo=false;
-
-		char bgmFileName[]="ST00";
-		bgmFileName[3]=CGame::GVar().m_playStage+48;
-		CPMDPlayer::UnloadPMDData();
-		CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat2,bgmFileName);
-		CPMDPlayer::SetVolume(100);
-		CCommonFunctionMusicSE::Play();
+		
+			char bgmFileName[] = "ST00";
+			bgmFileName[3] = CGame::GVar().m_playStage + 48;
+		if (CGame::GVar().m_demonum == 0 || CGame::GVar().m_demonum == 5)
+		{
+				CPMDPlayer::UnloadPMDData();
+			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat2, bgmFileName);
+			CCommonFunctionMusicSE::SetVolume(100);
+			CCommonFunctionMusicSE::Play();
+		}
 
 		m_bCanPause=true;
 	}
@@ -442,11 +471,48 @@ int CStage::Step()
 
 	if (m_bContinueScr)
 	{
+		if (CGame::GVar().m_demonum != 0)
+		{
+			SetQuit(STAGE_END_DEMO_END);//ignore
+			return 0;
+		}
 		StepContinue();
 		return 0;
 	}
+	if(CGame::GVar().m_demonum!=0)
+	{
+		char temp=0;
+		temp = m_demoplayinput[m_curFrame+11];
+		temp |= m_demoplayshiftinput[m_curFrame+11] << 6;
+		m_lastGameKeyState=m_curGameKeyState;
+		m_curGameKeyState=(unsigned short)temp;
 
-	if (CGame::GVar().m_bReplayMode==false)
+		m_lastMenuKeyState = m_curMenuKeyState;
+		m_curMenuKeyState = CCommonFunctionInput::GetAllKeyState();
+		if (m_curFrame >= 5000)
+		{
+			SetQuit(STAGE_END_DEMO_END);
+			return 0;
+		}
+		
+		if (CCommonFunctionInput::ESCPressed(m_curMenuKeyState, m_lastMenuKeyState))
+		{
+			SetQuit(STAGE_END_DEMO_END);
+				return 0;
+		}
+		if (CCommonFunctionInput::ZPressed(m_curMenuKeyState, m_lastMenuKeyState))
+		{
+			SetQuit(STAGE_END_DEMO_END);
+			return 0;
+		}
+		if (CCommonFunctionInput::XPressed(m_curMenuKeyState, m_lastMenuKeyState))
+		{
+			SetQuit(STAGE_END_DEMO_END);
+			return 0;
+		}
+
+	}
+	else if (CGame::GVar().m_bReplayMode==false)
 	{
 		m_lastGameKeyState=m_curGameKeyState;
 		m_curGameKeyState=CCommonFunctionInput::GetAllKeyState();
@@ -485,7 +551,10 @@ int CStage::Step()
 			CGame::s_pCurGame->SetVSYNC(false);
 			CGame::s_pCurGame->m_fpsLimit=1000;
 		}
-
+	/*char str[80];
+	sprintf(str, "%d ", m_curFrame);
+	CPC98Font::DrawString(str, 80, 0, 460, 1, 1, 1);
+	*/
 	if (m_pDialogue->Step()==0)
 		return 0;
 
@@ -603,8 +672,24 @@ void CStage::Draw()
 	if (m_bContinueScr)
 		DrawContinue();
 
+	if (CGame::GVar().m_demonum != 0)
+		DrawDemo();
+
 	//CCommonFunctionGraphic::ScreenFade((float)m_curScrFade);
 }
+
+void CStage::DrawDemo()
+{
+	float colory[3] = { 1,1,0 };
+	unsigned char stageTitle[] = { gb_D_,gb_E_,gb_M_,gb_O_,2,gb_P_,gb_L_,gb_A_,gb_Y_,0 };
+	int drawX = 18;
+		int drawY = 12;
+	CTh5ExtFont::DrawExtString(stageTitle, 100, drawX * 8 - 32 + m_playAreaUpperLeftX,
+		drawY * 16 - 16 + m_playAreaUpperLeftY,
+		colory[0], colory[1], colory[2],1.0f, true, true);
+
+}
+	
 
 void CStage::EnableContinueScreen()
 {
@@ -718,6 +803,9 @@ void CStage::StepContinue()
 
 void CStage::DrawContinue()
 {
+	unsigned char extGameOver[] = { 0xb0,0xaa,0xb6,0xae,0xb8,0xbf,0xae,0xbb,0,0 };
+
+
 	switch(m_continueScrCurPart)
 	{
 	case 0:
@@ -734,16 +822,17 @@ void CStage::DrawContinue()
 				CTh5ExtFont::DrawExtString(s,24,m_playAreaUpperLeftX,i*16+m_playAreaUpperLeftY,0,0,0);
 		}
 		break;
+	case 4:
+	{
+		//unsigned char extGameOver[] = { 0xb0,0xaa,0xb6,0xae,0xb8,0xbf,0xae,0xbb,0,0 };
+		CTh5ExtFont::DrawExtString(extGameOver, 100, 0x14 * 8 - 32 + m_playAreaUpperLeftX, 0x0c * 16 - 16 + m_playAreaUpperLeftY, 1, 1, 1);
+	}
+	break;
 	case 2:
 	case 3:
 		CTh5ExtFont::DrawExtChar(0xb0,m_continueStrX*8-32+m_playAreaUpperLeftX,0x0c*16-16+m_playAreaUpperLeftY,1,1,1);
 		break;
-	case 4:
-		{
-			unsigned char extGameOver[]={0xb0,0xaa,0xb6,0xae,0xb8,0xbf,0xae,0xbb,0};
-			CTh5ExtFont::DrawExtString(extGameOver,100,0x14*8-32+m_playAreaUpperLeftX,0x0c*16-16+m_playAreaUpperLeftY,1,1,1);
-		}
-		break;
+
 	case 5:
 		{
 			unsigned char extContinue[]={0xac,0xb8,0xb7,0xbd,0xb2,0xb7,0xbe,0xae,0x8,0};
@@ -773,7 +862,8 @@ int CStage::StepLogo()
 	m_logoFrame++;
 	if (m_logoFrame>=128+17)
 		return 1;
-	CPMDPlayer::SetVolume(100.0f-m_logoFrame);
+	if (CGame::GVar().m_demonum == 0 || CGame::GVar().m_demonum == 5)
+		CCommonFunctionMusicSE::SetVolume(100.0f-m_logoFrame);
 	return 0;
 }
 
@@ -967,9 +1057,6 @@ void CStage::DrawStatistics()
 		m_pBoss->DrawStatistics();
 	//draw fps
 	char str[80];
-	sprintf(str, "%d  %d ", time(NULL) - starttime, m_curFrame);
-	CPC98Font::DrawString(str, 80, 0, 460, 1, 1, 1);
-
 	if (CGame::s_pCurGame->m_fps>100)
         sprintf(str,"FPS:%.1lf",CGame::s_pCurGame->m_fps);
 	else

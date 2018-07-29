@@ -1,73 +1,58 @@
-/*#include ".\soundeffect.h"
+#include ".\MMDPlayer.h"
 #include <stdio.h>
-#include <tchar.h>
+namespace th5w {
+	GuruGuruSmf::Ggs4* CMMDPlayer::m_manager = NULL;
 
-namespace th5w{
+	CMMDPlayer::CMMDPlayer(void)
+	{
+	}
 
-CSoundEffect::CSoundEffect(void)
-{
-}
+	CMMDPlayer::~CMMDPlayer(void)
+	{
+	}
 
-CSoundEffect::~CSoundEffect(void)
-{
-}
+	bool CMMDPlayer::Initialize(HWND hWnd)
+	{
+		if (m_manager->Initialize() != GuruGuruSmf::GgsError::NoError)
+			return false;
+		m_manager->OpenDevice(-1100, hWnd);
+		m_manager->SetMasterVolume(100);
+		return true;
+	}
+	bool CMMDPlayer::LoadMMDData(char *bgmFileName)
+	{
+		m_manager->AddListFromFileA(bgmFileName, 1, 0);
+		return true;
 
-bool CSoundEffect::Initialize(HWND hWnd)
-{
-	if (m_manager.Initialize(hWnd,DSSCL_PRIORITY)!=S_OK)
-		return false;
+	}
+	bool CMMDPlayer::UnloadMMDData()
+	{
+		//m_pMIDISound = NULL;
+		return true;
+	}
+	void CMMDPlayer::Play()
+	{
+		m_manager->Play(GuruGuruSmf::PlayOption::SkipBeginning|GuruGuruSmf::PlayOption::Loop,0,0,0,0);
+	}
+	void CMMDPlayer::Pause()
+	{
+		m_manager->Pause();
+	}
+	void CMMDPlayer::Resume()
+	{
+		m_manager->Restart();
+	}
+	void CMMDPlayer::Finalize()
+	{
+		m_manager->Stop(0);
+	}
+	void CMMDPlayer::SetFrequency(int newFreq)
+	{
 
-	*m_pMIDISound = NULL;
-	return true;
-}
-bool CSoundEffect::LoadMMDData(char *pbgmFileName)
-{
-	TCHAR fileName[1000]={0};
-	wsprintf(fileName,_T("BGM/%s"),&pbgmFileName);
-	if (m_manager.Create(&m_pMIDISound,fileName,DSBCAPS_CTRLPAN|DSBCAPS_CTRLVOLUME|DSBCAPS_CTRLFREQUENCY|
-											  DSBCAPS_GLOBALFOCUS|DSBCAPS_CTRLPOSITIONNOTIFY|DSBCAPS_LOCSOFTWARE)!=S_OK)
-		return false;
-	return true;
-	
-}
-bool UnloadMMDData();
-{
-	m_pMIDISound = NULL;
-	return true;
-}
-void Play();
-{
-	m_pMIDISound->Play();
-}
-void Pause();
-{
-	
-}
-void Resume();
-{
-	
-}
-void Finalize();
-{
-	
-}
-void SetFrequency(int newFreq);
-{
-	
-}
-void SetVolume(float volume);		//0 silence, 100 normal, no amplification
-{
-	
-}
-/*
-void CSoundEffect::PlaySound(int soundIdx)
-{
+	}
+	void CMMDPlayer::SetVolume(float volume)		//0 silence, 100 normal, no amplification
+	{
 
-	if (m_pMIDISound==NULL)
-		return;
-
-	m_pMIDISound->Stop();
-	m_pMIDISound->Reset();
+		m_manager->SetMasterVolume((int)volume);
+	}
 }
-
-}*/

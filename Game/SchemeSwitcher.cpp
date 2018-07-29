@@ -110,6 +110,14 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			*pOutNextSchemeID=SCHEME_HIGHSCORESCREEN;
 			return true;
 		}
+		if (curSchemeExitValue==TITLESCREEN_END_DEMO_PLAY)
+		{
+			CStage *pScheme=new CStage;
+			pScheme->Initialize();
+			*ppOutNextScheme=(CScheme*)pScheme;
+			*pOutNextSchemeID=SCHEME_STAGE;
+			return true;
+		}
 	}
 
 	if (curSchemeID==SCHEME_SELECTCHARASCREEN)
@@ -264,6 +272,15 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			*pOutNextSchemeID=SCHEME_TITLESCREEN;
 			return true;
 		}
+		if (curSchemeExitValue==STAGE_END_DEMO_END)
+		{
+			CTitleScreen *pScheme=new CTitleScreen;
+			pScheme->Initialize(true,0,false);
+			*ppOutNextScheme=(CScheme*)pScheme;
+			*pOutNextSchemeID=SCHEME_TITLESCREEN;
+			return true;
+		}
+	
 		if (curSchemeExitValue==STAGE_END_REPLAY_END)
 		{
 			CSelectReplayScreen *pScheme=new CSelectReplayScreen;

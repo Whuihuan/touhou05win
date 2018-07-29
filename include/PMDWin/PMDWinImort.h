@@ -17,8 +17,8 @@
 
 //	DLL の 戻り値
 #define	PMDWIN_OK				 	  0		// 正常終了
-#define	ERR_OPEN_MUSIC_FILE			  1		// 曲 データを開けなかった
-#define	ERR_WRONG_MUSIC_FILE		  2		// PMD の曲データではなかった
+#define	ERR_OPEN_MUSIC_FILE			  1		// 曲 デ??を開けなかった
+#define	ERR_WRONG_MUSIC_FILE		  2		// PMD の曲デ??ではなかった
 #define	ERR_OPEN_PPC_FILE		 	  3		// PPC を開けなかった
 #define	ERR_OPEN_P86_FILE		 	  4		// P86 を開けなかった
 #define	ERR_OPEN_PPS_FILE		 	  5		// PPS を開けなかった
@@ -35,14 +35,14 @@
 #define	WARNING_PPZ1_ALREADY_LOAD	 16		// PPZ1 はすでに読み込まれている
 #define	WARNING_PPZ2_ALREADY_LOAD	 17		// PPZ2 はすでに読み込まれている
 
-#define	ERR_WRONG_PARTNO			 30		// パート番号が不適
-//#define	ERR_ALREADY_MASKED			 31		// 指定パートはすでにマスクされている
-#define	ERR_NOT_MASKED				 32		// 指定パートはマスクされていない
-#define	ERR_MUSIC_STOPPED			 33		// 曲が止まっているのにマスク操作をした
-#define	ERR_EFFECT_USED				 34		// 効果音で使用中なのでマスクを操作できない
+#define	ERR_WRONG_PARTNO			 30		// パ?ト番号が不適
+//#define	ERR_ALREADY_MASKED			 31		// 指定パ?トはすでに?スクされている
+#define	ERR_NOT_MASKED				 32		// 指定パ?トは?スクされていない
+#define	ERR_MUSIC_STOPPED			 33		// 曲が?まっているのに?スク?作をした
+#define	ERR_EFFECT_USED				 34		// 効果音で使用中なので?スクを?作できない
 
 #define	ERR_OUT_OF_MEMORY			 99		// メモリを確保できなかった
-#define	ERR_OTHER					999		// その他のエラー
+#define	ERR_OTHER					999		// その他のエラ?
 
 
 #define	SOUND_55K			  55555
@@ -86,21 +86,19 @@ typedef unsigned char bool;
 ******************************************************************************/
 
 
-//	演奏中のデータエリア
+//	演奏中のデ??エリア
 typedef struct qqtag {
-	uchar	*address;			//	2 ｴﾝｿｳﾁｭｳ ﾉ ｱﾄﾞﾚｽ
-	uchar	*partloop;			//	2 ｴﾝｿｳ ｶﾞ ｵﾜｯﾀﾄｷ ﾉ ﾓﾄﾞﾘｻｷ
-	int		leng;				//	1 ﾉｺﾘ LENGTH
+	uchar	*address;			//	2 ｴﾝｿｳﾁｭ??ｱﾄﾞﾚ?	uchar	*partloop;			//	2 ｴﾝｿｳ ｶﾞ ｵﾜ?ﾄｷ ?ﾓﾄﾞﾘｻｷ
+	int		leng;				//	1 ﾉｺ?LENGTH
 	int		qdat;				//	1 gatetime (q/Q値を計算した値)
-	uint	fnum;				//	2 ｴﾝｿｳﾁｭｳ ﾉ BLOCK/FNUM
+	uint	fnum;				//	2 ｴﾝｿｳﾁｭ??BLOCK/FNUM
 	int		detune;				//	2 ﾃﾞﾁｭｰﾝ
 	int		lfodat;				//	2 LFO DATA
-	int		porta_num;			//	2 ポルタメントの加減値（全体）
-	int		porta_num2;			//	2 ポルタメントの加減値（一回）
-	int		porta_num3;			//	2 ポルタメントの加減値（余り）
+	int		porta_num;			//	2 ?ル?メントの加減値（全体）
+	int		porta_num2;			//	2 ?ル?メントの加減値（一回）
+	int		porta_num3;			//	2 ?ル?メントの加減値（?り）
 	int		volume;				//	1 VOLUME
-	int		shift;				//	1 ｵﾝｶｲ ｼﾌﾄ ﾉ ｱﾀｲ
-	int		delay;				//	1 LFO	[DELAY] 
+	int		shift;				//	1 ｵﾝｶｲ ｼﾌ??ｱﾀ?	int		delay;				//	1 LFO	[DELAY] 
 	int		speed;				//	1	[SPEED]
 	int		step;				//	1	[STEP]
 	int		time;				//	1	[TIME]
@@ -122,28 +120,28 @@ typedef struct qqtag {
 	int		eenv_rr;			//	1	/RR		/旧pr2
 	int		eenv_sl;			//	1	/SL
 	int		eenv_al;			//	1	/AL
-	int		eenv_arc;			//	1	/ARのカウンタ	/旧patb
-	int		eenv_drc;			//	1	/DRのカウンタ
-	int		eenv_src;			//	1	/SRのカウンタ	/旧pr1b
-	int		eenv_rrc;			//	1	/RRのカウンタ	/旧pr2b
-	int		eenv_volume;		//	1	/Volume値(0～15)/旧penv
+	int		eenv_arc;			//	1	/ARのカウン?	/旧patb
+	int		eenv_drc;			//	1	/DRのカウン?
+	int		eenv_src;			//	1	/SRのカウン?	/旧pr1b
+	int		eenv_rrc;			//	1	/RRのカウン?	/旧pr2b
+	int		eenv_volume;		//	1	/Volume値(0?15)/旧penv
 	int		extendmode;			//	1 B1/Detune B2/LFO B3/Env Normal/Extend
 	int		fmpan;				//	1 FM Panning + AMD + PMD
 	int		psgpat;				//	1 PSG PATTERN [TONE/NOISE/MIX]
 	int		voicenum;			//	1 音色番号
-	int		loopcheck;			//	1 ループしたら１ 終了したら３
+	int		loopcheck;			//	1 ル?プしたら１ 終了したら３
 	int		carrier;			//	1 FM Carrier
-	int		slot1;				//	1 SLOT 1 ﾉ TL
-	int		slot3;				//	1 SLOT 3 ﾉ TL
-	int		slot2;				//	1 SLOT 2 ﾉ TL
-	int		slot4;				//	1 SLOT 4 ﾉ TL
+	int		slot1;				//	1 SLOT 1 ?TL
+	int		slot3;				//	1 SLOT 3 ?TL
+	int		slot2;				//	1 SLOT 2 ?TL
+	int		slot4;				//	1 SLOT 4 ?TL
 	int		slotmask;			//	1 FM slotmask
-	int		neiromask;			//	1 FM 音色定義用maskdata
-	int		lfo_wave;			//	1 LFOの波形
+	int		neiromask;			//	1 FM 音色定?用maskdata
+	int		lfo_wave;			//	1 LFOの波?
 	int		partmask;			//	1 PartMask b0:通常 b1:効果音 b2:NECPCM用
 								//	   b3:none b4:PPZ/ADE用 b5:s0時 b6:m b7:一時
 	int		keyoff_flag;		//	1 KeyoffしたかどうかのFlag
-	int		volmask;			//	1 音量LFOのマスク
+	int		volmask;			//	1 音量LFOの?スク
 	int		qdata;				//	1 qの値
 	int		qdatb;				//	1 Qの値
 	int		hldelay;			//	1 HardLFO delay
@@ -160,39 +158,39 @@ typedef struct qqtag {
 	int		_mdepth;			//	1 M depth
 	int		_mdspd;				//	1 M speed
 	int		_mdspd2;			//	1 M speed_2
-	int		_lfo_wave;			//	1 LFOの波形
-	int		_volmask;			//	1 音量LFOのマスク
+	int		_lfo_wave;			//	1 LFOの波?
+	int		_volmask;			//	1 音量LFOの?スク
 	int		mdc;				//	1 M depth Counter (変動値)
 	int		mdc2;				//	1 M depth Counter
 	int		_mdc;				//	1 M depth Counter (変動値)
 	int		_mdc2;				//	1 M depth Counter
-	int		onkai;				//	1 演奏中の音階データ (0ffh:rest)
+	int		onkai;				//	1 演奏中の音階デ?? (0ffh:rest)
 	int		sdelay;				//	1 Slot delay
 	int		sdelay_c;			//	1 Slot delay counter
 	int		sdelay_m;			//	1 Slot delay Mask
 	int		alg_fb;				//	1 音色のalg/fb
-	int		keyon_flag;			//	1 新音階/休符データを処理したらinc
+	int		keyon_flag;			//	1 新音階/休符デ??を処理したらinc
 	int		qdat2;				//	1 q 最低保証値
-	int		onkai_def;			//	1 演奏中の音階データ (転調処理前 / ?fh:rest)
-	int		shift_def;			//	1 マスター転調値
+	int		onkai_def;			//	1 演奏中の音階デ?? (?調処理前 / ?fh:rest)
+	int		shift_def;			//	1 ?ス???調値
 	int		qdat3;				//	1 q Random
 } QQ;
 
 
 typedef struct OpenWorktag {
-	QQ *MusPart[NumOfAllPart];	// パートワークのポインタ
+	QQ *MusPart[NumOfAllPart];	// パ?トワ?クの?イン?
 	uchar	*mmlbuf;			//	Musicdataのaddress+1
 	uchar	*tondat;			//	Voicedataのaddress
 	uchar	*efcdat;			//	FM  Effecdataのaddress
-	uchar	*prgdat_adr;		//	曲データ中音色データ先頭番地
+	uchar	*prgdat_adr;		//	曲デ??中音色デ??先頭番地
 	ushort	*radtbl;			//	R part offset table 先頭番地
 	uchar	*rhyadr;			//	R part 演奏中番地
-	int		rhythmmask;			//	Rhythm音源のマスク x8c/10hのbitに対応
+	int		rhythmmask;			//	Rhythm音源の?スク x8c/10hのbitに対応
 	int		fm_voldown;			//	FM voldown 数値
 	int		ssg_voldown;		//	PSG voldown 数値
 	int		pcm_voldown;		//	ADPCM voldown 数値
 	int		rhythm_voldown;		//	RHYTHM voldown 数値
-	int		prg_flg;			//	曲データに音色が含まれているかflag
+	int		prg_flg;			//	曲デ??に音色が含まれているかflag
 	int		x68_flg;			//	OPM flag
 	int		status;				//	status1
 	int		status2;			//	status2
@@ -201,17 +199,17 @@ typedef struct OpenWorktag {
 	int		fadeout_volume;		//	Fadeout音量
 	int		tempo_d_push;		//	tempo (TIMER-B) / 保存用
 	int		syousetu_lng;		//	小節の長さ
-	int		opncount;			//	最短音符カウンタ
-	int		TimerAtime;			//	TimerAカウンタ
-	int		effflag;			//	PSG効果音発声on/off flag(ユーザーが代入)
+	int		opncount;			//	最短音符カウン?
+	int		TimerAtime;			//	TimerAカウン?
+	int		effflag;			//	PSG効果音発声on/off flag(ユ?ザ?が代入)
 	int		psnoi;				//	PSG noise周波数
-	int		psnoi_last;			//	PSG noise周波数(最後に定義した数値)
+	int		psnoi_last;			//	PSG noise周波数(最後に定?した数値)
 	int		pcmstart;			//	PCM音色のstart値
 	int		pcmstop;			//	PCM音色のstop値
-	int		rshot_dat;			//	リズム音源 shot flag
-	int		rdat[6];			//	リズム音源 音量/パンデータ
-	int		rhyvol;				//	リズムトータルレベル
-	int		kshot_dat;			//	ＳＳＧリズム shot flag
+	int		rshot_dat;			//	リズ?音源 shot flag
+	int		rdat[6];			//	リズ?音源 音量/パンデ??
+	int		rhyvol;				//	リズ?ト??ルレベル
+	int		kshot_dat;			//	ＳＳＧリズ? shot flag
 	int		play_flag;			//	play flag
 	int		fade_stop_flag;		//	Fadeout後 MSTOPするかどうかのフラグ
 	bool	kp_rhythm_flag;		//	K/RpartでRhythm音源を鳴らすかflag
@@ -224,27 +222,27 @@ typedef struct OpenWorktag {
 	int		fadeout_flag;		//	内部からfoutを呼び出した時1
 	int		revpan;				//	PCM86逆相flag
 	int		pcm86_vol;			//	PCM86の音量をSPBに合わせるか?
-	int		syousetu;			//	小節カウンタ
+	int		syousetu;			//	小節カウン?
 	int		port22h;			//	OPN-PORT 22H に最後に出力した値(hlfo)
-	int		tempo_48;			//	現在のテンポ(clock=48 tの値)
-	int		tempo_48_push;		//	現在のテンポ(同上/保存用)
+	int		tempo_48;			//	現在のテン?(clock=48 tの値)
+	int		tempo_48_push;		//	現在のテン?(同上/保存用)
 	int		_fm_voldown;		//	FM voldown 数値 (保存用)
 	int		_ssg_voldown;		//	PSG voldown 数値 (保存用)
 	int		_pcm_voldown;		//	PCM voldown 数値 (保存用)
 	int		_rhythm_voldown;	//	RHYTHM voldown 数値 (保存用)
 	int		_pcm86_vol;			//	PCM86の音量をSPBに合わせるか? (保存用)
-	int		rshot_bd;			//	リズム音源 shot inc flag (BD)
-	int		rshot_sd;			//	リズム音源 shot inc flag (SD)
-	int		rshot_sym;			//	リズム音源 shot inc flag (CYM)
-	int		rshot_hh;			//	リズム音源 shot inc flag (HH)
-	int		rshot_tom;			//	リズム音源 shot inc flag (TOM)
-	int		rshot_rim;			//	リズム音源 shot inc flag (RIM)
-	int		rdump_bd;			//	リズム音源 dump inc flag (BD)
-	int		rdump_sd;			//	リズム音源 dump inc flag (SD)
-	int		rdump_sym;			//	リズム音源 dump inc flag (CYM)
-	int		rdump_hh;			//	リズム音源 dump inc flag (HH)
-	int		rdump_tom;			//	リズム音源 dump inc flag (TOM)
-	int		rdump_rim;			//	リズム音源 dump inc flag (RIM)
+	int		rshot_bd;			//	リズ?音源 shot inc flag (BD)
+	int		rshot_sd;			//	リズ?音源 shot inc flag (SD)
+	int		rshot_sym;			//	リズ?音源 shot inc flag (CYM)
+	int		rshot_hh;			//	リズ?音源 shot inc flag (HH)
+	int		rshot_tom;			//	リズ?音源 shot inc flag (TOM)
+	int		rshot_rim;			//	リズ?音源 shot inc flag (RIM)
+	int		rdump_bd;			//	リズ?音源 dump inc flag (BD)
+	int		rdump_sd;			//	リズ?音源 dump inc flag (SD)
+	int		rdump_sym;			//	リズ?音源 dump inc flag (CYM)
+	int		rdump_hh;			//	リズ?音源 dump inc flag (HH)
+	int		rdump_tom;			//	リズ?音源 dump inc flag (TOM)
+	int		rdump_rim;			//	リズ?音源 dump inc flag (RIM)
 	int		ch3mode;			//	ch3 Mode
 	int		ppz_voldown;		//	PPZ8 voldown 数値
 	int		_ppz_voldown;		//	PPZ8 voldown 数値 (保存用)
@@ -258,8 +256,8 @@ typedef struct OpenWorktag {
 	bool	p86ip;								//	P86  で補完するか
 	bool	use_p86;							//	P86  を使用しているか
 	int		fadeout2_speed;						//	fadeout(高音質)speed(>0で fadeout)
-	char	mus_filename[_MAX_PATH];			//	曲のFILE名バッファ
-	char	ppcfilename[_MAX_PATH];				//	PPC のFILE名バッファ
+	char	mus_filename[_MAX_PATH];			//	曲のFILE名バッフ?
+	char	ppcfilename[_MAX_PATH];				//	PPC のFILE名バッフ?
 	char	pcmdir[MAX_PCMDIR+1][_MAX_PATH];	//	PCM 検索ディレクトリ
 } OPEN_WORK;
 

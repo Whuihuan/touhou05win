@@ -83,7 +83,7 @@ void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 					CGame::GVar().m_highScoreName[m_opChara][m_curPage][i][0]=0;
 					CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=CGame::GVar().m_playStage+1;
 					if (CGame::GVar().m_playStage==6)
-						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=1;
+						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=128;//fixed 1->128
 					else
 						if (clearFlag)
 							CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=128;
@@ -275,7 +275,7 @@ void CHighScoreScreen::DrawItem(int x,int y,unsigned char name[10],int score,uns
 	}
 
 	x+=152;
-	if (bHighLight||m_bViewMode||m_bNewHighScore)
+	if (bHighLight||m_bViewMode||!m_bNewHighScore)
 		for (int i=0;i<3;i++)
 			c[i]=m_palette[7*3+i]/255.0f;
 	else

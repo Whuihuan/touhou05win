@@ -1,7 +1,5 @@
 #pragma once
 #include "../th5DatFile/th5DatFile.h"
-#include "../PMDPlayer/PMDPlayer.h"
-
 namespace th5w{
 
 class CCommonFunctionMusicSE
@@ -14,6 +12,7 @@ public:
 	static bool Pause();
 	static bool Resume();
 	static bool Finalize();
+	static bool SetVolume(float volume);
 public:
 	CCommonFunctionMusicSE(void);
 	~CCommonFunctionMusicSE(void);

@@ -21,6 +21,7 @@
 #define STAGE_END_PLAYER_QUIT 2
 #define STAGE_END_ALL_MISSED 3
 #define STAGE_END_REPLAY_END 4
+#define STAGE_END_DEMO_END 4
 
 namespace th5w{
 
@@ -135,6 +136,7 @@ protected:
 	void StepContinue();
 	void DrawContinue();
 
+	void DrawDemo();
 //stage statistics
 protected:
 	//changeable
@@ -149,6 +151,7 @@ protected:
 	int m_curNGraze;
 	int m_playerPerformance;
 	int m_nContinueUsed;
+	int m_demoIndex;
 
 	//constant during game
 	int m_nContinueLimit;
@@ -166,6 +169,9 @@ protected:
 	int m_nMiss;
 	int m_nBomb;
 	
+	char m_demoplayinput[20000];
+	char m_demoplayshiftinput[20000];
+
 	int m_nBX2C;
 	int m_nBX2E;
 	int m_nBX30;

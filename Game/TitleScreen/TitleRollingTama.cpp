@@ -65,19 +65,3 @@ void CTitleRollingTama::Draw()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -16,7 +16,8 @@ namespace th5w{
 	unsigned char charTable[3][17] = {{0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba},
 						   {0xbb, 0xbc, 0xbd, 0xbe, 0xbf, 0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd0, 0xc9, 0xc6, 0xc7, 0xc8, 0xcc},
 							{0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0x70, 0x71, 0x72, 0xce, 0xcf, 0xcd, 0xd5}};
-	;
+	unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0 },{ gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0 },{ gb_H_, gb_A_, gb_R_, gb_D_,0 },{ gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0 },{ gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0 } };
+	
 CSelectReplayScreen::CSelectReplayScreen(void)
 {
 	m_pBGImage=NULL;
@@ -393,9 +394,8 @@ void CSelectReplayScreen::DrawEnterNameMode()
 		x += 7 * 16;
 	}
 	{
-		unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0 },{ gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0 },{ gb_H_, gb_A_, gb_R_, gb_D_,0 },{ gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0 },{ gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0 } };
 		CTh5ExtFont::DrawExtString(difficultyName[pRep->m_playDifficulty], 100, x, y, color[0], color[1], color[2]);
-		x += 8 * 16;
+	//	x += 8 * 16;
 	}
 
 
@@ -518,13 +518,11 @@ void CSelectReplayScreen::Draw()
 					CTh5ExtFont::DrawExtString(charaName[m_repInfo[i].playChara], 100, x, y, color[0], color[1], color[2]);
 					x += 7 * 16;
 				}
-#ifndef _TRIAL
 				{
-					unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0}, { gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0}, { gb_H_, gb_A_, gb_R_, gb_D_,0}, { gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0}, { gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0} };
+			//		unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0}, { gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0}, { gb_H_, gb_A_, gb_R_, gb_D_,0}, { gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0}, { gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0} };
 					CTh5ExtFont::DrawExtString(difficultyName[m_repInfo[i].playDifficulty], 100, x, y, color[0], color[1], color[2]);
-					x += 8 * 16;
+				//	x += 8 * 16;
 				}
-#endif
 
 
 			}
@@ -565,7 +563,7 @@ void CSelectReplayScreen::Draw()
 		CTh5ExtFont::DrawExtString(charaName[m_repInfo[m_curCursorPos].playChara], 100, x, y, 1, 1,1);
 		x += 7 * 16;
 		
-		unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0 },{ gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0 },{ gb_H_, gb_A_, gb_R_, gb_D_,0 },{ gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0 },{ gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0 } };
+		//unsigned char difficultyName[][10] = { { gb_E_, gb_A_, gb_S_, gb_Y_ ,0 },{ gb_N_, gb_O_, gb_R_, gb_M_, gb_A_, gb_L_,0 },{ gb_H_, gb_A_, gb_R_, gb_D_,0 },{ gb_L_, gb_U_, gb_N_, gb_A_, gb_T_, gb_I_, gb_C_,0 },{ gb_E_, gb_X_, gb_T_, gb_R_, gb_A_,0 } };
 		CTh5ExtFont::DrawExtString(difficultyName[m_repInfo[m_curCursorPos].playDifficulty], 100, x, y, 1, 1, 1);
 		
 		for (int i = 0; i < 7; i++)

@@ -3,6 +3,7 @@
 #include "../gameLib/Input/KeyInputDI.h"
 #include "../gamelib/th5DatFile/th5DatFile.h"
 #include "../gamelib/PMDPlayer/PMDPlayer.h"
+#include "../gamelib/MMDPlayer/MMDPlayer.h"
 #include "../gameLib/se/SoundEffect.h"
 
 #include "Scheme.h"

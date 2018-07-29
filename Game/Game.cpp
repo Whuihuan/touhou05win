@@ -143,6 +143,11 @@ bool CGame::Initialize()
 		MessageBox(m_gameWindow.m_hWnd,_T("PMDPlayer cannot not be initialized."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
+	if (th5w::CMMDPlayer::Initialize(m_gameWindow.m_hWnd)==false)
+	{
+		MessageBox(m_gameWindow.m_hWnd,_T("MMDPlayer cannot not be initialized."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		return false;
+	}
 	if (m_soundEffect.Initialize(m_gameWindow.m_hWnd)==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("Sound effect files cannot not be loaded and initialized."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);

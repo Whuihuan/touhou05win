@@ -98,7 +98,8 @@ public:
 	int m_randomSeed[7];
 
 	bool m_bCanSaveReplay;
-
+	
+	int m_demonum;
 	
 	int m_nBX2C;
 	int m_nBX2E;

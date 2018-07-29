@@ -109,8 +109,6 @@ void CEnemy::EnemyDie(ENEMY *pEnemy)
 	m_pStage->m_bPlaySound[3]=true;
 	m_pStage->AddScore(pEnemy->score);
 	m_pStage->m_pSparkEffect->AddEffect(pEnemy->curX,pEnemy->curY,64,7,false);
-	//inc	word_221C2//[bx+36h]
-	//inc	word_221C4//[bx+38h]
 	m_pStage->m_nBX36++;
 	m_pStage->m_nBX38++;
 	

@@ -101,6 +101,7 @@ void CGlobalVariableAndStatistics::LoadProgramConfig()
 
 void CGlobalVariableAndStatistics::LoadConfig()
 {
+	m_demonum=0;
 	m_nInitLife=3;
 	m_nInitBomb=3;
 	m_initDifficulty=1;
@@ -169,7 +170,9 @@ void CGlobalVariableAndStatistics::Initialize()
 	memset(m_bExtraPlayable,0,sizeof(m_bExtraPlayable));
 	for (int i=0;i<4;i++)
 		for (int j=1;j<4;j++)
+#ifndef _DEBUG
 			if (m_bClear[i][j])
+#endif
 				m_bExtraPlayable[i]=true;
 
 	LoadHighScore();
@@ -280,6 +283,9 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	{
 		m_replay.Reset();
 		srand((unsigned int)time(NULL));
+		if (m_demonum != 0)
+			srand(0x13E);
+
 		for (int i=0;i<7;i++)
 			m_randomSeed[i]=rand()*32768+rand();
 		m_replay.m_nInitLife=m_nInitLife;
@@ -300,6 +306,14 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 			m_nCurLife=3;
 			m_nCurBomb=3;
 			m_nContinueLimit=0;
+		}
+		if (m_demonum != 0)
+		{
+			m_nCurLife = 3;
+			m_nCurBomb = 3;
+			m_curPower = 128;
+			m_nContinueLimit = 0;
+
 		}
 		m_curScore=0;
 		m_totalNPointItem=0;
@@ -344,12 +358,6 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	
 }
 }
-
-
-
-
-
-
 
 
 

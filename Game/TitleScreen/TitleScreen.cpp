@@ -49,13 +49,14 @@ CTitleScreen::~CTitleScreen(void)
 
 void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchMusic)
 {
+	
 	if (CGame::GVar().m_bUseMod)
 	{
 		int fileIdx=CGame::s_pCurGame->m_modDat.GetChildFileIndex("menudesc.txt");
 		if (fileIdx!=-1)
 		{
 			CGame::s_pCurGame->m_modDat.Childfseek(fileIdx,0,SEEK_SET);
-			for (int i=1;i<7;i++)
+			for (int i=1;i<8;i++)
 			{
 				CGame::s_pCurGame->m_modDat.Childfgets(mainMenuDesc[i],100,fileIdx);
 				if (mainMenuDesc[i][strlen(mainMenuDesc[i])-1]=='\n')
@@ -67,11 +68,35 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 				if (startGameDesc[i][strlen(startGameDesc[i])-1]=='\n')
 					startGameDesc[i][strlen(startGameDesc[i])-1]=0;
 			}
+			for (int i = 0; i<4; i++)
+			{
+				CGame::s_pCurGame->m_modDat.Childfgets(practiceGameDesc[i], 100, fileIdx);
+				if (practiceGameDesc[i][strlen(practiceGameDesc[i]) - 1] == '\n')
+					practiceGameDesc[i][strlen(practiceGameDesc[i]) - 1] = 0;
+			}
 			for (int i=1;i<8;i++)
 			{
 				CGame::s_pCurGame->m_modDat.Childfgets(optionMenuDesc[i],100,fileIdx);
 				if (optionMenuDesc[i][strlen(optionMenuDesc[i])-1]=='\n')
 					optionMenuDesc[i][strlen(optionMenuDesc[i])-1]=0;
+			}
+			for (int i = 0; i<4; i++)
+			{
+				CGame::s_pCurGame->m_modDat.Childfgets(optionMusicDesc[i], 100, fileIdx);
+				if (optionMusicDesc[i][strlen(optionMusicDesc[i]) - 1] == '\n')
+					optionMusicDesc[i][strlen(optionMusicDesc[i]) - 1] = 0;
+			}
+			for (int i = 0; i<4; i++)
+			{
+				CGame::s_pCurGame->m_modDat.Childfgets(optionSEDesc[i], 100, fileIdx);
+				if (optionSEDesc[i][strlen(optionSEDesc[i]) - 1] == '\n')
+					optionSEDesc[i][strlen(optionSEDesc[i]) - 1] = 0;
+			}
+			for (int i = 0; i<2; i++)
+			{
+				CGame::s_pCurGame->m_modDat.Childfgets(optionInputDesc[i], 100, fileIdx);
+				if (optionInputDesc[i][strlen(optionInputDesc[i]) - 1] == '\n')
+					optionInputDesc[i][strlen(optionInputDesc[i]) - 1] = 0;
 			}
 			for (int i=0;i<4;i++)
 			{
@@ -82,6 +107,7 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 		}
 	}
 
+	m_noInputTimer = 0;
 	m_bMenuOn=false;
 	m_curMenu=0;
 
@@ -93,6 +119,7 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 	m_curScrFade=0;
 
 	m_bInitWithRollTama=true;
+	m_bInitWithMusic = bSwitchMusic;
 	if (bRollTama==false)
 	{
 		m_bInitWithRollTama=false;
@@ -174,8 +201,11 @@ int CTitleScreen::Step()
 		{
 			m_flagRollingTama=2;
 			OnRollTamaEnd();
-			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"OP");
-			th5w::CCommonFunctionMusicSE::Play();
+			if (m_bInitWithMusic)
+			{
+				CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
+				th5w::CCommonFunctionMusicSE::Play();
+			}
 			m_curScrFade=100;
 		}
 		return 0;
@@ -448,6 +478,7 @@ void CTitleScreen::ParseKeyEvent()
 				MoveCursorInMenu(&m_mainMenuCursorPosition,-1,m_mainMenuNItem,m_bMainMenuItemEnabled);
 				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
 				m_lastKeyState=curKeyState;
+				m_noInputTimer = 0;
 				return;
 			}
 			if (CCommonFunctionInput::DownPressed(curKeyState,m_lastKeyState))
@@ -455,6 +486,7 @@ void CTitleScreen::ParseKeyEvent()
 				MoveCursorInMenu(&m_mainMenuCursorPosition,1,m_mainMenuNItem,m_bMainMenuItemEnabled);
 				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
 				m_lastKeyState=curKeyState;
+				m_noInputTimer = 0;
 				return;
 			}
 			if (CCommonFunctionInput::ZPressed(curKeyState,m_lastKeyState))
@@ -470,7 +502,8 @@ void CTitleScreen::ParseKeyEvent()
 #endif
 					CGame::GVar().m_bPracticeMode=false;
 					CGame::GVar().m_bReplayMode=false;
-					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitCollisionArea;
+					CGame::GVar().m_bplayCollisionArea= false;
+					CGame::GVar().m_demonum = 0;
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_START_GAME;
 					break;
@@ -479,7 +512,8 @@ void CTitleScreen::ParseKeyEvent()
 					CGame::GVar().m_playStage = 0;
 					CGame::GVar().m_bPracticeMode = true;
 					CGame::GVar().m_bReplayMode = false;
-					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitPracticeCollisionArea;
+					CGame::GVar().m_bplayCollisionArea= true;
+					CGame::GVar().m_demonum = 0;
 					m_bQuit = true;
 					m_quitCode = TITLESCREEN_END_START_GAME;
 					break;
@@ -488,7 +522,8 @@ void CTitleScreen::ParseKeyEvent()
 					CGame::GVar().m_playStage=6;
 					CGame::GVar().m_bPracticeMode=false;
 					CGame::GVar().m_bReplayMode=false;
-					CGame::GVar().m_bplayCollisionArea= CGame::GVar().m_binitCollisionArea;
+					CGame::GVar().m_bplayCollisionArea= false;
+					CGame::GVar().m_demonum = 0;
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_START_EXTRA;
 					break;
@@ -524,22 +559,30 @@ void CTitleScreen::ParseKeyEvent()
 				return;
 			}
 			m_lastKeyState=curKeyState;
-			/*if (DEMO)
+			m_noInputTimer++;
+			if (m_noInputTimer ==500)
 			{
-					CGame::GVar().m_playDifficulty=1;
+					CGame::GVar().m_playDifficulty=3;
 					CGame::GVar().m_bPracticeMode=false;
-					CGame::GVar().m_bReplayMode=true;
-					CGame::GVar().m_bDemoMode=true;
+					CGame::GVar().m_bReplayMode=false;
 					CGame::GVar().m_bplayCollisionArea=false;
+					CGame::GVar().m_demonum %= 4;
+					CGame::GVar().m_demonum++;
+					CGame::GVar().m_playChara = CGame::GVar().m_demonum-1;
+					if(CGame::GVar().m_demonum==1)
+						CGame::GVar().m_playStage=3;
+					else if(CGame::GVar().m_demonum==2)
+						CGame::GVar().m_playStage=1;
+					else if(CGame::GVar().m_demonum==3)
+						CGame::GVar().m_playStage= 2;
+					else if(CGame::GVar().m_demonum==4)
+						CGame::GVar().m_playStage= 4;
+					CGame::GVar().OnBeginGame();
 					m_bQuit=true;
-					m_quitCode=TITLESCREEN_END_DEMO;
-					return;
-					reimu==4
-					marisa==2
-					mima==5
-					yukka3
-			}
-				*/
+					m_quitCode=TITLESCREEN_END_DEMO_PLAY;
+						return;
+					}
+				
 			return;
 		}
 		if (m_curMenu==1)
@@ -576,11 +619,7 @@ void CTitleScreen::ParseKeyEvent()
 						break;
 					case 3:
 						CCommonFunctionMusicSE::Pause();
-#ifdef _TRIAL
-						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 2);//midi disabled
-#else
 						ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 3);
-#endif
 						CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
 						CCommonFunctionMusicSE::Play();
 						break;

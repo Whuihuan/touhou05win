@@ -263,8 +263,13 @@ void CStageResource::InitSpecificImages()
 		int idx;
 		idx=CGame::s_pCurGame->m_th5Dat2.GetChildFileIndex("TXT1.BB");
 		CGame::s_pCurGame->m_th5Dat2.Childfread(dataBuf,1,2048,idx);
+#ifdef _TRAIL
+		idx=CGame::s_pCurGame->m_th5Dat2.GetChildFileIndex("TXT1.BB");
+		CGame::s_pCurGame->m_th5Dat2.Childfread(dataBuf+2048,1,1024,idx);
+#else
 		idx=CGame::s_pCurGame->m_th5Dat2.GetChildFileIndex("TXT2.BB");
 		CGame::s_pCurGame->m_th5Dat2.Childfread(dataBuf+2048,1,1024,idx);
+#endif
 		for (int i=0;i<24;i++)
 		{
 			unsigned char *ptr=dataBuf+i*128;
