@@ -36,6 +36,7 @@ void CStaffRoll::Initialize()
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_patternArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"stf01.BFT",0);
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_patternArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"stf00.BFT",0);
 	
+	CGame::s_pCurGame->m_fpsLimit=26;
 	
 }
 
@@ -74,37 +75,37 @@ void CStaffRoll::Draw()
 	CCommonFunctionGraphic::DrawRectangle(0,0,(float)m_playAreaUpperLeftX-1,479,0,0,0);
 	CCommonFunctionGraphic::DrawRectangle((float)m_playAreaUpperLeftX+384,0,639,479,0,0,0);
 	
-	if(m_curFrame<=76<<4){
+	if(m_curFrame<=76){
 		m_spriteArray.GetImagePtr(1)->Draw(528, 240);
 		m_spriteArray.GetImagePtr(0)->Draw(464, 192);
 	}
-	else if(m_curFrame<=92<<4){
+	else if(m_curFrame<=92){
 		m_spriteArray.GetImagePtr(2)->Draw(464, 200);
 	}
-	else if(m_curFrame<=120<<4){
+	else if(m_curFrame<=120){
 		m_spriteArray.GetImagePtr(4)->Draw(464, 0xE0);
 		m_spriteArray.GetImagePtr(3)->Draw(464, 200);
 	}
-	else if(m_curFrame<=0xAC<<4){
+	else if(m_curFrame<=0xAC){
 		m_spriteArray.GetImagePtr(5)->Draw(0xB0, 0xC8);
 	}
-	else if(m_curFrame<=0xBC<<4)
+	else if(m_curFrame<=0xBC)
 	{
 		m_spriteArray.GetImagePtr(6)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xCC<<4)
+	else if(m_curFrame<=0xCC)
 	{
 		m_spriteArray.GetImagePtr(7)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xDC<<4)
+	else if(m_curFrame<=0xDC)
 	{
 		m_spriteArray.GetImagePtr(8)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xEC<<4)
+	else if(m_curFrame<=0xEC)
 	{
 		m_spriteArray.GetImagePtr(9)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xF9C<<4)
+	else if(m_curFrame<=0xF9)
 	{
 		m_spriteArray.GetImagePtr(10)->Draw(0xB0, 0x170);
 	}

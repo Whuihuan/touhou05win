@@ -159,7 +159,7 @@ void CEnemy::StepEnemyScript(ENEMY *pEnemy)
 	unsigned char *&ptr=pEnemy->pScript;
 	while(1)
 	{
-//		if (pEnemy==&m_enemy[0])
+		//if (pEnemy==&m_enemy[0])
 			//printf("%d ggg %d\n",m_pStage->m_curFrame,*ptr);
 		switch(*ptr)
 		{
@@ -309,7 +309,7 @@ void CEnemy::StepEnemyScript(ENEMY *pEnemy)
 			shootInfo.shootOrigX+=pEnemy->curX;
 			shootInfo.shootOrigY+=pEnemy->curY;
 			m_pStage->m_pEnemyBullet->TuneEnemyShootInfo(&shootInfo);
-//			printf("%f %f\n",pEnemy->shootInfo.shootAngle,shootInfo.shootAngle);
+			//printf("%f %f\n",pEnemy->shootInfo.shootAngle,shootInfo.shootAngle);
 			if (ptr[0]==17)
 				m_pStage->m_pEnemyBullet->Shoot(&shootInfo);
 			else

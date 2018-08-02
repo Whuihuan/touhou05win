@@ -119,28 +119,3 @@ void CGatherEffect::Draw()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

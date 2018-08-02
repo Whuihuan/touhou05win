@@ -69,13 +69,3 @@ void C2DImageArray::DrawMulti(int idxStart,int nImage,float drawX,float drawY,fl
 
 
 
-
-
-
-
-
-
-
-
-
-

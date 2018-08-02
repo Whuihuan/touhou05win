@@ -62,9 +62,9 @@ bool CReplay::GetRepFileInfo(REPLAY_BRIEF_INFO* pOut, const char *fileName)
 	FAIL_CLOSE_SETERRORCODE_RETURN(fread(buf,1,4,fp)!=4,InfoRes_InvalidReplay)
 	FAIL_CLOSE_SETERRORCODE_RETURN((*(int*)buf)!=CGame::GVar().m_gameVersion,InfoRes_GameVersionMismatch)
 	FAIL_CLOSE_SETERRORCODE_RETURN(fread(buf,1,16,fp)!=16,InfoRes_InvalidReplay)
-	for (int i=0;i<16;i++)
+	/*for (int i=0;i<16;i++)
 		FAIL_CLOSE_SETERRORCODE_RETURN(buf[i]!=CGame::GVar().m_modMD5[i],InfoRes_ModFileMisMatch)
-
+*/
 	FAIL_CLOSE_SETERRORCODE_RETURN(fread(&pOut->playerName,1,8,fp)!=8,InfoRes_InvalidReplay)
 	FAIL_CLOSE_SETERRORCODE_RETURN(fread(&pOut->saveTime,4,1,fp)!=1,InfoRes_InvalidReplay)
 
@@ -148,9 +148,9 @@ bool CReplay::LoadFile(const char *fileName)
 	FAIL_CLOSE_RETURN(fread(buf,1,4,fp)!=4)
 	FAIL_CLOSE_RETURN((*(int*)buf)!=CGame::GVar().m_gameVersion)
 	FAIL_CLOSE_RETURN(fread(buf,1,16,fp)!=16)
-	for (int i=0;i<16;i++)
+	/*for (int i=0;i<16;i++)
 		FAIL_CLOSE_RETURN(buf[i]!=CGame::GVar().m_modMD5[i])
-
+*/
 	FAIL_CLOSE_RETURN(fread(&m_playerName,1,8,fp)!=8)
 	FAIL_CLOSE_RETURN(fread(&m_saveTime,4,1,fp)!=1)
 

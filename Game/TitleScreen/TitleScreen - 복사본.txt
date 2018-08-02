@@ -160,11 +160,8 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 
 void CTitleScreen::OnRollTamaEnd()
 {
-#if _GAME==5
-	CCommonFunctionGraphic::LoadPIFromDat(&m_pLastTamaWithAlpha, m_globalPalette, &CGame::s_pCurGame->m_th5Dat1, "OP2H.PI");
-#elif _GAME==4
-	CCommonFunctionGraphic::LoadPIFromDat(&m_pLastTamaWithAlpha, m_globalPalette, &CGame::s_pCurGame->m_th5Dat1, "OP5B.PI");
-#endif 
+	CCommonFunctionGraphic::LoadPIFromDat(&m_pLastTamaWithAlpha,m_globalPalette,&CGame::s_pCurGame->m_th5Dat1,"OP2H.PI");
+
 	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,m_globalPalette,&CGame::s_pCurGame->m_th5Dat1,"OP1.PI");
 	m_bgFade=0;
 
@@ -703,6 +700,9 @@ void CTitleScreen::ParseKeyEvent()
 }
 
 }
+
+
+
 
 
 
