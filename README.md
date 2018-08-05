@@ -33,7 +33,6 @@ Features not ported in this version:
  * Some options
 
 Supposing features in this ported version:
- * Practice Mode's cheak routine (now in problem by bug)
  * Player performance evaluation
  
 Controls
