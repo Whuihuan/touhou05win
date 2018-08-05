@@ -14,7 +14,7 @@ protected:
 	int m_charaDisplayImg[4];
 	bool m_bCharaClearFlag[4];
 
-	bool m_bPracticeSelectable[4][5];
+	int m_nPracticeEnableStage[4];
 	unsigned char m_palette[48];
 
 protected:
@@ -37,6 +37,7 @@ public:
 	virtual int Step();
 	void Draw();
 	int m_curMenu;			//1 for char select, 1 for stage select
+	int m_difficulty;
 
 protected:
 	void ParseKeyEvent();

@@ -30,7 +30,6 @@ public:
 	//loaded from config
 	bool m_bClear[4][5];
 	bool m_bExtraPlayable[4];
-	bool m_bPracticeFlag[4][5][5];
 	unsigned char m_defaultHighScoreName[10];
 	char m_defaultReplayName[10];
 
@@ -51,6 +50,7 @@ public:
 	unsigned char m_highScoreName[4][5][5][10];
 	int m_highScore[4][5][5];
 	int m_practiceHighScore[4][5][5];
+	int m_nPracticeEnableStage[4][5];
 	unsigned char m_highScoreFlag[4][5][5];
 	void LoadHighScore();
 	void SaveHighScore();
@@ -100,7 +100,8 @@ public:
 	bool m_bCanSaveReplay;
 	
 	int m_demonum;
-	
+	int m_nTotalBomb;
+	int m_nTotalMiss;
 	int m_nBX2C;
 	int m_nBX2E;
 	int m_nBX30;

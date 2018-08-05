@@ -235,7 +235,7 @@ bool CGame::Initialize()
 							CLIP_DEFAULT_PRECIS,			// Clipping Precision
 							DEFAULT_QUALITY,				// Output Quality
 							FF_DONTCARE|FIXED_PITCH,		// Family And Pitch
-							NULL);							// Font Name
+							_T("MS Mincho"));							// Font Name
 		if (hFont==NULL)
 		{
 			TCHAR msgText[1000];

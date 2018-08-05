@@ -49,15 +49,32 @@ void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 		m_curPage=0;
 	else
 		m_curPage=CGame::GVar().m_playDifficulty;
-
-	
 		m_bNewHighScore=false;
 	if (bViewMode==false)
 	{
 		int curScore=CGame::GVar().m_curScore;
 		m_opChara=CGame::GVar().m_playChara;
+		if(CGame::GVar().m_bPracticeMode)
+		{
+			if(curScore>CGame::GVar().m_practiceHighScore[m_opChara][m_curPage][CGame::GVar().m_playStage])
+				CGame::GVar().m_practiceHighScore[m_opChara][m_curPage][CGame::GVar().m_playStage]=curScore;
+			CGame::GVar().SaveHighScore();
+			CGame::GVar().SaveConfig();
+			m_bQuit=true;
+			m_quitCode=HIGHSCORESCREEN_END_ENTER_SKIPPED;
+			m_curScrFade=0;
+			return;
+		}
+		if(CGame::GVar().m_nPracticeEnableStage[m_opChara][m_curPage]<CGame::GVar().m_playStage-1)
+			CGame::GVar().m_nPracticeEnableStage[m_opChara][m_curPage]=CGame::GVar().m_playStage-1;
+		
+		if (clearFlag)
+			CGame::GVar().m_nPracticeEnableStage[m_opChara][m_curPage]=5;
+		
+		
 		if(curScore>CGame::GVar().m_highScore[m_opChara][m_curPage][4])
 			m_bNewHighScore=true;
+		
 		/*if (curScore<=CGame::GVar().m_highScore[m_opChara][m_curPage][4])
 		{
 			m_bQuit=true;
@@ -65,6 +82,8 @@ void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 			m_curScrFade=0;
 			return;
 		}*/
+		
+		
 		if(m_bNewHighScore==true)
 		{
 			m_opRank=4;
@@ -164,6 +183,8 @@ int CHighScoreScreen::Step()
 		{
 			m_bQuit=true;
 			m_quitCode=HIGHSCORESCREEN_END_ENTER_END;	
+			CGame::GVar().SaveHighScore();
+			CGame::GVar().SaveConfig();	
 		}
 		return 0;
 	}
@@ -350,34 +371,3 @@ void CHighScoreScreen::Draw()
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

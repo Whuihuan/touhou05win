@@ -56,50 +56,42 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 		if (fileIdx!=-1)
 		{
 			CGame::s_pCurGame->m_modDat.Childfseek(fileIdx,0,SEEK_SET);
-			for (int i=1;i<8;i++)
-			{
+			for (int i=1;i<8;i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(mainMenuDesc[i],100,fileIdx);
 				if (mainMenuDesc[i][strlen(mainMenuDesc[i])-1]=='\n')
 					mainMenuDesc[i][strlen(mainMenuDesc[i])-1]=0;
 			}
-			for (int i=0;i<4;i++)
-			{
+			for (int i=0;i<4;i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(startGameDesc[i],100,fileIdx);
 				if (startGameDesc[i][strlen(startGameDesc[i])-1]=='\n')
 					startGameDesc[i][strlen(startGameDesc[i])-1]=0;
 			}
-			for (int i = 0; i<4; i++)
-			{
+			for (int i = 0; i<4; i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(practiceGameDesc[i], 100, fileIdx);
 				if (practiceGameDesc[i][strlen(practiceGameDesc[i]) - 1] == '\n')
 					practiceGameDesc[i][strlen(practiceGameDesc[i]) - 1] = 0;
 			}
-			for (int i=1;i<8;i++)
-			{
+			for (int i=1;i<8;i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(optionMenuDesc[i],100,fileIdx);
 				if (optionMenuDesc[i][strlen(optionMenuDesc[i])-1]=='\n')
 					optionMenuDesc[i][strlen(optionMenuDesc[i])-1]=0;
 			}
-			for (int i = 0; i<4; i++)
-			{
+			for (int i = 0; i<4; i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(optionMusicDesc[i], 100, fileIdx);
 				if (optionMusicDesc[i][strlen(optionMusicDesc[i]) - 1] == '\n')
 					optionMusicDesc[i][strlen(optionMusicDesc[i]) - 1] = 0;
 			}
-			for (int i = 0; i<4; i++)
-			{
+			for (int i = 0; i<4; i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(optionSEDesc[i], 100, fileIdx);
 				if (optionSEDesc[i][strlen(optionSEDesc[i]) - 1] == '\n')
 					optionSEDesc[i][strlen(optionSEDesc[i]) - 1] = 0;
 			}
-			for (int i = 0; i<2; i++)
-			{
+			for (int i = 0; i<2; i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(optionInputDesc[i], 100, fileIdx);
 				if (optionInputDesc[i][strlen(optionInputDesc[i]) - 1] == '\n')
 					optionInputDesc[i][strlen(optionInputDesc[i]) - 1] = 0;
 			}
-			for (int i=0;i<4;i++)
-			{
+			for (int i=0;i<4;i++) {
 				CGame::s_pCurGame->m_modDat.Childfgets(difficultyDesc[i],100,fileIdx);
 				if (difficultyDesc[i][strlen(difficultyDesc[i])-1]=='\n')
 					difficultyDesc[i][strlen(difficultyDesc[i])-1]=0;
@@ -147,10 +139,11 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 	m_optionMenuCursorPosition=0;
 	for (int i=0;i<m_optionMenuNItem;i++)
 		m_bOptionMenuItemEnabled[i]=true;
+
 #ifdef _TRIAL
-	m_bOptionMenuItemEnabled[4] = false;
 	m_bOptionMenuItemEnabled[5] = false;
 #endif
+
 	unsigned char pc[]={64,64,64};
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pMenuImgPractice,pc,"practice.bmp");
 	CCommonFunctionGraphic::LoadBinaryImageFile(&m_pMenuImgReplay,pc,"replay.bmp");
@@ -160,11 +153,7 @@ void CTitleScreen::Initialize(bool bRollTama,int cursorInitialPos, bool bSwitchM
 
 void CTitleScreen::OnRollTamaEnd()
 {
-#if _GAME==5
-	CCommonFunctionGraphic::LoadPIFromDat(&m_pLastTamaWithAlpha, m_globalPalette, &CGame::s_pCurGame->m_th5Dat1, "OP2H.PI");
-#elif _GAME==4
-	CCommonFunctionGraphic::LoadPIFromDat(&m_pLastTamaWithAlpha, m_globalPalette, &CGame::s_pCurGame->m_th5Dat1, "OP5B.PI");
-#endif 
+	CCommonFunctionGraphic::LoadPIFromDat(&m_pLastTamaWithAlpha, m_globalPalette, &CGame::s_pCurGame->m_th5Dat1,"OP2H.PI");
 	CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage,m_globalPalette,&CGame::s_pCurGame->m_th5Dat1,"OP1.PI");
 	m_bgFade=0;
 
@@ -627,15 +616,13 @@ void CTitleScreen::ParseKeyEvent()
 						CCommonFunctionMusicSE::Play();
 						break;
 					case 4:
-#ifndef _TRIAL
 						ChangeValue(&CGame::GVar().m_initSe, 1, 0, 2);
-#endif
 						break;
-					case 5:
 #ifndef _TRIAL
+					case 5:
 						ChangeValue(&CGame::GVar().m_initInput, 1, 0, 1);
-#endif
 						break;
+#endif
 					case 6:
 						CGame::GVar().m_initDifficulty = 1;
 						CGame::GVar().m_nInitLife = 3;
@@ -673,6 +660,20 @@ void CTitleScreen::ParseKeyEvent()
 				case 2:
 					ChangeValue(&CGame::GVar().m_nInitBomb,-1,0,3);
 					break;
+				case 3:
+					CCommonFunctionMusicSE::Pause();
+					ChangeValue(&CGame::GVar().m_initMusic, -1, 0, 3);
+					CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
+					CCommonFunctionMusicSE::Play();
+					break;
+				case 4:
+					ChangeValue(&CGame::GVar().m_initSe, -1, 0, 2);
+					break;
+#ifndef _TRIAL
+				case 5:
+					ChangeValue(&CGame::GVar().m_initInput, -1, 0, 1);
+					break;
+#endif
 				}
 				m_lastKeyState=curKeyState;
 				return;
@@ -690,6 +691,20 @@ void CTitleScreen::ParseKeyEvent()
 				case 2:
 					ChangeValue(&CGame::GVar().m_nInitBomb,1,0,3);
 					break;
+				case 3:
+					CCommonFunctionMusicSE::Pause();
+					ChangeValue(&CGame::GVar().m_initMusic, 1, 0, 3);
+					CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1, "OP");
+					CCommonFunctionMusicSE::Play();
+					break;
+				case 4:
+					ChangeValue(&CGame::GVar().m_initSe, 1, 0, 2);
+					break;
+#ifndef _TRIAL
+				case 5:
+					ChangeValue(&CGame::GVar().m_initInput, 1, 0, 1);
+					break;
+#endif	
 				}
 				m_lastKeyState=curKeyState;
 				return;

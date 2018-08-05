@@ -207,7 +207,6 @@ void CSelectReplayScreen::StepEnterNameMode()
 int CSelectReplayScreen::Step()
 {	
 	m_curFrame++;
-	printf("%d",m_curFrame);
 	if(m_bStageSelect)
 	{
 	if (abs(m_curRowY - (m_listUpperLeftY + 4) * 16)>8)

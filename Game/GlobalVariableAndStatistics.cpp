@@ -111,18 +111,12 @@ void CGlobalVariableAndStatistics::LoadConfig()
 
 	memset(m_defaultHighScoreName,0,sizeof(m_defaultHighScoreName));
 	memset(m_defaultReplayName,0,sizeof(m_defaultReplayName));
-
 	memset(m_bClear,0,sizeof(m_bClear));
 
 	FILE *fp=fopen("game.cfg","rb");
 	if (fp==NULL)
 		return;
-	fseek(fp,0,SEEK_END);
-	/*if (ftell(fp)!=55)
-	{
-		fclose(fp);
-		return;
-	}*/
+	
 	fseek(fp,0,SEEK_SET);
 	fread(&m_nInitLife,sizeof(int),1,fp);
 	fread(&m_nInitBomb,sizeof(int),1,fp);
@@ -192,21 +186,18 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
 		for (int j=0;j<5;j++)//Difficult
+		{
+		m_nPracticeEnableStage[i][j]=-1;
 			for (int k=0;k<6;k++)//Stage
 			{
 				m_practiceHighScore[i][j][k]=0;
-				m_bPracticeFlag[i][j][k]=false;
 			}
+		}
 	
 	FILE *fp=fopen("score.dat","rb");
 	if (fp==NULL)
 		return;
-	//fseek(fp,0,SEEK_END);
-	/*if (ftell(fp)!=1500)
-	{
-		fclose(fp);
-		return;
-	}*/
+	
 	fseek(fp,0,SEEK_SET);
 	for (int i=0;i<4;i++)
 		for (int j=0;j<5;j++)
@@ -218,13 +209,16 @@ void CGlobalVariableAndStatistics::LoadHighScore()
 			}
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
+	{
 		for (int j=0;j<5;j++)//Difficult
+		{
+			fread(&m_nPracticeEnableStage[i][j],4,1,fp);
 			for (int k=0;k<6;k++)//Stage
 			{
 				fread(&m_practiceHighScore[i][j][k],4,1,fp);
-				fread(&m_bPracticeFlag[i][j][k],1,1,fp);
 			}
-	
+		}
+	}
 	fclose(fp);
 }
 
@@ -233,6 +227,7 @@ void CGlobalVariableAndStatistics::SaveHighScore()
 	FILE *fp=fopen("score.dat","wb");
 	if (fp==NULL)
 		return;
+	fseek(fp,0,SEEK_SET);
 	for (int i=0;i<4;i++)
 		for (int j=0;j<5;j++)
 			for (int k=0;k<5;k++)
@@ -244,13 +239,16 @@ void CGlobalVariableAndStatistics::SaveHighScore()
 		
 	//for practicemode
 	for (int i=0;i<4;i++)//Chara
+	{
 		for (int j=0;j<5;j++)//Difficult
+		{
+			fwrite(&m_nPracticeEnableStage[i][j],4,1,fp);
 			for (int k=0;k<6;k++)//Stage
 			{
 				fwrite(&m_practiceHighScore[i][j][k],4,1,fp);
-				fwrite(&m_bPracticeFlag[i][j][k],1,1,fp);
 			}
-	
+		}
+	}
 	fclose(fp);
 }
 
@@ -319,14 +317,15 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 		m_totalNPointItem=0;
 		int initP[]={32,32,44,48,32};
 		m_playerPerformance=initP[m_playDifficulty];
+		m_bCanSaveReplay=true;
 		if (m_bPracticeMode)
 		{
 			m_curPower=128;
 			m_curDream=128;
 			m_nCurLife=8;
 			m_nContinueLimit=0;
+			m_bCanSaveReplay=false;
 		}
-		m_bCanSaveReplay=true;
 	}
 	
 	m_curNGraze=0;
@@ -346,6 +345,9 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	int grazeBonus[]={25,50,100,200,500};
 	m_grazeBonus=grazeBonus[m_playDifficulty];
 	
+	
+	m_nTotalBomb=0;
+	m_nTotalMiss=0;
 	m_nBX2C=0;//unknown
 	m_nBX2E=0;//unknown
 	m_nBX30=0;
@@ -358,10 +360,3 @@ void CGlobalVariableAndStatistics::OnBeginGame()
 	
 }
 }
-
-
-
-
-
-
-

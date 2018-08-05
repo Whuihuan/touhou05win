@@ -198,12 +198,12 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		{
 			if (CGame::GVar().m_bPracticeMode == true)
 			{
-				CGame::GVar().m_practiceHighScore[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty]
+/*				CGame::GVar().m_practiceHighScore[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty]
 					[CGame::GVar().m_playStage] = CGame::GVar().m_curHighScore;//TODO:Move this to proper place and make automatically save score.dat
-				CTitleScreen *pScheme = new CTitleScreen;
-				pScheme->Initialize(true, 0, true);
+*/				CHighScoreScreen *pScheme = new CHighScoreScreen;
+				pScheme->Initialize(false, false);
 				*ppOutNextScheme = (CScheme*)pScheme;
-				*pOutNextSchemeID = SCHEME_TITLESCREEN;
+				*pOutNextSchemeID = SCHEME_HIGHSCORESCREEN;
 				return true;
 			}
 #ifdef _TRIAL
@@ -212,7 +212,6 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 			else if (CGame::GVar().m_playStage<5)
 #endif
 			{
-				CGame::GVar().m_bPracticeFlag[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty][CGame::GVar().m_playStage] = true;//todo:just no use bool instad use int?
 				CGame::GVar().m_playStage++;
 				CStage *pScheme=new CStage;
 				pScheme->Initialize();
@@ -229,7 +228,6 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 				*pOutNextSchemeID = SCHEME_HIGHSCORESCREEN;
 				return true;
 #else
-
 				CEnding *pScheme=new CEnding;
 				if (CGame::GVar().m_playStage==5)
 					pScheme->Initialize(CGame::GVar().m_nContinueUsed==0?1:0);//nocoutinue:FFh, continue:FEh
@@ -245,24 +243,12 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		}
 		if (curSchemeExitValue==STAGE_END_ALL_MISSED)
 		{
-			if (CGame::GVar().m_bPracticeMode == true)
-			{
-				CGame::GVar().m_practiceHighScore[CGame::GVar().m_playChara][CGame::GVar().m_playDifficulty][CGame::GVar().m_playStage] = CGame::GVar().m_curHighScore;
-				CSelectReplayScreen *pScheme = new CSelectReplayScreen;
-				pScheme->Initialize(false, true);
-				*ppOutNextScheme = (CScheme*)pScheme;
-				*pOutNextSchemeID = SCHEME_SELECTREPLAYSCREEN;
-				return true;
-			}
-			else
-			{
-				//At here, need to renew practice mode stage playable count
-				CHighScoreScreen *pScheme = new CHighScoreScreen;
-				pScheme->Initialize(false, false);
-				*ppOutNextScheme = (CScheme*)pScheme;
-				*pOutNextSchemeID = SCHEME_HIGHSCORESCREEN;
-				return true;
-			}
+			CHighScoreScreen *pScheme = new CHighScoreScreen;
+			pScheme->Initialize(false, false);
+			*ppOutNextScheme = (CScheme*)pScheme;
+			*pOutNextSchemeID = SCHEME_HIGHSCORESCREEN;
+			return true;
+			
 		}
 		if (curSchemeExitValue==STAGE_END_PLAYER_QUIT)
 		{

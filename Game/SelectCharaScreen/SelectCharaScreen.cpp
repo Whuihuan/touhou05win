@@ -30,11 +30,11 @@ namespace th5w {
 		m_curMenu = 0;
 		m_cursorPos = 0;
 
-		int difficulty = CGame::GVar().m_playDifficulty;
+		m_difficulty = CGame::GVar().m_playDifficulty;
 		for (int i = 0; i < 4; i++)
-			m_bCharaClearFlag[i] = CGame::GVar().m_bClear[i][difficulty];
+			m_bCharaClearFlag[i] = CGame::GVar().m_bClear[i][m_difficulty];
 		
-		if (difficulty != 4)
+		if (m_difficulty != 4)
 			for (int i = 0; i < 4; i++)
 				m_bCharaSelectable[i] = true;
 		else
@@ -48,8 +48,7 @@ namespace th5w {
 				m_charaDisplayImg[i] = 4;
 		
 		for (int i = 0; i < 4; i++)
-			for (int j = 0; j < 6; j++)
-				m_bPracticeSelectable[i][j] = CGame::GVar().m_bPracticeFlag[i][difficulty][j];
+				m_nPracticeEnableStage[i] = CGame::GVar().m_nPracticeEnableStage[i][m_difficulty];
 
 		unsigned char pc[] = { 0,0,0 };
 		CCommonFunctionGraphic::LoadBinaryImageFile(&m_pExtendBgImg, pc, "selectbg.bmp");
@@ -146,19 +145,14 @@ namespace th5w {
 		{
 
 			CCommonFunctionGraphic::DrawRectangle(320.0f-96.0f, 240.0f-120.0f,320.0f+96.0f,240.0f+120.0f,0, 0, 0,0.5f);
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i <m_nPracticeEnableStage[m_cursorPos]+1; i++)
 			{
-
-
-				sprintf(strBuf, "Stage %01d %07d0", i + 1, CGame::GVar().m_practiceHighScore[m_cursorPos][CGame::GVar().m_playDifficulty][i]);
-				if (m_bPracticeSelectable[m_cursorPos][i] == true)
-				{
-					if (i == m_cursorstage) {
-					CPC98Font::DrawString(strBuf, 100, 320.0f-96.0f, 240.0f-120.0f + 32 * i, colorselect[0], colorselect[1], colorselect[2]);
-					}
-					else {
-					CPC98Font::DrawString(strBuf, 100, 320.0f-96.0f, 240.0f-120.0f + 32 * i, color[0], color[1], color[2]);
-					}
+				sprintf(strBuf, "Stage %01d %07d0", i + 1, CGame::GVar().m_practiceHighScore[m_cursorPos][m_difficulty][i]);
+				if (i == m_cursorstage) {
+				CPC98Font::DrawString(strBuf, 100, 320.0f-96.0f, 240.0f-120.0f + 32 * i, colorselect[0], colorselect[1], colorselect[2]);
+				}
+				else {
+				CPC98Font::DrawString(strBuf, 100, 320.0f-96.0f, 240.0f-120.0f + 32 * i, color[0], color[1], color[2]);
 				}
 				
 			}
@@ -170,9 +164,9 @@ namespace th5w {
 
 	void CSelectCharaScreen::ParseKeyEvent()
 	{
+		unsigned short curState = CCommonFunctionInput::GetAllKeyState();
 		if (m_curMenu == 0)
 		{
-			unsigned short curState = CCommonFunctionInput::GetAllKeyState();
 			if (CCommonFunctionInput::LeftPressed(curState, m_lastKeyState) || CCommonFunctionInput::RightPressed(curState, m_lastKeyState))
 			{
 				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
@@ -193,10 +187,9 @@ namespace th5w {
 				if (m_bCharaSelectable[m_cursorPos] == true)
 				{
 					CGame::GVar().m_playChara = m_cursorPos;
-					CGame::GVar().OnBeginGame();
-					if ((CGame::GVar().m_bPracticeMode == true))
+					if (CGame::GVar().m_bPracticeMode == true)
 					{
-						if(m_bPracticeSelectable[m_cursorPos][0]==true)
+						if(m_nPracticeEnableStage[m_cursorPos]!=-1)
 						{
 							m_curMenu = 1;
 							m_cursorstage = 0;
@@ -204,6 +197,7 @@ namespace th5w {
 					}
 					else
 					{
+						CGame::GVar().OnBeginGame();
 						m_bQuit = true;
 						m_quitCode = SELECTCHARASCREEN_END_SELECTED_CHARA;
 					}
@@ -224,41 +218,32 @@ namespace th5w {
 		}
 		else if (m_curMenu == 1)
 		{
-			unsigned short curState = CCommonFunctionInput::GetAllKeyState();
 			if (CCommonFunctionInput::UpPressed(curState, m_lastKeyState))
 			{
 				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-				while(m_bPracticeSelectable[m_cursorPos][m_cursorstage]==false)
-				{
-					m_cursorstage = (m_cursorstage + 5) % 6;
-				}
+				m_cursorstage = (m_cursorstage + m_nPracticeEnableStage[m_cursorPos]) %
+									(m_nPracticeEnableStage[m_cursorPos]+1);
 				m_lastKeyState = curState;
 				return;
 			}
 			if (CCommonFunctionInput::DownPressed(curState, m_lastKeyState))
 			{
 				CGame::s_pCurGame->m_soundEffect.PlaySound(1);
-				while(m_bPracticeSelectable[m_cursorPos][m_cursorstage]==false)
-				{
-					m_cursorstage = (m_cursorstage + 1) % 6;
-				}				
+				m_cursorstage = (m_cursorstage + 1) % (m_nPracticeEnableStage[m_cursorPos]+1);
 				m_lastKeyState = curState;				
 				return;
 			}
 			if (CCommonFunctionInput::ZPressed(curState, m_lastKeyState))
 			{
 				CGame::s_pCurGame->m_soundEffect.PlaySound(11);
-				if (m_bPracticeSelectable[m_cursorPos][m_cursorstage])
+				if (m_cursorstage<=m_nPracticeEnableStage[m_cursorPos])
 				{
-
 					CGame::GVar().m_playStage = m_cursorstage;
 					CGame::GVar().OnBeginGame();
 					m_bQuit = true;
 					m_quitCode = SELECTCHARASCREEN_END_SELECTED_CHARA;
 					m_lastKeyState = curState;
-
 				}
-
 				return;
 			}
 			if (CCommonFunctionInput::ESCPressed(curState, m_lastKeyState) || CCommonFunctionInput::XPressed(curState, m_lastKeyState))
@@ -276,15 +261,3 @@ namespace th5w {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -107,15 +107,17 @@ void CStage::UploadVarToGlobal()
 	CGame::GVar().m_playerPerformance=m_playerPerformance;
 	CGame::GVar().m_nContinueUsed=m_nContinueUsed;
 	CGame::GVar().m_curPower=m_pChara->GetPower();
-	CGame::GVar().m_nBX2C=m_nBX2C;
+	CGame::GVar().m_nBX2C=m_nBX2C+m_curFrame;
 	CGame::GVar().m_nBX2E=m_nBX2E;
 	CGame::GVar().m_nBX30=m_nBX30;
 	CGame::GVar().m_nBX32=m_nBX32;
 	CGame::GVar().m_nBX34=m_nBX34;
-	CGame::GVar().m_nBX36=m_nBX36;//need to find one more reference
+	CGame::GVar().m_nBX36=m_nBX36;
 	CGame::GVar().m_nBX38=m_nBX38;
 	CGame::GVar().m_nBX3C=m_nBX3C;
 	CGame::GVar().m_nBX40=m_nBX40;
+	CGame::GVar().m_nTotalMiss+=m_nMiss;
+	CGame::GVar().m_nTotalBomb+=m_nBomb;
 	
 }
 

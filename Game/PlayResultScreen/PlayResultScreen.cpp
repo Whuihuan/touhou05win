@@ -30,8 +30,8 @@ namespace th5w {
 		m_ResultType = ResultType;
 		m_Difficulty = CGame::GVar().m_playDifficulty;
 		m_Score = CGame::GVar().m_curScore;
-		m_nMiss = 0;
-		m_nBomb = 0;
+		m_nMiss = CGame::GVar().m_nTotalMiss;
+		m_nBomb = CGame::GVar().m_nTotalBomb;
 
 		if (CGame::GVar().m_playStage == 6)
 		{
@@ -227,12 +227,21 @@ namespace th5w {
 	void CPlayResultScreen::Initialize(bool bSwitchMusic, int ResultType)
 	{
 		m_ResultType = ResultType;
-
+		
+		
 		m_curFrame = 0;
 		m_lastKeyState = 0;
 		m_curKeyState = 0;
 		m_bQuit = false;
 		m_curScrFade = 0;
+		if(CGame::GVar().m_bPracticeMode)
+		{
+			m_bQuit=true;
+			m_quitCode=PLAYRESULTSCREEN_SKIPPED;
+			m_curScrFade=0;
+			return;
+		}
+		
 		InitializeValue(ResultType);
 
 		CCommonFunctionGraphic::LoadPIFromDat(&m_pBGImage, NULL, &CGame::s_pCurGame->m_th5Dat1, "UDE.PI");
@@ -377,8 +386,8 @@ namespace th5w {
 
 		CTh5ExtFont::DrawExtString(difficultyName[m_Difficulty], 100, x + 160, y + 24, color[0], color[1], color[2]);//difficulty
 		DrawNumber(x + 96 + 16, y + 24 * 2, m_Score * 10, 10, false, true, color[0], color[1], color[2]);				//score
-		//DrawNumber(x+96+16,y+24*3,m_nMiss,10,false,true, color[0], color[1], color[2]);						//Miss
-		//DrawNumber(x+96+16,y+24*4, m_nBomb,10,false,true, color[0], color[1], color[2]);						//Bomb
+		DrawNumber(x+96+16,y+24*3,m_nMiss,10,false,true, color[0], color[1], color[2]);						//Miss
+		DrawNumber(x+96+16,y+24*4, m_nBomb,10,false,true, color[0], color[1], color[2]);						//Bomb
 		DrawNumber(x + 96, y + 24 * 5, m_nGameAchivement, 10, false, true, color[0], color[1], color[2], 2);
 		DrawNumber(x + 96, y + 24 * 6, m_nExorcism, 10, false, true, color[0], color[1], color[2], 2);
 		DrawNumber(x + 96, y + 24 * 7, m_nItemCollect, 10, false, true, color[0], color[1], color[2], 2);
