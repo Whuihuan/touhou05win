@@ -528,6 +528,7 @@ void CTitleScreen::ParseKeyEvent()
 					m_quitCode=TITLESCREEN_END_QUIT_GAME;
 				    break;
 				case MAIN_MENU_REPLAY:
+					CGame::GVar().m_demonum = 0;
 					m_bQuit=true;
 					m_quitCode=TITLESCREEN_END_CHOOSE_REPLAY;
 					break;

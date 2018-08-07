@@ -21,7 +21,7 @@
 #define STAGE_END_PLAYER_QUIT 2
 #define STAGE_END_ALL_MISSED 3
 #define STAGE_END_REPLAY_END 4
-#define STAGE_END_DEMO_END 4
+#define STAGE_END_DEMO_END 5
 
 namespace th5w{
 

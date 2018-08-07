@@ -45,6 +45,7 @@ CHighScoreScreen::~CHighScoreScreen(void)
 void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 {
 	m_bViewMode=bViewMode;
+	m_bClearFlag = clearFlag;
 	if (bViewMode)
 		m_curPage=0;
 	else
@@ -102,8 +103,8 @@ void CHighScoreScreen::Initialize(bool bViewMode,bool clearFlag)
 					CGame::GVar().m_highScoreName[m_opChara][m_curPage][i][0]=0;
 					CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=CGame::GVar().m_playStage+1;
 					if (CGame::GVar().m_playStage==6)
-						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=128;//fixed 1->128
-					else
+						CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=1;//fixed 1->128
+					//else //why...?
 						if (clearFlag)
 							CGame::GVar().m_highScoreFlag[m_opChara][m_curPage][i]=128;
 				}
@@ -182,7 +183,9 @@ int CHighScoreScreen::Step()
 		if (CCommonFunctionInput::ESCPressed(m_curKeyState,m_lastKeyState) || CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
 		{
 			m_bQuit=true;
-			m_quitCode=HIGHSCORESCREEN_END_ENTER_END;	
+			m_quitCode=HIGHSCORESCREEN_END_ENTER_END;
+			if (m_bClearFlag)
+				m_quitCode = HIGHSCORESCREEN_END_ENTER_END_CLEARED;
 			CGame::GVar().SaveHighScore();
 			CGame::GVar().SaveConfig();	
 		}
@@ -237,6 +240,8 @@ int CHighScoreScreen::Step()
 			case 50:
 				m_bQuit=true;
 				m_quitCode=HIGHSCORESCREEN_END_ENTER_END;
+				if (m_bClearFlag)
+					m_quitCode = HIGHSCORESCREEN_END_ENTER_END_CLEARED;
 				memcpy(CGame::GVar().m_highScoreName[m_opChara][m_curPage][m_opRank],m_curEnterName,10);
 				CGame::GVar().SaveHighScore();
 				memcpy(CGame::GVar().m_defaultHighScoreName,m_curEnterName,10);

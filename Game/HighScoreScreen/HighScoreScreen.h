@@ -4,7 +4,8 @@
 
 #define HIGHSCORESCREEN_END_VIEW_END 1
 #define HIGHSCORESCREEN_END_ENTER_END 2
-#define HIGHSCORESCREEN_END_ENTER_SKIPPED 3
+#define HIGHSCORESCREEN_END_ENTER_END_CLEARED 3
+#define HIGHSCORESCREEN_END_ENTER_SKIPPED 4
 
 namespace th5w{
 
@@ -15,6 +16,7 @@ protected:
 
 protected:
 	bool m_bViewMode;
+	bool m_bClearFlag;
 	bool m_bNewHighScore;
 	int m_curFrame;
 	unsigned short m_lastKeyState,m_curKeyState;

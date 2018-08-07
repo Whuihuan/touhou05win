@@ -170,8 +170,6 @@ bool CPMDPlayer::LoadPMDData(unsigned char *musicData,int size)
 	
 	
 	getpcmdata((short *)pWriteBuf,(BUFFER_SEG_LENGTH/4)*s_bufNSeg);
-	qqtag *temp = getpartwork(1);
-	printf("%d", temp->step);
 	s_pDSoundBuffer8->Unlock(pWriteBuf,writeBufSize,NULL,0);
 
 	s_hPlayThread=CreateThread(NULL,0,PlayThread,NULL,0,&s_playThreadID);

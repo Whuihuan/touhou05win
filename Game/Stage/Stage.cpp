@@ -1052,6 +1052,14 @@ void CStage::DrawStatistics()
 	float color[][3]={{0,1,0},{0,1,1},{1,0,1},{1,0,0},{1,0,0}};
 	int dif=CGame::GVar().m_playDifficulty;
 	CTh5ExtFont::DrawExtString(difficultyExtStr[dif],100,0x39*8,0x17*16+40,color[dif][0],color[dif][1],color[dif][2]);
+	//draw replaymode or practice mode
+	unsigned char practiceModeStr[] = { gb_P_,gb_R_,gb_A_,gb_C_,gb_T_,gb_I_,gb_C_,gb_E_,0 };
+	unsigned char replayModeStr[] = { gb_R_,gb_E_,gb_P_,gb_L_,gb_A_,gb_Y_,2,gb_M_,gb_O_,gb_D_,gb_E_,0 };
+	if (CGame::GVar().m_bPracticeMode)
+		CTh5ExtFont::DrawExtString(practiceModeStr, 100, 0x39 * 8, 0x18 * 16 +8 + 40, color[0][0], color[0][1], color[0][2]);
+
+	if(CGame::GVar().m_bReplayMode)
+		CTh5ExtFont::DrawExtString(replayModeStr, 100, 0x37 * 8, 0x18 * 16 + 8 + 40, color[4][0], color[4][1], color[4][2]);
 
 	if (m_pMidBoss)
 		m_pMidBoss->DrawStatistics();
