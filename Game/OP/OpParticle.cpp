@@ -28,15 +28,15 @@ void COpParticle::Step(bool *pbPlaySound15)
 		if (pPar->bUsed!=1)
 			continue;
 		pPar->age++;
-		if (pPar->age>=40)
+		if (pPar->age>=40*2)
 		{
 			pPar->bUsed=0;
 			pPar->age=0;
 			continue;
 		}
-		if (pPar->age<16)
+		if (pPar->age<16*2)
 			continue;
-		if (pPar->age==16)
+		if (pPar->age==16*2)
 			*pbPlaySound15=true;
 		pPar->lastR=pPar->curR;
 		pPar->curR+=pPar->vel;
@@ -50,15 +50,15 @@ void COpParticle::Draw(C2DImageArray *pImageArray)
 		PARTICLE *pPar=&m_particle[i];
 		if (pPar->bUsed!=1)
 			continue;
-		int drawImg=pPar->img+pPar->age/4;
-		if (pPar->age<16)
+		int drawImg=pPar->img+pPar->age/(4*2);
+		if (pPar->age<16*2)
 		{
 			C2DImage *pImage=pImageArray->GetImagePtr(drawImg);
 			pImage->Draw((float)pPar->curX/16-8,(float)pPar->curY/16-8+40);
 			continue;
 		}
 		int drawOffset;
-		if (pPar->age<32)
+		if (pPar->age<32*2)
 			drawOffset=8;
 		else
 			drawOffset=16;
@@ -88,7 +88,7 @@ void COpParticle::AddParticles(int img,int nParticleToCreate,int originX,int ori
 		m_particle[curSlot].curY=originY*16;
 		m_particle[curSlot].lastR=0;
 		m_particle[curSlot].curR=0;
-		m_particle[curSlot].vel=rand()%224+64;
+		m_particle[curSlot].vel=(rand()%224+64)/2;
 		m_particle[curSlot].angle=rand()%256;
 		m_particle[curSlot].img=img;
 		nParticleCreated++;

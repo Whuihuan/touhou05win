@@ -36,7 +36,7 @@
 #include "Boss/BossStage5.h"
 #include "Boss/BossStage6.h"
 #include "Boss/BossStageEx.h"
-#include "../../gameLib/PMDPlayer/PMDPlayer.h"
+//#include "../../gameLib/PMDPlayer/PMDPlayer.h"
 #include "../../gameLib/Graphic/Th5ExtFont.h"
 #include "../../gameLib/Graphic/PC98Font.h"
 
@@ -456,7 +456,7 @@ int CStage::Step()
 			bgmFileName[3] = CGame::GVar().m_playStage + 48;
 		if (CGame::GVar().m_demonum == 0 || CGame::GVar().m_demonum == 5)
 		{
-				CPMDPlayer::UnloadPMDData();
+			CCommonFunctionMusicSE::UnloadData();
 			CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat2, bgmFileName);
 			CCommonFunctionMusicSE::SetVolume(100);
 			CCommonFunctionMusicSE::Play();
@@ -1068,9 +1068,9 @@ void CStage::DrawStatistics()
 	//draw fps
 	char str[80];
 	if (CGame::s_pCurGame->m_fps>100)
-        sprintf(str,"FPS:%.1lf",CGame::s_pCurGame->m_fps);
+        sprintf(str,"%.1lfFPS",CGame::s_pCurGame->m_fps);
 	else
-		sprintf(str,"FPS: %.1lf",CGame::s_pCurGame->m_fps);
+		sprintf(str," %.1lfFPS",CGame::s_pCurGame->m_fps);
 	CPC98Font::DrawString(str,9,564,460,1,1,1);
 }
 

@@ -1,8 +1,8 @@
 #include ".\commonfunctionmusicse.h"
-#include "../../Game/Game.h"
 #include "../PMDPlayer/PMDPlayer.h"
 #include "../MMDPlayer/MMDPlayer.h"
-//#include "..\..\include\GuruGuruSMF4\GuruGuruSMF4.h"
+#include "../SE/soundeffect.h"
+#include "../../Game/Game.h"
 #pragma comment(lib,"GuruGuruSMF4.lib")
 
 namespace th5w{
@@ -155,4 +155,14 @@ bool CCommonFunctionMusicSE::SetVolume(float volume)
 	}
 	return false;
 }
+void CCommonFunctionMusicSE::PlaySe(int soundIdx)
+{/*
+	int se = CGame::GVar().m_initSe;
+	if (se == 1 || se == 2)
+	{
+		th5w::CSoundEffect::PlaySound(soundIdx);
+	}*/
+	
+}	
+
 }

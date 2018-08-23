@@ -6,6 +6,26 @@
 #include "../../gameLib/Graphic/PC98Font.h"
 #include "../../gameLib/Graphic/Th5ExtFont.h"
 #include <time.h>
+unsigned char stfpalette[48] = {
+	0x00, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 
+	0x00, 0x70, 0x70, 
+	0x50, 0xC0, 0xC0,
+	0x00, 0x00, 0x50, 
+	0xA0, 0x20, 0x20, 
+	0x00, 0x00, 0x60, 
+	0x10, 0x10, 0x70,
+	0x30, 0x30, 0x80, 
+	0x50, 0x50, 0x90, 
+	0x70, 0x70, 0xB0, 
+	0x90, 0x90, 0xC0,
+	0xB0, 0xB0, 0xD0, 
+	0xD0, 0xD0, 0xF0, 
+	0xA0, 0xE0, 0xB0, 
+	0xF0, 0xF0, 0xF0
+};
+
+
 namespace th5w{
 
 CStaffRoll::CStaffRoll(void)
@@ -22,22 +42,25 @@ void CStaffRoll::Initialize()
 	m_curFrame=0;
 	m_bQuit = false;
 
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf00.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf01.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf02.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf03.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf04.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf05.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf06.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf07.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf08.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf09.CDG", 0);
-	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf10.CDG", 0);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf00.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf01.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf02.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf03.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf04.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf05.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf06.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf07.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf08.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf09.CDG", stfpalette);
+	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf10.CDG", stfpalette);
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_patternArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"stf01.BFT",0);
 	CCommonFunctionGraphic::LoadBFTAllPatternFromDat(&m_patternArray,NULL,&CGame::s_pCurGame->m_th5Dat1,"stf00.BFT",0);
-	
-	CGame::s_pCurGame->m_fpsLimit=26;
-	
+	CGame::s_pCurGame->SetVSYNC(true);
+		
+	CGame::s_pCurGame->m_fpsLimit=58;
+	CCommonFunctionMusicSE::LoadMusicFromDat(&CGame::s_pCurGame->m_th5Dat1,"STAFF");
+			th5w::CCommonFunctionMusicSE::Play();
+		
 }
 
 int CStaffRoll::Step()

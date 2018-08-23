@@ -119,14 +119,21 @@ bool CPIFile::ExtractImageAndPalette(unsigned char *outImage, unsigned char *out
 	delete bitstream;
 
 	unsigned char *palette;
-	if (m_bHasPalette)
+	/*if (m_bHasPalette)
 		palette=m_palette;
 	else
 		if (inPalette!=NULL)
 			palette=inPalette;
 		else
 			palette=PIdefaultPalette;
-
+	*/
+	if (m_bHasPalette)
+		palette=m_palette;
+	else
+		palette=PIdefaultPalette;
+	if (inPalette!=NULL)
+		palette=inPalette;
+	//fix for musicroom hack
 	if (outPalette!=NULL&&m_bHasPalette)
 		memcpy(outPalette,m_palette,48);
 

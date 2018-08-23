@@ -11,6 +11,7 @@
 using namespace std;
 #pragma comment(lib,"dsound.lib")
 #pragma comment(lib,"dxguid.lib")
+#define DELAY_CAL 200
 
 namespace th5w{
 
@@ -57,6 +58,8 @@ protected:
 public:
 	static bool FillSoftwareBuffer(int nSample);		//1 sample occupies 4 bytes, return false if software buffer
 														//is full
+	static int s_pmdonkaibuf[24][DELAY_CAL+1];
+
 protected:
 	static bool CopyFromSoftwareBuffer(unsigned char *outBuf,int copyLen);	//return false if software buffer in empty
 	static DWORD WINAPI PlayThread(void *pParam);

@@ -1,7 +1,9 @@
 #include ".\MMDPlayer.h"
-#include <stdio.h>
+#include "../../include/GuruGuruSMF4/GuruGuruSMF4_C_Static.h"
+#pragma comment(lib,"GuruGuruSMF4.lib")
+//#include <stdio.h>
 namespace th5w {
-	GuruGuruSmf::Ggs4* CMMDPlayer::m_manager = NULL;
+	//GuruGuruSmf::Ggs4* CMMDPlayer::m_manager = NULL;
 
 	CMMDPlayer::CMMDPlayer(void)
 	{
@@ -13,46 +15,64 @@ namespace th5w {
 
 	bool CMMDPlayer::Initialize(HWND hWnd)
 	{
-		if (m_manager->Initialize() != GuruGuruSmf::GgsError::NoError)
-			return false;
-		m_manager->OpenDevice(-1100, hWnd);
-		m_manager->SetMasterVolume(100);
+		//if (GGS4Initialize() != GGSERROR_NOERROR)
+		//	return false;
+		GGS4OpenDevice(-1100, hWnd);
+		GGS4SetMasterVolume(100);
 		return true;
 	}
+	
 	bool CMMDPlayer::LoadMMDData(char *bgmFileName)
 	{
-		m_manager->AddListFromFileA(bgmFileName, 1, 0);
+		GGS4AddListFromFileA(bgmFileName, 1, 0);
 		return true;
 
 	}
+	
 	bool CMMDPlayer::UnloadMMDData()
 	{
 		//m_pMIDISound = NULL;
 		return true;
 	}
+	
 	void CMMDPlayer::Play()
 	{
-		m_manager->Play(GuruGuruSmf::PlayOption::SkipBeginning|GuruGuruSmf::PlayOption::Loop,0,0,0,0);
+		GGS4Play(GGSPLAY_SKIPBEGINNING|GGSPLAY_LOOP,0,0,0,0);
 	}
+	
 	void CMMDPlayer::Pause()
 	{
-		m_manager->Pause();
+		GGS4Pause();
 	}
+	
 	void CMMDPlayer::Resume()
 	{
-		m_manager->Restart();
+		GGS4Restart();
 	}
+	
 	void CMMDPlayer::Finalize()
 	{
-		m_manager->Stop(0);
+		GGS4Stop(0);
 	}
+	
+	void CMMDPlayer::FadeIn(int time)
+	{
+		GGS4Play(GGSPLAY_SKIPBEGINNING|GGSPLAY_LOOP,0,0,time,0);
+	}
+	
+	void CMMDPlayer::FadeOut(int time)
+	{
+		GGS4Stop(time);
+	}
+	
 	void CMMDPlayer::SetFrequency(int newFreq)
 	{
 
 	}
+	
 	void CMMDPlayer::SetVolume(float volume)		//0 silence, 100 normal, no amplification
 	{
 
-		m_manager->SetMasterVolume((int)volume);
+		GGS4SetMasterVolume((int)volume);
 	}
 }

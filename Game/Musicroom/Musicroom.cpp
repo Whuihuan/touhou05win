@@ -1,5 +1,7 @@
 #include ".\MusicRoom.h"
 #include "../Game.h"
+#include "..\..\include\PMDWin\PMDWinImort.h"
+#include "../../gameLib/PMDPlayer/PMDPlayer.h"
 #include "../../gameLib/CommonFunction/CommonFunctionInput.h"
 #include "../../gameLib/CommonFunction/CommonFunctionGraphic.h"
 #include "../../gameLib/CommonFunction/CommonFunctionMusicSE.h"
@@ -10,7 +12,10 @@
 #include <shlwapi.h>
 #include <tchar.h>
 #define PI 3.1415926535897932384626433832795
-
+QQ* pmddriver[24];
+#define DELAY_CAL 200
+int pmdonkaibuf[24][DELAY_CAL+1];
+char OnkaiName[][3]={"c ", "c+", "d ", "d+", "e ", "f ", "f+", "g ", "g+", "a ", "a+", "b "};
 
 namespace th5w {
 #ifdef _TRIAL
@@ -23,7 +28,7 @@ namespace th5w {
 	char MUSIC_FILES[5][30][40] = { {"r_00","r_01",    "r_02",   "r_03",  "r_04",   "r_05",  "r_06",   "r_07",   "r_08",   "r_09",   "r_10",   "r_11",   "r_12",   "r_13"},
 								 {"h_op","h_st00",  "h_st00b","h_st01","h_st01b","h_st02","h_st02b","h_st03", "h_st03b","h_st04", "h_st04b","h_st05", "h_st05b","h_end",  "h_staff","h_ng00", "h_ng01", "h_ng02"},
 								 {"y_op","y_select","y_00mm", "y_01mm","y_02mm", "y_03mm","y_04mm", "y_05mm", "y_06mm", "y_dec",  "y_07mm", "y_08mm", "y_demo1","y_demo2","y_demo3","y_demo4","y_demo5","y_ed",  "y_score","y_win",  "y_over","y_ng00","y_ng01","y_ng02"},
-								 {"g_op","g_st00",  "g_st10", "g_st00b","g_st01","g_st01b","g_st02","g_st02b","g_st03", "g_st03b","g_st04", "g_st04b","g_st05", "g_st05b","g_st06", "g_st06b","g_st06c","g_end1","g_end2", "g_staff","g_name","g_ng00","g_ng01","g_ng02","g_ng03","g_ng04","g_ng05" },
+								 {"g_op","g_st00",  "g_st10", "g_st00b","g_st01","g_st01b","g_st02","g_st02b","g_st03", "g_st03b", "g_st03C","g_st04", "g_st04b","g_st05", "g_st05b","g_st06", "g_st06b","g_st06c","g_end1","g_end2", "g_staff","g_name","g_ng00","g_ng01","g_ng02","g_ng03","g_ng04","g_ng05" },
 								 {"OP",  "ST00",    "ST00B",  "ST01",   "ST01B", "ST02",   "ST02B", "ST03",   "ST03B",  "ST03C",  "ST03D",  "ST04",   "ST04B",  "ST05",   "ST05B",  "ST06",   "ST06B",  "ED00",  "ED01",   "ED02",   "STAFF", "EXED",  "NAME"} };
 	
 	char music_cmt[MUSIC_CMT_LINE_COUNT][MUSIC_CMT_LINE_LEN];
@@ -32,6 +37,7 @@ namespace th5w {
 	CMusicRoom::CMusicRoom(void)
 	{
 		m_pBGImage = NULL;
+		m_pBGImage2 = NULL;
 	}
 
 	CMusicRoom::~CMusicRoom(void)
@@ -39,17 +45,24 @@ namespace th5w {
 		if (m_pBGImage)
 			m_pBGImage->Destroy();
 		m_pBGImage = NULL;
+		if (m_pBGImage2)
+			m_pBGImage2->Destroy();
+		m_pBGImage2 = NULL;
 	}
 
 	void CMusicRoom::Initialize()
 	{
+		for(int i=0;i<24;i++)
+			pmddriver[i]= getpartwork(i);
+
 		m_curFrame = 0;
 		m_lastKeyState = 0;
 		m_curKeyState = 0;
 		m_bQuit = false;
 		m_curScrFade = 0;
 		m_texttrans = 1.0f;
-		CGame::s_pCurGame->m_fpsLimit = 58;
+		CGame::s_pCurGame->SetVSYNC(true);
+		CGame::s_pCurGame->m_fpsLimit = 26*2;
 
 		m_nFilePerPage = 16;
 		m_nPage = 5;
@@ -61,22 +74,36 @@ namespace th5w {
 		m_curCursorPos = 0;
 		m_curListTop = 0;
 		MusicCommentLoad();
-		LoadPIFromDat(&m_pBGImage, m_palette, &CGame::s_pCurGame->m_th5Dat1, "MUSIC.PI");
-		//	for (int i = 0; i <= 16; i++)
-			//	printf("%d %d %d\n", m_palette[3 * i], m_palette[3 * i + 1], m_palette[3 * i + 2]);
-
+		m_palette[0]=51;
+		m_palette[1]=0;
+		m_palette[2]=102;
+		LoadPIFromDat(&m_pBGImage, m_palette,NULL, &CGame::s_pCurGame->m_th5Dat1, "MUSIC.PI");
+		m_palette[0]=m_palette[3];
+		m_palette[1]=m_palette[4];
+		m_palette[2]=m_palette[5];
+		m_palette[30]=m_palette[33];
+		m_palette[31]=m_palette[34];
+		m_palette[32]=m_palette[35];
+		m_palette[36]=m_palette[39];
+		m_palette[37]=m_palette[40];
+		m_palette[38]=m_palette[41];
+		m_palette[42]=m_palette[45];
+		m_palette[43]=m_palette[46];
+		m_palette[44]=m_palette[47];
+		LoadPIFromDat(&m_pBGImage2, NULL, m_palette, &CGame::s_pCurGame->m_th5Dat1, "MUSIC.PI");
+			
 		for (int i = 0; i < MUSIC_POLYGONS; i++) {
 			pos[i].x = (float)(rand() % 640);
 			pos[i].y = (float)(rand() % 480);
-			move_speed[i].x = (float)(8 - (rand() & 15));
-			if (move_speed[i].x == 0) {
-				move_speed[i].x = 26.0f / (CGame::s_pCurGame->m_fps);
+			move_speed[i].x = (float)(4 - rand()%8)/2.0f;
+			if (move_speed[i].x < 0.01f) {
+				move_speed[i].x = 1.0f/2.0f;
 			}
-			move_speed[i].y = (float)((rand() & 3) + 32);
+			move_speed[i].y = (float)(rand()%4+32)/2.0f;
 			angle[i] = (float)rand();
-			rot_speed[i] = (float)(4 - (rand() & 7));
-			if (rot_speed[i] == 0.0f) {
-				rot_speed[i] = 4.0f;
+			rot_speed[i] = (float)(4 - (rand()%15))*PI/128.0f/2.0f;
+			if (rot_speed[i] < 0.01f) {
+				rot_speed[i] = 4.0f*PI/128.0f/2.0f;
 			}
 		}
 	}
@@ -111,29 +138,34 @@ namespace th5w {
 	void CMusicRoom::PolygonsRender(void)
 	{
 		int i;
+		GLuint texID=m_pBGImage2->GetTexID();
 		for (i = 0; i < MUSIC_POLYGONS; i++) {
-			PolygonBuild(points, pos[i].x, pos[i].y, (float)((i & 3) << 4) + 64, (i / 4) + 3, angle[i]);
+			PolygonBuild(points, pos[i].x, pos[i].y, (float)((i & 3) << 4) + 64, (i / 6) + 3, angle[i]);
 			
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D,texID);
 			glMatrixMode(GL_PROJECTION);
 			glPushMatrix();
 			glLoadIdentity();
 			gluOrtho2D(0, CGame::s_pCurGame->m_windowWidth,
-				0, CGame::s_pCurGame->m_windowHeight);
+					   0, CGame::s_pCurGame->m_windowHeight);
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 			glLoadIdentity();
 
-			glDisable(GL_TEXTURE_2D);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glColor4f(0, 0, 0, 1);
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			glColor4f(1,1,1,1);
+			glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+			
+			glDisable(GL_DEPTH_TEST);
+
 			glBegin(GL_POLYGON);
+			
+			
 			for (int j = 0; j < (i / 4) + 3; j++) {
-				glVertex2f(points[j].x, CGame::s_pCurGame->m_windowHeight - 1 - points[j].y);
+				glTexCoord2d(points[j].x/1024.0f, (CGame::s_pCurGame->m_windowHeight - 1 - points[j].y)/512.0f);
+				glVertex3f(points[j].x, CGame::s_pCurGame->m_windowHeight - 1 - points[j].y,0);
 			}
 			glEnd();
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glPopMatrix();
 			glMatrixMode(GL_PROJECTION);
 			glPopMatrix();
@@ -143,27 +175,26 @@ namespace th5w {
 	void CMusicRoom::PolygonsUpdate(void)
 	{
 		int i;
-		float fpshack = 26.0f / (CGame::s_pCurGame->m_fps);
-		for (i = 0; i < MUSIC_POLYGONS; i++) {
-			pos[i].x += move_speed[i].x * fpshack;
-			pos[i].y += move_speed[i].y*0.4f * fpshack;
-			angle[i] += rot_speed[i] * 0.05f * fpshack;
-			if (pos[i].x <= 0.0f || pos[i].x > 640.0f) {
+		for (i = 0; i < MUSIC_POLYGONS; i++) 
+		{
+			pos[i].x += move_speed[i].x;
+			pos[i].y += move_speed[i].y;
+			angle[i] += rot_speed[i];
+			if (pos[i].x <= 0.0f || pos[i].x > 640.0f) 
 				move_speed[i].x *= -1.0f;
-			}
-			if (pos[i].y > 580.0f) {
+			if (pos[i].y > 580.0f) 
+			{
 				pos[i].x = (float)(rand() % 640);
 				pos[i].y = -100.0f;
-				move_speed[i].x = (float)(8 - (rand() & 15));
-				if (move_speed[i].x == 0.0f) {
-					move_speed[i].x = 1.0f;
-				}
-				move_speed[i].y = (float)((rand() & 3) + 32);
+				move_speed[i].x = (float)(4 - rand()%8)/2.0f;
+				if (move_speed[i].x < 0.001f) 
+					move_speed[i].x = 1.0f/2.0f;
+				move_speed[i].y = (float)(rand()%4+32)/2.0f;
 				angle[i] = (float)rand();
-				rot_speed[i] = (float)(1 - (rand() & 5));
-				if (rot_speed[i] == 0.0f) {
-					rot_speed[i] = 1.0f;
-				}
+				rot_speed[i] = (float)(4 - (rand()%16))*PI/128.0f/2.0f;
+				if (rot_speed[i] < 0.001f) 
+					rot_speed[i] = 4.0f*PI/128.0f/2.0f;
+			
 			}
 		}
 	}
@@ -190,18 +221,37 @@ namespace th5w {
 
 
 	}
-	bool CMusicRoom::LoadPIFromDat(C2DImage** pRet, unsigned char *outPalette,
-		Cth5DatFile *pDatFile, char *piFileName)//hack to use transparent
+	bool CMusicRoom::LoadPIFromDat(C2DImage** pRet, unsigned char *outPalette, unsigned char *inPalette,
+		Cth5DatFile *pDatFile, char *piFileName)//hack for musicroombackground
 	{
 		int piIdx = pDatFile->GetChildFileIndex(piFileName);
 		th5w::CPIFile piFile(pDatFile->GetChildFileContentPointer(piIdx),
 			pDatFile->GetChildFileLength(piIdx));
-		C2DImage *p2DImage = C2DImage::Create2DImage(piFile.GetWidth(), piFile.GetHeight());
-		if (piFile.ExtractImageAndPalette(p2DImage->GetDataPointer(), outPalette, NULL, 0) == false)
+		C2DImage *p2DImage = C2DImage::Create2DImage(piFile.GetWidth(), piFile.GetHeight()+80);
+		unsigned char *pWrite=p2DImage->GetDataPointer();
+		piFile.ExtractImageAndPalette(p2DImage->GetDataPointer()+80*piFile.GetWidth()*4, outPalette, inPalette);
+		piFile.ExtractImageAndPalette(p2DImage->GetDataPointer(), outPalette, inPalette);
+		for (int i=11;i<=21;i++)
 		{
-			p2DImage->Destroy();
-			return false;
+			for (int j=112;j<=128;j++)
+			{
+			pWrite[(640*(480-j)+i)*4]=m_palette[0];
+			pWrite[(640*(480-j)+i)*4+1]=m_palette[1];
+			pWrite[(640*(480-j)+i)*4+2]=m_palette[2];
+			pWrite[(640*(480-j)+i)*4+3]=255;
+			}
 		}
+		for (int i=293;i<=303;i++)
+		{
+			for (int j=112;j<=128;j++)
+			{
+			pWrite[(640*(480-j)+i)*4]=m_palette[0];
+			pWrite[(640*(480-j)+i)*4+1]=m_palette[1];
+			pWrite[(640*(480-j)+i)*4+2]=m_palette[2];
+			pWrite[(640*(480-j)+i)*4+3]=255;
+			}
+		}
+		
 		if (p2DImage->UploadToTexture() == false)
 		{
 			p2DImage->Destroy();
@@ -215,6 +265,17 @@ namespace th5w {
 	{
 		PolygonsUpdate();
 		m_curFrame++;
+		/*printf("PCMPOS:%4d frame:%04d ",getpos2(),m_curFrame);
+		for(int i=0; i<14; i++)
+		{		
+			pmdonkaibuf[i][m_curFrame%DELAY_CAL]=pmddriver[i]->onkai;
+			if(pmdonkaibuf[i][(m_curFrame+1)%DELAY_CAL]!=0xFF)
+				printf("%1d%2s ",pmdonkaibuf[i][(m_curFrame+1)%DELAY_CAL]/0x10+1,OnkaiName[pmdonkaibuf[i][(m_curFrame+1)%DELAY_CAL]%0x10]);
+			else
+				printf("    ");
+		}*/
+		//printf("\n");
+		
 		if (m_texttrans < 1.0f)
 		{
 			m_texttrans += 0.1f;
@@ -324,11 +385,8 @@ namespace th5w {
 		if (m_curScrFade == 0)
 			return;
 		CCommonFunctionGraphic::DrawRectangle(0, 0, 640, 480, 0.19921875f, 0.0f, 0.3984375f);
+		m_pBGImage->Draw(0, 0);
 		PolygonsRender();
-		//m_pBGImage->Draw(0,0);
-		m_pBGImage->Draw(0, 80);
-		//CCommonFunctionGraphic::DrawRectangle(8, 108, 40,140, 0.19921875f, 0.0f, 0.3984375f);
-		//CCommonFunctionGraphic::DrawRectangle(284, 108, 316, 140, 0.19921875f, 0.0f, 0.3984375f);
 		char strBuf[100];
 		float text_color[] = { 1.0f,0.796875f,1.0f };
 		float white_color[] = { 1.0f,1.0f,1.0f };
@@ -341,15 +399,12 @@ namespace th5w {
 
 		for (int i = 1; i < 10; i++)
 		{
-			// CPC98Font::DrawString(music_cmt[i], 100, 320, 208 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
-			//CPC98Font::DrawString(music_cmt[i], 100, 320 - 1, 208 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
-			CPC98Font::DrawString(music_cmt[i], 100, 320, 144 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
-			CPC98Font::DrawString(music_cmt[i], 100, 320 - 1, 144 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
+			CPC98Font::DrawString(music_cmt[i], 100, 320, 208+16 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
+			CPC98Font::DrawString(music_cmt[i], 100, 320 - 1, 208+16 + i * 16, text_color[0], text_color[1], text_color[2], m_texttrans);
 		}
 		CPC98Font::DrawString(musicRoom_up, 100, m_listUpperLeftX * 8, m_listUpperLeftY * 16 - 16, list_color[0], list_color[1], list_color[2]);
-
 		CPC98Font::DrawString(musicRoom_down, 100, m_listUpperLeftX * 8, (m_listUpperLeftY + m_nFilePerPage) * 16, list_color[0], list_color[1], list_color[2]);
-
+		
 		for (int i = 0; i < m_nFilePerPage; i++)
 		{
 			int x = m_listUpperLeftX * 8;
@@ -392,25 +447,39 @@ namespace th5w {
 
 
 		}
+		{
+		for(int part=0;part<8;part++)
+			for(int i=0;i<8;i++)
+			{
+				float x=384+i*28;
+				float y=64+16+part*18;
+			
+				CCommonFunctionGraphic::DrawRectangle(x+(4*0), y, x + 2+(4*0), y + 14, 1, 1, 1);	//C
+				CCommonFunctionGraphic::DrawRectangle(x+(4*1), y, x + 2+(4*1), y + 14, 1, 1, 1);	//D
+				CCommonFunctionGraphic::DrawRectangle(x+(4*2), y, x + 2+(4*2), y + 14, 1, 1, 1);	//E
+				CCommonFunctionGraphic::DrawRectangle(x+(4*3), y, x + 2+(4*3), y + 14, 1, 1, 1);	//F
+				CCommonFunctionGraphic::DrawRectangle(x+(4*4), y, x + 2+(4*4), y + 14, 1, 1, 1);	//G
+				CCommonFunctionGraphic::DrawRectangle(x+(4*5), y, x + 2+(4*5), y + 14, 1, 1, 1);	//A
+				CCommonFunctionGraphic::DrawRectangle(x+(4*6), y, x + 2+(4*6), y + 14, 1, 1, 1);	//B
+				
+				CCommonFunctionGraphic::DrawRectangle(x+2+4*0, y, x + 2+2+4*0, y + 8 , 0, 0, 0);//C+
+				CCommonFunctionGraphic::DrawRectangle(x+2+4*1, y, x + 2+2+4*1, y + 8 , 0, 0, 0);//D+
+				CCommonFunctionGraphic::DrawRectangle(x+2+4*3, y, x + 2+2+4*3, y + 8 , 0, 0, 0);//F+
+				CCommonFunctionGraphic::DrawRectangle(x+2+4*4, y, x + 2+2+4*4, y + 8 , 0, 0, 0);//G+
+				CCommonFunctionGraphic::DrawRectangle(x+2+4*5, y, x + 2+2+4*5, y + 8 , 0, 0, 0);//A+
+				
+				/*for(int j=0;j<12;j++);
+					if(pmdonkaibuf[part][(m_curFrame+1)%DELAY_CAL]/0x10==i)
+					{	
+						if(OnkaiName[pmdonkaibuf[part][(m_curFrame+1)%DELAY_CAL]%0x10==j])
+						{
+							
+						}
+					}*/
+			}
+		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

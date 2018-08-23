@@ -8,7 +8,7 @@
 #define MUSIC_CMT_LINE_LEN 40
 #define MUSIC_CMT_LINE_COUNT 10
 #define MUSIC_CMT_LEN MUSIC_CMT_LINE_COUNT * MUSIC_CMT_LINE_LEN
-#define MUSIC_POLYGONS 16
+#define MUSIC_POLYGONS 24
 
 namespace th5w {
 
@@ -44,6 +44,7 @@ namespace th5w {
 		int m_nnowPlayingNumber;
 
 		C2DImage *m_pBGImage;
+		C2DImage *m_pBGImage2;
 
 		int m_curCharX;
 		int m_curCharY;
@@ -58,7 +59,7 @@ namespace th5w {
 		void PolygonBuild(COORDF *pts, float x, float y, float rad, int npoint, float angle);
 		void PolygonsUpdate(void);
 		void PolygonsRender(void);
-		bool LoadPIFromDat(C2DImage** pRet,unsigned char *outPalette,Cth5DatFile *pDatFile,char *piFileName);
+		bool LoadPIFromDat(C2DImage** pRet,unsigned char *outPalette,unsigned char *inPalette,Cth5DatFile *pDatFile,char *piFileName);
 	
 	
 	public:

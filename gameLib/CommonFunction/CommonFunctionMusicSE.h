@@ -13,6 +13,7 @@ public:
 	static bool Resume();
 	static bool Finalize();
 	static bool SetVolume(float volume);
+	static void PlaySe(int soundIdx);
 public:
 	CCommonFunctionMusicSE(void);
 	~CCommonFunctionMusicSE(void);

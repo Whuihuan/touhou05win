@@ -69,10 +69,10 @@ bool CSchemeSwitcher::SwitchScheme(CScheme** ppOutNextScheme,int *pOutNextScheme
 		if (curSchemeExitValue==TITLESCREEN_END_QUIT_GAME)
 		{
 #ifdef _DEBUG
-			CPlayResultScreen *pScheme = new CPlayResultScreen;
-			pScheme->Initialize(0,true);
+			CStaffRoll *pScheme = new CStaffRoll;
+			pScheme->Initialize();
 			*ppOutNextScheme = (CScheme*)pScheme;
-			*pOutNextSchemeID = SCHEME_RESULT;
+			*pOutNextSchemeID = SCHEME_STAFFROLL;
 			return true;
 #endif
 			*ppOutNextScheme=NULL;

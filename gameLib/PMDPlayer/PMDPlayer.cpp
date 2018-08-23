@@ -17,7 +17,9 @@ int CPMDPlayer::s_localBufferReadHead;
 int CPMDPlayer::s_localBufferWriteHead;
 unsigned char CPMDPlayer::s_localBuffer[s_localBufferLength];
 CRITICAL_SECTION CPMDPlayer::s_csLocalBuf;
-
+QQ* pmddriver[24];
+char OnkaiName[][3]={"c ", "c+", "d ", "d+", "e ", "f ", "f+", "g ", "g+", "a ", "a+", "b "};
+		
 #define BUFFER_SEG_LENGTH 44100
 
 CPMDPlayer::CPMDPlayer(void)
@@ -35,7 +37,30 @@ bool CPMDPlayer::InitPMDWin()
 		return false;
 
 	setpcmrate(SOUND_44K);
-
+	pmddriver[0]= getpartwork(0);
+	pmddriver[1]= getpartwork(1);
+	pmddriver[2]= getpartwork(2);
+	pmddriver[3]= getpartwork(3);
+	pmddriver[4]= getpartwork(4);
+	pmddriver[5]= getpartwork(5);
+	pmddriver[6]= getpartwork(6);
+	pmddriver[7]= getpartwork(7);
+	pmddriver[8]= getpartwork(8);
+	pmddriver[9]= getpartwork(9);
+	pmddriver[10]= getpartwork(10);
+	pmddriver[11]= getpartwork(11);
+	pmddriver[12]= getpartwork(12);
+	pmddriver[13]= getpartwork(13);
+	pmddriver[14]= getpartwork(14);
+	pmddriver[15]= getpartwork(15);
+	pmddriver[16]= getpartwork(16);
+	pmddriver[17]= getpartwork(17);
+	pmddriver[18]= getpartwork(18);
+	pmddriver[19]= getpartwork(19);
+	pmddriver[20]= getpartwork(20);
+	pmddriver[21]= getpartwork(21);
+	pmddriver[22]= getpartwork(22);
+	pmddriver[23]= getpartwork(23);
 	return true;
 }
 LPDIRECTSOUNDBUFFER8 CPMDPlayer::CreateBasicBuffer() 
@@ -44,7 +69,7 @@ LPDIRECTSOUNDBUFFER8 CPMDPlayer::CreateBasicBuffer()
 	waveFormatEx.wFormatTag=WAVE_FORMAT_PCM;
 	waveFormatEx.nChannels=2;
 	waveFormatEx.nSamplesPerSec=44100;
-	waveFormatEx.nBlockAlign=4;
+	waveFormatEx.nBlockAlign=4;//4;
 	waveFormatEx.nAvgBytesPerSec=176400;
 	waveFormatEx.wBitsPerSample=16;
 	waveFormatEx.cbSize=0;
@@ -68,7 +93,7 @@ LPDIRECTSOUNDBUFFER8 CPMDPlayer::CreateBasicBuffer()
 	For a bit more information, see:
 	http://www.eggheadcafe.com/forumarchives/win32programmerdirectxaudio/Jun2005/post23436521.asp
 */
-
+	
 	dsBufDesc.dwBufferBytes=BUFFER_SEG_LENGTH*s_bufNSeg;
 	dsBufDesc.lpwfxFormat=&waveFormatEx;
 	dsBufDesc.dwReserved=0;
@@ -239,22 +264,47 @@ bool CPMDPlayer::FillSoftwareBuffer(int nSample)
 		LeaveCriticalSection(&s_csLocalBuf);
 		return false;
 	}
-
+	//printf("R:%4d W:%4d ",s_localBufferWriteHead/4000, s_localBufferReadHead/4000);
+		
 	if (nSample*4>s_localBufferLength-s_localBufferWriteHead)
 	{
 		int part0Sample=(s_localBufferLength-s_localBufferWriteHead)/4;
 		int part1Sample=nSample-part0Sample;
 		getpcmdata((short*)(s_localBuffer+s_localBufferWriteHead),part0Sample);
-		qqtag *temp = getpartwork(1);
+		/*printf("PCMPOS:%4d ",getpos2());
+		for(int i=0; i<24; i++)
+		{		
+			if(pmddriver[i]->onkai!=0xFF)
+				printf("%1d%2s ",pmddriver[i]->onkai/0x10+1,OnkaiName[pmddriver[i]->onkai%0x10]);
+			else
+				printf("    ");
+		}
+		printf("\n");*/
 		getpcmdata((short*)(s_localBuffer),part1Sample);
-		temp = getpartwork(1);
-
+		/*printf("PCMPOS:%4d ",getpos2());
+		for(int i=0; i<24; i++)
+		{		
+			if(pmddriver[i]->onkai!=0xFF)
+				printf("%1d%2s ",pmddriver[i]->onkai/0x10+1,OnkaiName[pmddriver[i]->onkai%0x10]);
+			else
+				printf("    ");
+		}
+		printf("\n");*/
 		s_localBufferWriteHead=part1Sample*4;
+		
 	}
 	else
 	{
 		getpcmdata((short*)(s_localBuffer+s_localBufferWriteHead),nSample);
-		qqtag *temp = getpartwork(1);
+		/*printf("PCMPOS:%4d ",getpos2());
+		for(int i=0; i<24; i++)
+		{		
+			if(pmddriver[i]->onkai!=0xFF)
+				printf("%1d%2s ",pmddriver[i]->onkai/0x10+1,OnkaiName[pmddriver[i]->onkai%0x10]);
+			else
+				printf("    ");
+		}
+		printf("\n");*/
 		s_localBufferWriteHead+=nSample*4;
 		s_localBufferWriteHead%=s_localBufferLength;
 	}
@@ -290,6 +340,7 @@ bool CPMDPlayer::CopyFromSoftwareBuffer(unsigned char *outBuf,int copyLen)
 		s_localBufferReadHead+=copyLen;
 		s_localBufferReadHead%=s_localBufferLength;
 	}
+	//printf("now:%d",s_localBufferReadHead/4000);
 	LeaveCriticalSection(&s_csLocalBuf);
 	return true;
 }
@@ -331,6 +382,7 @@ DWORD CPMDPlayer::PlayThread(void *pParam)
 																&pWriteBuf[0],&writeBufSize[0],
 																&pWriteBuf[1],&writeBufSize[1],
 																0);
+					printf("%d\n", s_pDSoundBuffer8->GetCurrentPosition(NULL, (LPDWORD)pWriteBuf[0]));
 					if (hr!=DS_OK)
 						continue;
 				}
@@ -339,7 +391,7 @@ DWORD CPMDPlayer::PlayThread(void *pParam)
 			}
 
 			CopyFromSoftwareBuffer((unsigned char *)pWriteBuf[0],BUFFER_SEG_LENGTH);
-			//getpcmdata((short *)pWriteBuf[0],BUFFER_SEG_LENGTH/4);
+			//getpcmdata((short *)pWriteBuf[0], BUFFER_SEG_LENGTH / 4);
 			s_pDSoundBuffer8->Unlock(pWriteBuf[0],writeBufSize[0],pWriteBuf[1],writeBufSize[1]);
 		}
 	}

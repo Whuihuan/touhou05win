@@ -333,23 +333,3 @@ void CCommonFunctionGraphic::DrawRectangle(float XLow,float YLow,float XHigh,flo
 }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
