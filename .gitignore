@@ -30,3 +30,21 @@
 *.exe
 *.out
 *.app
+
+# Debug Files
+*.pdb
+*.ilk
+*.lastbuildstate
+*.tlog
+*.idb
+
+# We Don't want copyright strikes, man.
+Debug/
+Debug/ZUN.COM
+Debug/kaiki*
+Debug/music.dat
+Debug/SE
+x64/
+
+# Visual Studio Gibberish
+.vs/
