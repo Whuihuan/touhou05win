@@ -121,6 +121,51 @@ void CGame::LoadModConfig()
 	}
 }
 
+/**
+ * Check Critical File is Missing on Startup
+ * if missing, returns false.
+ */
+bool CGame::fileCheck() {
+
+	if (m_th5Dat1.LoadFile("kaiki1.dat")==false)
+	{	
+		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		MessageBox(m_gameWindow.m_hWnd,_T(""),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		return false;
+	}
+#ifdef _TRIAL
+	if (m_th5Dat2.LoadFile("kaiki1.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
+	if (m_musicDat.LoadFile("kaiki1.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
+
+#else
+	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
+	{
+		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		return false;
+	}
+	if (m_musicDat.LoadFile("music.dat") == false)
+	{
+		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+		return false;
+	}
+#endif
+	if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com")==false)
+	{
+		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		return false;
+	}
+	
+	return true;
+}
+
 bool CGame::Initialize()
 {
 	m_globalVar.Initialize();
@@ -158,41 +203,10 @@ bool CGame::Initialize()
 		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}*/
-	if (m_th5Dat1.LoadFile("kaiki1.dat")==false)
-	{	
-		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
-		return false;
-	}
-#ifdef _TRIAL
-	if (m_th5Dat2.LoadFile("kaiki1.dat") == false)
-	{
-		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
-		return false;
-	}
-	if (m_musicDat.LoadFile("kaiki1.dat") == false)
-	{
-		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
-		return false;
-	}
 
-#else
-	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
-	{
-		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+	if (!fileCheck()) {
 		return false;
 	}
-	if (m_musicDat.LoadFile("music.dat") == false)
-	{
-		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
-		return false;
-	}
-#endif
-	if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com")==false)
-	{
-		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
-		return false;
-	}
-
 
 	//load mod file
 	if (GVar().m_bUseMod)
