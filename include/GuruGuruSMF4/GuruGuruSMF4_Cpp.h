@@ -1,4 +1,4 @@
-// GuruGuruSMF ver.4.0.0 ヘッ?(C++ス?イル)
+// GuruGuruSMF ver.4.0.0 ヘッダ(C++スタイル)
 
 #ifndef _GURUGURUSMF4H_
 #define _GURUGURUSMF4H_
@@ -9,41 +9,41 @@ namespace GuruGuruSmf {
 
 	namespace PlayOption
 	{
-		const int Loop = 1;			// ル?プ再生する
-		const int SkipBeginning = 2;	// ?頭の空白をスキップ
+		const int Loop = 1;			// ループ再生する
+		const int SkipBeginning = 2;	// 冒頭の空白をスキップ
 		const int SkipEnding = 4;		// 末尾の空白をスキップ
-		const int MasterPitch = 8;		// ?ス??ピッ?を有効にする
+		const int MasterPitch = 8;		// マスターピッチを有効にする
 		const int Normalize = 16;		// 最大音量を127に引き上げる
-		const int Exclusive = 32;		// エクスクル?シブを送信する
+		const int Exclusive = 32;		// エクスクルーシブを送信する
 	}
 	
 	namespace LoadOption
 	{
-		const int Buffered = 1;		// デ??を内部に保持するか
+		const int Buffered = 1;		// データを内部に保持するか
 	}
 	
 	namespace Device
 	{
-		const int DirectMusic = -1100;				// DirectMusic Portモ?ド
+		const int DirectMusic = -1100;				// DirectMusic Portモード
 	}
 	
 	namespace GgsError {
 		enum Code {
-			NoError, 			// エラ?なし
+			NoError, 			// エラーなし
 			Failed,				// なんだかよくわからないけど失敗
-			FileNotFound,		// フ?イルが存在しない
-			CannotOpenFile,		// フ?イルが開けない
-			FileLoadFailed,		// フ?イル読み込みに失敗
-			BadFileSize,		// フ?イルサイズが不正
+			FileNotFound,		// ファイルが存在しない
+			CannotOpenFile,		// ファイルが開けない
+			FileLoadFailed,		// ファイル読み込みに失敗
+			BadFileSize,		// ファイルサイズが不正
 			NoSmf,				// SMFではありません
 			BadSmf,				// 不正なSMF
 			UnmatchedSmf,		// 未対応のSMF
 			CannotOpenDevice,	// デバイスが開けない
-			CannotStartTimer,	// ?イ??が開始できない
+			CannotStartTimer,	// タイマーが開始できない
 			IllegalPointer,		// 範囲外を参照しようとした
-			TrackLimit,			// メッセ?ジの途中でトラックが終?に達した
-			NotReady,			// 演奏可?ではない
-			UndefinedId,		// 未定?のID
+			TrackLimit,			// メッセージの途中でトラックが終端に達した
+			NotReady,			// 演奏可能ではない
+			UndefinedId,		// 未定義のID
 			ApiNull				// APIが有効でない
 		};
 	}
@@ -51,9 +51,9 @@ namespace GuruGuruSmf {
 	
 	namespace PlayerState {
 		enum Code {
-			Stop,		// 停?中
+			Stop,		// 停止中
 			Play,		// 演奏中
-			Pause		// 一時停?中
+			Pause		// 一時停止中
 		};
 	}
 	typedef PlayerState::Code PLAYERSTATE;
@@ -69,7 +69,7 @@ namespace GuruGuruSmf {
 
 	struct SmfInformation
 	{
-		int TimeBase;		// ベ?スカウント
+		int TimeBase;		// ベースカウント
 		int TotalTick;		// 総Tick
 		int TotalTime;		// 総演奏時間
 		int FirstNoteTick;	// 最初の発音tick
@@ -82,8 +82,8 @@ namespace GuruGuruSmf {
 
 	struct SmfListKeys
 	{
-		int Count;		// キ?の数
-		int* Keys;		// キ?のリスト
+		int Count;		// キーの数
+		int* Keys;		// キーのリスト
 	};
 	
 	class Ggs4
@@ -91,7 +91,7 @@ namespace GuruGuruSmf {
 	private:
 		static Ggs4* instance;
 		
-		Ggs4() { }
+		Ggs4(){}
 		Ggs4(const Ggs4&);
 		Ggs4& operator =(const Ggs4&);
 		~Ggs4();

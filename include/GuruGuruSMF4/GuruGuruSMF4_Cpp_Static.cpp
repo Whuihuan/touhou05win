@@ -1,5 +1,5 @@
 
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "GuruGuruSMF4_Cpp.h"
 
 using namespace GuruGuruSmf;
@@ -28,9 +28,9 @@ extern "C" {
 
 namespace GuruGuruSmf {
 	
-	Ggs4* Ggs4::instance = 0;	// インス?ンス置き場
+	Ggs4* Ggs4::instance = 0;	// インスタンス置き場
 	
-	// インス?ンス取得(Singleton)
+	// インスタンス取得(Singleton)
 	Ggs4* Ggs4::GetInstance()
 	{
 		if(instance == 0){
@@ -39,7 +39,7 @@ namespace GuruGuruSmf {
 		return instance;
 	}
 	
-	// インス?ンス破棄
+	// インスタンス破棄
 	void Ggs4::FreeInstance()
 	{
 		delete instance;
@@ -52,7 +52,7 @@ namespace GuruGuruSmf {
 		return GgsError::NoError;
 	}
 	
-	// デストラク?
+	// デストラクタ
 	Ggs4::~Ggs4()
 	{
 		CloseDevice();
@@ -88,37 +88,37 @@ namespace GuruGuruSmf {
 		return GGS4Play(option, musicId, seek, fadeInTime, keyShift);
 	}
 	
-	// 停?
+	// 停止
 	void Ggs4::Stop(int fadeOutTime)
 	{
 		GGS4Stop(fadeOutTime);
 	}
 	
-	// 一時停?
+	// 一時停止
 	void Ggs4::Pause()
 	{
 		GGS4Pause();
 	}
 	
-	// 一時停?解除
+	// 一時停止解除
 	void Ggs4::Restart()
 	{
 		GGS4Restart();
 	}
 	
-	// ?ス??テン?
+	// マスターテンポ
 	void Ggs4::SetMasterTempo(float tempo)
 	{
 		GGS4SetMasterTempo(tempo);
 	}
 	
-	// ?ス???リュ??
+	// マスターボリューム
 	void Ggs4::SetMasterVolume(int volume)
 	{
 		GGS4SetMasterVolume(volume);
 	}
 	
-	// ?ス??ピッ?
+	// マスターピッチ
 	void Ggs4::SetMasterPitch(int pitch)
 	{
 		GGS4SetMasterPitch(pitch);
@@ -130,13 +130,13 @@ namespace GuruGuruSmf {
 		GGS4GetPlayerStatus(status, sizeof(PlayerStatus));
 	}
 	
-	// フ?イルからリストへ追加(UNICODE)
+	// ファイルからリストへ追加(UNICODE)
 	GGSERROR Ggs4::AddListFromFileW(LPCWSTR fileName, int option, int musicId)
 	{
 		return GGS4AddListFromFileW(fileName, option, musicId);
 	}
 	
-	// フ?イルからリストへ追加(Ansi)
+	// ファイルからリストへ追加(Ansi)
 	GGSERROR Ggs4::AddListFromFileA(LPCSTR fileName, int option, int musicId)
 	{
 		return GGS4AddListFromFileA(fileName, option, musicId);

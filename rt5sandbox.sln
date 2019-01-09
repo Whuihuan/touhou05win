@@ -4,19 +4,39 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rt5sandbox", "rt5sandbox.vcxproj", "{8CE8A1CF-EDEC-4294-8227-6821819D5662}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rt5custom", "rt5custom\rt5custom.vcxproj", "{965A821C-03A1-45A0-B3FD-CB02D198AC09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		Trial|x64 = Trial|x64
 		Trial|x86 = Trial|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Debug|x64.ActiveCfg = Debug|Win32
 		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Debug|x86.ActiveCfg = Debug|Win32
 		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Debug|x86.Build.0 = Debug|Win32
+		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Release|x64.ActiveCfg = Release|Win32
 		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Release|x86.ActiveCfg = Release|Win32
 		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Release|x86.Build.0 = Release|Win32
+		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Trial|x64.ActiveCfg = Trial|Win32
 		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Trial|x86.ActiveCfg = Trial|Win32
 		{8CE8A1CF-EDEC-4294-8227-6821819D5662}.Trial|x86.Build.0 = Trial|Win32
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Debug|x64.ActiveCfg = Debug|x64
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Debug|x64.Build.0 = Debug|x64
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Debug|x86.ActiveCfg = Debug|Win32
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Debug|x86.Build.0 = Debug|Win32
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Release|x64.ActiveCfg = Release|x64
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Release|x64.Build.0 = Release|x64
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Release|x86.ActiveCfg = Release|Win32
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Release|x86.Build.0 = Release|Win32
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Trial|x64.ActiveCfg = Release|x64
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Trial|x64.Build.0 = Release|x64
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Trial|x86.ActiveCfg = Release|Win32
+		{965A821C-03A1-45A0-B3FD-CB02D198AC09}.Trial|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

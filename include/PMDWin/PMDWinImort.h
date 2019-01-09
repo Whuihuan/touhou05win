@@ -88,7 +88,8 @@ typedef unsigned char bool;
 
 //	演奏中のデ??エリア
 typedef struct qqtag {
-	uchar	*address;			//	2 ｴﾝｿｳﾁｭ??ｱﾄﾞﾚ?	uchar	*partloop;			//	2 ｴﾝｿｳ ｶﾞ ｵﾜ?ﾄｷ ?ﾓﾄﾞﾘｻｷ
+	uchar	*address;			//	2 ｴﾝｿｳﾁｭ??ｱﾄﾞﾚ?	
+	uchar	*partloop;			//	2 ｴﾝｿｳ ｶﾞ ｵﾜ?ﾄｷ ?ﾓﾄﾞﾘｻｷ
 	int		leng;				//	1 ﾉｺ?LENGTH
 	int		qdat;				//	1 gatetime (q/Q値を計算した値)
 	uint	fnum;				//	2 ｴﾝｿｳﾁｭ??BLOCK/FNUM
@@ -98,7 +99,8 @@ typedef struct qqtag {
 	int		porta_num2;			//	2 ?ル?メントの加減値（一回）
 	int		porta_num3;			//	2 ?ル?メントの加減値（?り）
 	int		volume;				//	1 VOLUME
-	int		shift;				//	1 ｵﾝｶｲ ｼﾌ??ｱﾀ?	int		delay;				//	1 LFO	[DELAY] 
+	int		shift;				//	1 ｵﾝｶｲ ｼﾌ??ｱﾀ?	
+	int		delay;				//	1 LFO	[DELAY] 
 	int		speed;				//	1	[SPEED]
 	int		step;				//	1	[STEP]
 	int		time;				//	1	[TIME]

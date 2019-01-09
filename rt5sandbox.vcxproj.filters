@@ -399,14 +399,14 @@
     <ClCompile Include="Game\Musicroom\MusicRoom.cpp">
       <Filter>Source Files\Game\Scheme\MusicRoom</Filter>
     </ClCompile>
-    <ClCompile Include="gameLib\MMDPlayer\MMDPlayer.cpp">
-      <Filter>Source Files\GameLib\MMDPlay</Filter>
-    </ClCompile>
     <ClCompile Include="Game\StaffRoll\StaffRoll.cpp">
       <Filter>Source Files\Game\Scheme\StaffRoll</Filter>
     </ClCompile>
     <ClCompile Include="Game\PlayResultScreen\PlayResultScreen.cpp">
       <Filter>Source Files\Game\Scheme\PlayResultScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="gameLib\MMDPlayer\MMDPlayer.cpp">
+      <Filter>Source Files\GameLib\MMDPlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -653,19 +653,27 @@
     <ClInclude Include="Game\Musicroom\MusicRoom.h">
       <Filter>Source Files\Game\Scheme\MusicRoom</Filter>
     </ClInclude>
-    <ClInclude Include="gameLib\MMDPlayer\MMDPlayer.h">
-      <Filter>Source Files\GameLib\MMDPlay</Filter>
-    </ClInclude>
     <ClInclude Include="Game\StaffRoll\StaffRoll.h">
       <Filter>Source Files\Game\Scheme\StaffRoll</Filter>
     </ClInclude>
     <ClInclude Include="Game\PlayResultScreen\PlayResultScreen.h">
       <Filter>Source Files\Game\Scheme\PlayResultScreen</Filter>
     </ClInclude>
+    <ClInclude Include="gameLib\MMDPlayer\MMDPlayer.h">
+      <Filter>Source Files\GameLib\MMDPlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="rt5sandbox.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\replay.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="icon2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
