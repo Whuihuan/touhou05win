@@ -51,6 +51,7 @@ public:
 
 protected:
 	bool Initialize();
+	bool fileCheck();
 	void UpdateFPS();
 	void LoadModConfig();
 public:
