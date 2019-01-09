@@ -1,4 +1,4 @@
-#include ".\game.h"
+#include "./game.h"
 #include "../gameLib/Graphic/PC98Font.h"
 #include "../gameLib/Graphic/Th5ExtFont.h"
 #include "../gameLib/CommonFunction/CommonFunctionSystem.h"
