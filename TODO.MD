@@ -13,23 +13,14 @@ Staff Roll
 ==============================
 Could I make this in this life?
 
-Piano Effect in Music Room
-==============================
-First, Related to PMD Routine Problem
-Secound, if I draw all rectengle one by one, I makes Much lack.
-
-Midi Routine
-===============================
-I think this is spagetti
-
 PMD Routine
 ================================
 Because of this, Piano Effect can not work. Originally, Piano Routine access on PMD Variable. But in this, PMDWin libray makes problem. PMDWin output Sound Buffer first, and Sound Driver ouput this buffer. This make when we read PMD Variable, this value points future value. Also I tried many other ways, but no one have accuracy.
 
-Make RT5CUSTOM
-===============================
-instead use ini file.
-just like real touhou series
+Piano Effect in Music Room
+==============================
+First, Related to PMD Routine Problem
+Secound, if I draw all rectengle one by one, I makes Much lack.
 
 Demo Always Dead
 ===============================
@@ -39,3 +30,8 @@ Complete SE Option
 ===============================
 SE Use coverted wav file.
 
+ETC
+=================================
+* Practice Play Character Select Design
+* Midi Routine is spagetti
+* Make RT5CUSTOM
