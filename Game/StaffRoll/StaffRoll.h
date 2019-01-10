@@ -14,6 +14,10 @@ protected:
 	C2DImageArray m_spriteArray;
 	C2DImageArray m_patternArray;
 	unsigned char m_palette[48];
+	int m_playAreaUpperLeftY;
+	int m_playAreaUpperLeftX;
+	int m_playAreaBottomRightY;
+	int m_playAreaBottomRightX;
 
 public:
 	void Initialize();
