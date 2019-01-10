@@ -25,7 +25,10 @@ unsigned char stfpalette[48] = {
 	0xF0, 0xF0, 0xF0
 };
 
-
+	int m_playAreaUpperLeftY=10+40;
+	int m_playAreaUpperLeftX=11;
+	int m_playAreaBottomRightY = 0x170+40;
+	int m_playAreaBottomRightX = 140;
 namespace th5w{
 
 CStaffRoll::CStaffRoll(void)
@@ -41,6 +44,11 @@ void CStaffRoll::Initialize()
 	m_curScrFade=100;
 	m_curFrame=0;
 	m_bQuit = false;
+
+	m_playAreaUpperLeftY = 10 + 40;
+	m_playAreaUpperLeftX = 11;
+	m_playAreaBottomRightY = 0x170 + 40;
+	m_playAreaBottomRightX = 639 - 11;
 
 	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf00.CDG", stfpalette);
 	CCommonFunctionGraphic::LoadCD2CDGAllSpriteFromDat(&m_spriteArray, &CGame::s_pCurGame->m_th5Dat1, "stf01.CDG", stfpalette);
@@ -91,47 +99,76 @@ void CStaffRoll::Draw()
 	CPC98Font::DrawString(strbuf, 100, 320, 32, 1, 1, 1,1);
 
 	CCommonFunctionGraphic::ScreenFade((float)m_curScrFade);
-	int m_playAreaUpperLeftY=10;
-	int m_playAreaUpperLeftX=11;
 	CCommonFunctionGraphic::DrawRectangle(0,0,639,(float)m_playAreaUpperLeftY-1,0,0,0);
-	CCommonFunctionGraphic::DrawRectangle(0,(float)m_playAreaUpperLeftY+368,639,479,0,0,0);
+	CCommonFunctionGraphic::DrawRectangle(0,(float)m_playAreaBottomRightY,639,479,0,0,0);
 	CCommonFunctionGraphic::DrawRectangle(0,0,(float)m_playAreaUpperLeftX-1,479,0,0,0);
-	CCommonFunctionGraphic::DrawRectangle((float)m_playAreaUpperLeftX+384,0,639,479,0,0,0);
+	CCommonFunctionGraphic::DrawRectangle((float)m_playAreaBottomRightX,0,639,479,0,0,0);
 	
-	if(m_curFrame<=76){
+	//todo: centralize image
+	//      and figure out actual timing of //?
+	//      and square bullet pattern... etc
+	if (m_curFrame <= 40 * 16)//?
+	{
+
+	}
+	else if (m_curFrame <= 50 * 16)//?
+	{
+		m_playAreaBottomRightX--;
+	}
+	else if(m_curFrame<=76 * 16)
+	{
 		m_spriteArray.GetImagePtr(1)->Draw(528, 240);
 		m_spriteArray.GetImagePtr(0)->Draw(464, 192);
+		m_playAreaUpperLeftY = 10 + 40;
+		m_playAreaUpperLeftX = 11;
+		m_playAreaBottomRightY = 0x170 + 40;
+		m_playAreaBottomRightX = 280;
 	}
-	else if(m_curFrame<=92){
+	else if(m_curFrame<=92 * 16)
+	{
 		m_spriteArray.GetImagePtr(2)->Draw(464, 200);
 	}
-	else if(m_curFrame<=120){
+	else if(m_curFrame<=120 * 16)
+	{
 		m_spriteArray.GetImagePtr(4)->Draw(464, 0xE0);
 		m_spriteArray.GetImagePtr(3)->Draw(464, 200);
 	}
-	else if(m_curFrame<=0xAC){
+	else if (m_curFrame <= (0xAC-38) * 16)//?
+	{
+		m_playAreaUpperLeftX++;
+		m_playAreaBottomRightX++;
+	}
+	else if(m_curFrame<=0xAC * 16)
+	{
+		m_playAreaUpperLeftY = 10 + 40;
+		m_playAreaUpperLeftX = 639 - 280;
+		m_playAreaBottomRightY = 0x170 + 40;
+		m_playAreaBottomRightX = 639 - 11;
 		m_spriteArray.GetImagePtr(5)->Draw(0xB0, 0xC8);
 	}
-	else if(m_curFrame<=0xBC)
+	else if(m_curFrame<=0xBC * 16)
 	{
 		m_spriteArray.GetImagePtr(6)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xCC)
+	else if(m_curFrame<=0xCC * 16)
 	{
 		m_spriteArray.GetImagePtr(7)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xDC)
+	else if(m_curFrame<=0xDC * 16)
 	{
 		m_spriteArray.GetImagePtr(8)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xEC)
+	else if(m_curFrame<=0xEC * 16)
 	{
 		m_spriteArray.GetImagePtr(9)->Draw(0xB0, 0xc8);
 	}
-	else if(m_curFrame<=0xF9)
+	else if(m_curFrame<=0xF9 * 16)
 	{
 		m_spriteArray.GetImagePtr(10)->Draw(0xB0, 0x170);
 	}
+	//after this, we should draw skill verdict(playresult)
+	//it would be great to use CPlayResultScreen::DrawResult
+	//But this is possible?
 }
 
 }
