@@ -126,7 +126,15 @@ void CGame::LoadModConfig()
  * if missing, returns false.
  */
 bool CGame::fileCheck() {
-
+	/* 
+	//need for furture
+	if (m_th5Dat0.LoadFile("kaiki0.dat")==false)
+	{
+		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+		MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki1.dat is missing"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+		return false;
+	}
+	*/
 	if (m_th5Dat1.LoadFile("kaiki1.dat")==false)
 	{	
 		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
@@ -146,7 +154,6 @@ bool CGame::fileCheck() {
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki1.dat is missing [TRIAL]"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
 		return false;
 	}
-
 #else
 	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
 	{
@@ -203,11 +210,6 @@ bool CGame::Initialize()
 		MessageBox(m_gameWindow.m_hWnd,_T("Sound effect files cannot not be loaded and initialized."),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 		return false;
 	}
-	/*if (m_th5Dat0.LoadFile("kaiki0.dat")==false)
-	{
-		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
-		return false;
-	}*/
 
 	if (!fileCheck()) {
 		return false;

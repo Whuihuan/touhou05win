@@ -30,3 +30,7 @@ Make RT5CUSTOM
 ===============================
 instead use ini file.
 just like real touhou series
+
+Demo Always Dead
+===============================
+I implement Demo Play Routine, but demo die well. I guess this because inaccuracy of fps(Real PC98 is 26fps but Simulation runs on 56.0fps)
