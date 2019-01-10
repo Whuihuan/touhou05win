@@ -65,6 +65,8 @@ protected:
 	void DrawOptionMenuItems();
 	void DrawMainMenuCursor();
 	void DrawOptionMenuCursor();
+	int CheckMenuColor(int i);
+	float GetMenuItemColor(int itemColorIdx, int i);
 	void OnRollTamaEnd();
 	void ParseKeyEvent();
 	void DrawDescString(char *descStr);
