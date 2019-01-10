@@ -3,51 +3,58 @@ loc_CBDB:
 		mov	al, es:[bx+11h];//difficulty
 
 loc_CBE3:
-		mov	m_difficulty, al
-		mov	ax, list_x
-		add	ax, 0A0h
-		push	ax
-		mov	ax, list_y
-		add	ax, 18h
-		push	ax
-		push	10h
-		push	ds
-		mov	al, m_difficulty
-		mov	ah, 0
-		shl	ax, 3
-		add	ax, offset grEASY;difficulty
-		push	ax
-		push	word_116E4
-		call	graph_gaiji_puts
+		;pesudo code
+		mov	m_difficulty, al  ;m_difficulty = al
+		mov	ax, list_x		  ;ax = list_x 
+		add	ax, 0A0h          ;ax = ax + 0x0A0
+		push	ax			  ;push ax to stack
+		mov	ax, list_y 		  ;ax = list_y
+		add	ax, 18h	          ;ax = ax + 0x18
+		push	ax	          ;push ax to stack
+		push	10h 	      ;push 0x10 to stack
+		push	ds            ;push ds to stack
+		mov	al, m_difficulty  ;al = m_difficulty
+		mov	ah, 0	          ;ah = 0
+		shl	ax, 3	          ;shift ax left 3 bits
+		add	ax, offset grEASY ;difficulty :: ax = ax + (memory address of grEasy) ???
+		push	ax			  ;push ax to stack
+		push	word_116E4    ;push word_116E4 to stack
+		call	graph_gaiji_puts ;call function graph_gaiji_puts
 		
-		mov	ax, list_x
-		add	ax, 80h
-		push	ax	
-		mov	ax, list_y
-		add	ax, 30h	; 
-		push	ax
-		mov	ax, word ptr dword_11E6E
-		add	ax, 32	; ' '
-		push	word ptr dword_11E6E+2
-		push	ax
-		call	sub_C67F
+		mov	ax, list_x        ;ax = list_x
+		add	ax, 80h           ;ax = ax + 0x80
+		push	ax	          ;push ax to stack
+		mov	ax, list_y        ;ax = list_y
+		add	ax, 30h	          ;ax = ax + 0x30 
+		push	ax            ;push ax to stack
+		mov	ax, word ptr dword_11E6E ;ax = pointer (mem Addr)
+		add	ax, 32	; ' ', Seems to be word is 32bit long?
+		push	word ptr dword_11E6E+2 ;highest ptr of memAddr and push
+		push	ax	; push the ax
+		call	sub_C67F	;call sub_C67F??
 		
-		mov	ax, list_x
+		mov	ax, list_x		;ax = list_x
+		add	ax, 0E0h ; '・	 ax = ax + 0x0E0h
+		push	ax			;push ax to stack
+		mov	ax, list_y		;ax = list_y
+		add	ax, 48h	; 'H'	 ax = ax + 0x48
+		push	ax			;push ax into stack
+		les	bx, dword_11E6E	;Load Pointer using ES??? 
+							;https://stackoverflow.com/questions/20434360/assembly-commands-lea-lds-les
+							; =>
+							;bx = dword_11E6E content
+							;ds = dword_11E6E's memory address
+							;es = dword_11E6E content
+		mov	al, es:[bx+1Bh] ;miss - Maybe related to protected Memory? (Check article below)
+							;https://pdos.csail.mit.edu/6.828/2005/readings/i386/s05_01.htm
+		mov	ah, 0			;ah = 0
+		push	ax			;push ax to stack
+		call	sub_C5E7	;call function sub_C5E7
+		
+		
+		mov	ax, list_x		;ax = list_x
 		add	ax, 0E0h ; '・
-		push	ax
-		mov	ax, list_y
-		add	ax, 48h	; 'H'
-		push	ax
-		les	bx, dword_11E6E
-		mov	al, es:[bx+1Bh];miss
-		mov	ah, 0
-		push	ax
-		call	sub_C5E7
-		
-		
-		mov	ax, list_x
-		add	ax, 0E0h ; '・
-		push	ax
+		push	ax			;
 		mov	ax, list_y
 		add	ax, 60h
 		push	ax
