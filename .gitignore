@@ -52,3 +52,6 @@ ZUN.COM
 
 # Visual Studio Gibberish
 .vs/
+
+# Game Internal Setup Stuff
+game.cfg
