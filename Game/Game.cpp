@@ -233,7 +233,7 @@ bool CGame::Initialize()
 	//load anex86 font
 	if (GVar().m_bUseSystemFont==false&&th5w::CPC98Font::LoadAnex86BMP("anex86.bmp")==false)
 	{
-		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+		MessageBox(m_gameWindow.m_hWnd,_T("fail\nMissing File: anex86.bmp, will Fallback to systemfont"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
 		GVar().m_bUseSystemFont=true;
 	}
 
