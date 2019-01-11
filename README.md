@@ -71,6 +71,11 @@ This program uses:
 Misc
 ====
 For bug report and feature request, please contact the one you received this program from:)
-glew.lib requires 1.3.5, later version cause build fail.
+~~glew.lib requires 1.3.5, later version cause build fail.~~  
+Updated Glew Libraries to 2.1.0. You should use latest version from the sourceforge instead.  
+For the legacy glew (1.3.5) support, go to gameLib/Graphic/ and swap the directories named `include` and `include.old`
 
-This text is based on the original text author Pegasy
+This text is based on the original text author Pegasy  
+This text is updated by Alex4386  
+
+TODO List for future implementation: [TODO.MD](TODO.MD)
