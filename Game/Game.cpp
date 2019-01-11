@@ -138,40 +138,52 @@ bool CGame::fileCheck() {
 	if (m_th5Dat1.LoadFile("kaiki1.dat")==false)
 	{	
 		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki1.dat is missing"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		return false;
 	}
 #ifdef _TRIAL
 	if (m_th5Dat2.LoadFile("kaiki1.dat") == false)
 	{
 		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki1.dat is missing [TRIAL]"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		return false;
 	}
 	if (m_musicDat.LoadFile("kaiki1.dat") == false)
 	{
 		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki1.dat is missing [TRIAL]"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		return false;
 	}
 #else
 	if (m_th5Dat2.LoadFile("kaiki2.dat")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki2.dat is missing"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		return false;
 	}
 	if (m_musicDat.LoadFile("music.dat") == false)
 	{
 		MessageBox(m_gameWindow.m_hWnd, _T("ファイルが書き込めないの～"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: music.dat is missing"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		return false;
 	}
 #endif
 	if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com")==false)
 	{
 		MessageBox(m_gameWindow.m_hWnd,_T("ファイルが書き込めないの～"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("Debug: zun.com is missing"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		return false;
 	}
 	
@@ -233,7 +245,11 @@ bool CGame::Initialize()
 	//load anex86 font
 	if (GVar().m_bUseSystemFont==false&&th5w::CPC98Font::LoadAnex86BMP("anex86.bmp")==false)
 	{
+#if DEBUG
 		MessageBox(m_gameWindow.m_hWnd,_T("fail\nMissing File: anex86.bmp, will Fallback to systemfont"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#else
+		MessageBox(m_gameWindow.m_hWnd,_T("fail"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
+#endif
 		GVar().m_bUseSystemFont=true;
 	}
 
