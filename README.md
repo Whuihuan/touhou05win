@@ -4,6 +4,9 @@ This is an unofficial port of the game Touhou Kaikidan: Mystic Square (the fifth
 
 Usage
 =====
+
+[Updated Compile Guidelines](COMPILE.md)  
+
 1. Extract all files into a folder.
 2. Download glew from http://glew.sourceforge.net/ (download the binaries) and extract glew32.dll into the same folder.
 3. Download PMDWin from http://c60.fmp.jp/ and extract PMDWin.dll into the same folder.
@@ -17,6 +20,11 @@ Usage
 7. Rename 怪綺談1.dat to kaiki1.dat, 怪綺談2.dat to kaiki2.dat.
 8. (Optional) Put MIDI file into the BGM foldeer. (package will given soon)
 9. Run uth05win.exe.
+
+TroubleShooting
+===============
+
+Please check [Compile Guidelines](COMPILE.md#Troubleshooting) for more details.
 
 Comparison
 ==========
