@@ -51,5 +51,5 @@ download glew library from [Here](http://glew.sourceforge.net/) Preferably 2.1.0
 ### rt5sandbox.exe gives me an error saying PMDWin.exe is missing.
 download [PMDWin](http://c60.la.coocan.jp/) (Japanese). since the archive is using legacy lzh format, you will need a third-party extractor (such as 7-zip) copy the PMDWin.dll and paste it into root of the repository.
 
-## I got weird "ファイルが書き込めないの～" error and it is not running the game. what is this?
+### I got weird "ファイルが書き込めないの～" error and it is not running the game. what is this?
 Original Game file dependencies are missing, if you are after the commit 0078a033, you can run the project as Debug mode and find out which file is missing by clicking OK button at the error message.
