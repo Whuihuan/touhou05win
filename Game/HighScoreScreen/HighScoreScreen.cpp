@@ -195,22 +195,22 @@ int CHighScoreScreen::Step()
 	{
 		if (CCommonFunctionInput::LeftPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 			m_curCharX=(m_curCharX+16)%17;
 		}
 		if (CCommonFunctionInput::RightPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 			m_curCharX=(m_curCharX+1)%17;
 		}
 		if (CCommonFunctionInput::UpPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 			m_curCharY=(m_curCharY+2)%3;
 		}
 		if (CCommonFunctionInput::DownPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 			m_curCharY=(m_curCharY+1)%3;
 		}
 		if (CCommonFunctionInput::ESCPressed(m_curKeyState,m_lastKeyState))

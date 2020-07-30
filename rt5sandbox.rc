@@ -7,13 +7,33 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+// ÖÐÎÄ(¼òÌå£¬ÖÐ¹ú) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON3               ICON                    "icon3.ico"
+
+#endif    // ÖÐÎÄ(¼òÌå£¬ÖÐ¹ú) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// º«Óï(º«¹ú) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -28,12 +48,12 @@ LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
 // remains consistent on all systems.
 IDI_ICON2               ICON                    "icon2.ico"
 
-#endif    // ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+#endif    // º«Óï(º«¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// ¿µ¾î(¹Ì±¹) resources
+// Ó¢Óï(ÃÀ¹ú) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -52,7 +72,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -64,7 +84,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // ¿µ¾î(¹Ì±¹) resources
+#endif    // Ó¢Óï(ÃÀ¹ú) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

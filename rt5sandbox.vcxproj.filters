@@ -154,6 +154,9 @@
     <Filter Include="Source Files\Game\Scheme\PlayResultScreen">
       <UniqueIdentifier>{ff758db7-f418-456f-a010-86d884e363f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\GameRes">
+      <UniqueIdentifier>{70a5e12b-c5e2-4a9a-b5a1-fc2bd65a624a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -675,5 +678,34 @@
     <Image Include="icon2.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="icon3.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="GameRes\anex86.bmp">
+      <Filter>Resource Files\GameRes</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GameRes\glew32.dll">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
+    <None Include="GameRes\GuruGuruSMF4.dll">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
+    <None Include="GameRes\kaiki1.DAT">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
+    <None Include="GameRes\kaiki2.DAT">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
+    <None Include="GameRes\MUSIC.DAT">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
+    <None Include="GameRes\PMDWin.dll">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
+    <None Include="GameRes\ZUN.COM">
+      <Filter>Resource Files\GameRes</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,10 +1,13 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++俊辑 积己茄 器窃 颇老涝聪促.
-// rt5sandbox.rc俊辑 荤侩登绊 乐嚼聪促.
+// Microsoft Visual C++ 生成的包含文件。
+// 供 rt5sandbox.rc 使用
 //
+#define VS_VERSION_INFO                 1
 #define IDB_BITMAP1                     103
 #define IDI_ICON1                       104
 #define IDI_ICON2                       105
+#define IDI_ICON3                       106
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

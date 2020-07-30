@@ -13,6 +13,7 @@ public:
 //program config
 	unsigned int m_textCodePage;
 	bool m_bUseSystemFont;
+	char m_systemFontName[200];
 	unsigned int m_fontCharset;
 	bool m_bTurnOffCollisionArea;//todo:remove this
 	bool m_binitCollisionArea;

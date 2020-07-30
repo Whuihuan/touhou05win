@@ -114,12 +114,59 @@ namespace th5w {
 		musicTxtFile[6] += m_curPage;
 
 		int fileIdx = CGame::s_pCurGame->m_musicDat.GetChildFileIndex(musicTxtFile);
-		CGame::s_pCurGame->m_musicDat.Childfseek(fileIdx, m_curCursorPos * 400, SEEK_SET);
-		CGame::s_pCurGame->m_musicDat.Childfread(music_cmt, 1, MUSIC_CMT_LEN, fileIdx);
-		for (int i = 0; i < MUSIC_CMT_LINE_COUNT; i++) {
-			music_cmt[i][MUSIC_CMT_LINE_LEN - 2] = 0;
-			if (music_cmt[i][0] == ';')//todo:I think I didn't see this at here,
-				music_cmt[i][0] = 0;   //where ';' is removed at?
+		if (CGame::GVar().m_bUseMod)
+		{
+			int fldx = CGame::s_pCurGame->m_modDat.GetChildFileIndex("_MUSIC.txt");
+			if (fldx != -1)
+			{
+				CGame::s_pCurGame->m_modDat.Childfseek(fldx, 0, SEEK_SET);
+				for (int i = 0; i < 6; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(MusicRoom_TH[i], 100, fldx);
+					if (MusicRoom_TH[i][strlen(MusicRoom_TH[i]) - 1] == '\n')
+						MusicRoom_TH[i][strlen(MusicRoom_TH[i]) - 1] = 0;
+				}
+				for (int i = 0; i < 16; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(MUSIC_TITLES[0][i], 100, fldx);
+					if (MUSIC_TITLES[0][i][strlen(MUSIC_TITLES[0][i]) - 1] == '\n')
+						MUSIC_TITLES[0][i][strlen(MUSIC_TITLES[0][i]) - 1] = 0;
+				}
+				for (int i = 0; i < 20; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(MUSIC_TITLES[1][i], 100, fldx);
+					if (MUSIC_TITLES[1][i][strlen(MUSIC_TITLES[1][i]) - 1] == '\n')
+						MUSIC_TITLES[1][i][strlen(MUSIC_TITLES[1][i]) - 1] = 0;
+				}
+				for (int i = 0; i < 26; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(MUSIC_TITLES[2][i], 100, fldx);
+					if (MUSIC_TITLES[2][i][strlen(MUSIC_TITLES[2][i]) - 1] == '\n')
+						MUSIC_TITLES[2][i][strlen(MUSIC_TITLES[2][i]) - 1] = 0;
+				}
+				for (int i = 0; i < 30; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(MUSIC_TITLES[3][i], 100, fldx);
+					if (MUSIC_TITLES[3][i][strlen(MUSIC_TITLES[3][i]) - 1] == '\n')
+						MUSIC_TITLES[3][i][strlen(MUSIC_TITLES[3][i]) - 1] = 0;
+				}
+				for (int i = 0; i < 25; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(MUSIC_TITLES[4][i], 100, fldx);
+					if (MUSIC_TITLES[4][i][strlen(MUSIC_TITLES[4][i]) - 1] == '\n')
+						MUSIC_TITLES[4][i][strlen(MUSIC_TITLES[4][i]) - 1] = 0;
+				}
+			}
+			fileIdx = CGame::s_pCurGame->m_modDat.GetChildFileIndex(musicTxtFile);
+			if (fileIdx != -1)
+			{
+				CGame::s_pCurGame->m_modDat.Childfseek(fileIdx, m_curCursorPos * 400, SEEK_SET);
+				CGame::s_pCurGame->m_modDat.Childfread(music_cmt, 1, MUSIC_CMT_LEN, fileIdx);
+			}
+		}
+		else
+		{
+			CGame::s_pCurGame->m_musicDat.Childfseek(fileIdx, m_curCursorPos * 400, SEEK_SET);
+			CGame::s_pCurGame->m_musicDat.Childfread(music_cmt, 1, MUSIC_CMT_LEN, fileIdx);
+			for (int i = 0; i < MUSIC_CMT_LINE_COUNT; i++) {
+				music_cmt[i][MUSIC_CMT_LINE_LEN - 2] = 0;
+				if (music_cmt[i][0] == ';')//todo:I think I didn't see this at here,
+					music_cmt[i][0] = 0;   //where ';' is removed at?
+			}
 		}
 	}
 	

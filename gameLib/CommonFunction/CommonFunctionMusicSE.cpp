@@ -32,12 +32,13 @@ bool CCommonFunctionMusicSE::LoadMusicFromDat(Cth5DatFile *pDatFile, char *music
 	}
 	else if (music == 3)
 	{
-		sprintf(bgmFileName, "BGM/%s.mid", musicFileName);
+		sprintf(bgmFileName, "BGM/MIDI/%s.mid", musicFileName);
 		//if (midiplayer.isPlaying())
 		//	midiplayer.pause();
 		//midifile.load(bgmFileName);
 		//midiplayer.setFile(&midifile);
 		//return true;
+		printf("µ±Ç°²¥·ÅBGM£º%s\n",bgmFileName);
 		th5w::CMMDPlayer::LoadMMDData(bgmFileName);
 		return true;
 	}
@@ -156,12 +157,12 @@ bool CCommonFunctionMusicSE::SetVolume(float volume)
 	return false;
 }
 void CCommonFunctionMusicSE::PlaySe(int soundIdx)
-{/*
+{
 	int se = CGame::GVar().m_initSe;
 	if (se == 1 || se == 2)
 	{
-		th5w::CSoundEffect::PlaySound(soundIdx);
-	}*/
+		CGame::s_pCurGame->m_soundEffect.PlaySound(soundIdx);
+	}
 	
 }	
 

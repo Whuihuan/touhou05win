@@ -1,0 +1,10 @@
+tx2parse _DM00.TX2 >0.txt
+tx2parse _DM01.TX2 >1.txt
+tx2parse _DM02.TX2 >2.txt
+tx2parse _DM03.TX2 >3.txt
+tx2parse _DM04.TX2 >4.txt
+tx2parse _DM05.TX2 >5.txt
+tx2parse _DM06.TX2 >6.txt
+tx2parse _DM07.TX2 >7.txt
+tx2parse _DM08.TX2 >8.txt
+tx2parse _DM09.TX2 >9.txt

@@ -109,22 +109,22 @@ void CSelectReplayScreen::StepEnterNameMode()
 		m_bEnterNameMode=false;
 	if (CCommonFunctionInput::LeftPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		CCommonFunctionMusicSE::PlaySe(1);
 		m_curCharX=(m_curCharX+16)%17;
 	}
 	if (CCommonFunctionInput::RightPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		CCommonFunctionMusicSE::PlaySe(1);
 		m_curCharX=(m_curCharX+1)%17;
 	}
 	if (CCommonFunctionInput::UpPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		CCommonFunctionMusicSE::PlaySe(1);
 		m_curCharY=(m_curCharY+2)%3;
 	}
 	if (CCommonFunctionInput::DownPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		CCommonFunctionMusicSE::PlaySe(1);
 		m_curCharY=(m_curCharY+1)%3;
 	}
 	if (CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
@@ -255,35 +255,35 @@ int CSelectReplayScreen::Step()
 	if (CCommonFunctionInput::LeftPressed(m_curKeyState,m_lastKeyState))
 	{
 			SwitchPage((m_curPage+m_nPage - 1) % m_nPage);
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 	}
 	if (CCommonFunctionInput::RightPressed(m_curKeyState,m_lastKeyState))
 	{
 			SwitchPage((m_curPage+1)%m_nPage);
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 	}
 	if (CCommonFunctionInput::UpPressed(m_curKeyState,m_lastKeyState))
 	{
 		if (m_bStageSelect == false) {
-		CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+		CCommonFunctionMusicSE::PlaySe(1);
 		m_curCursorPos=(m_curCursorPos+m_nFilePerPage-1)%m_nFilePerPage;
 		}
 		else
 		{
 			m_curCursorColPos = (m_curCursorColPos + 6) % 7;
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 		}
 
 	}
 	if (CCommonFunctionInput::DownPressed(m_curKeyState,m_lastKeyState))
 	{
 		if (m_bStageSelect == false) {
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 			m_curCursorPos = (m_curCursorPos + 1) % m_nFilePerPage;
 		}
 		else {
 			m_curCursorColPos = (m_curCursorColPos + 1) % 7;
-			CGame::s_pCurGame->m_soundEffect.PlaySound(1);
+			CCommonFunctionMusicSE::PlaySe(1);
 		}
 	}
 	if (CCommonFunctionInput::ESCPressed(m_curKeyState,m_lastKeyState)
