@@ -1,12 +1,12 @@
 ADDRESS_TABLE:
-	10 - 371
-	372 - 703
-	704 - 1043
-	1044 - 1365
+	10 - 320
+	321 - 596
+	597 - 894
+	895 - 1168
 
 
 =====================================================
-BLOCK 0 10-371:
+BLOCK 0 10-320:
 DIALOG START
 STOP MUSIC
 SET CHARA
@@ -71,7 +71,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 1 372-703:
+BLOCK 1 321-596:
 DIALOG START
 STOP MUSIC
 SET CHARA
@@ -135,7 +135,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 2 704-1043:
+BLOCK 2 597-894:
 DIALOG START
 STOP MUSIC
 SET CHARA
@@ -200,7 +200,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 3 1044-1365:
+BLOCK 3 895-1168:
 DIALOG START
 STOP MUSIC
 SET CHARA

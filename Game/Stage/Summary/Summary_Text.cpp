@@ -1,25 +1,25 @@
-
-	char rateText[][100]={"ˆ«—ìƒ{ƒX‘ÞŽ¡Ž¸”sII@@@@@@@~@‚OD‚O",
-						  "ƒvƒŒƒCƒ„[”ƒyƒiƒ‹ƒeƒBi‰Šú‚Ulj~@‚OD‚R",
-						  "ƒvƒŒƒCƒ„[”ƒyƒiƒ‹ƒeƒBi‰Šú‚Tlj~@‚OD‚T",
-						  "ƒvƒŒƒCƒ„[”ƒyƒiƒ‹ƒeƒBi‰Šú‚Slj~@‚OD‚V",
-						  "ƒRƒ“ƒeƒBƒjƒ…[ƒyƒiƒ‹ƒeƒBi‚P‰ñj@~@‚OD‚W",
-						  "ƒRƒ“ƒeƒBƒjƒ…[ƒyƒiƒ‹ƒeƒBi‚Q‰ñj@~@‚OD‚U",
-						  "ƒRƒ“ƒeƒBƒjƒ…[ƒyƒiƒ‹ƒeƒBi‚R‰ñj@~@‚OD‚S",
-						  "“ïˆÕ“xƒ{[ƒiƒXi‚d‚‚“‚™j@@@@~@‚OD‚T",
-						  "“ïˆÕ“xƒ{[ƒiƒXi‚m‚‚’‚‚‚Œj@@~@‚PD‚O",
-						  "“ïˆÕ“xƒ{[ƒiƒXi‚g‚‚’‚„j@@@@~@‚PD‚Q",
-						  "“ïˆÕ“xƒ{[ƒiƒXi‚k‚•‚Ž‚‚”‚‰‚ƒj@~@‚PD‚S",
-						  "“ïˆÕ“xƒ{[ƒiƒXi‚d‚˜‚”‚’‚j@@@~@‚QD‚O"};	//PC98 ver does not have a bonus string
+ï»¿
+	char rateText[][100]={"æ‚ªéœŠãƒœã‚¹é€€æ²»å¤±æ•—ï¼ï¼ã€€ã€€ã€€ã€€ã€€ã€€ã€€Ã—ã€€ï¼ï¼Žï¼",
+						  "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ãƒšãƒŠãƒ«ãƒ†ã‚£ï¼ˆåˆæœŸï¼–äººï¼‰Ã—ã€€ï¼ï¼Žï¼“",
+						  "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ãƒšãƒŠãƒ«ãƒ†ã‚£ï¼ˆåˆæœŸï¼•äººï¼‰Ã—ã€€ï¼ï¼Žï¼•",
+						  "ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°ãƒšãƒŠãƒ«ãƒ†ã‚£ï¼ˆåˆæœŸï¼”äººï¼‰Ã—ã€€ï¼ï¼Žï¼—",
+						  "ã‚³ãƒ³ãƒ†ã‚£ãƒ‹ãƒ¥ãƒ¼ãƒšãƒŠãƒ«ãƒ†ã‚£ï¼ˆï¼‘å›žï¼‰ã€€Ã—ã€€ï¼ï¼Žï¼˜",
+						  "ã‚³ãƒ³ãƒ†ã‚£ãƒ‹ãƒ¥ãƒ¼ãƒšãƒŠãƒ«ãƒ†ã‚£ï¼ˆï¼’å›žï¼‰ã€€Ã—ã€€ï¼ï¼Žï¼–",
+						  "ã‚³ãƒ³ãƒ†ã‚£ãƒ‹ãƒ¥ãƒ¼ãƒšãƒŠãƒ«ãƒ†ã‚£ï¼ˆï¼“å›žï¼‰ã€€Ã—ã€€ï¼ï¼Žï¼”",
+						  "é›£æ˜“åº¦ãƒœãƒ¼ãƒŠã‚¹ï¼ˆï¼¥ï½ï½“ï½™ï¼‰ã€€ã€€ã€€ã€€Ã—ã€€ï¼ï¼Žï¼•",
+						  "é›£æ˜“åº¦ãƒœãƒ¼ãƒŠã‚¹ï¼ˆï¼®ï½ï½’ï½ï½ï½Œï¼‰ã€€ã€€Ã—ã€€ï¼‘ï¼Žï¼",
+						  "é›£æ˜“åº¦ãƒœãƒ¼ãƒŠã‚¹ï¼ˆï¼¨ï½ï½’ï½„ï¼‰ã€€ã€€ã€€ã€€Ã—ã€€ï¼‘ï¼Žï¼’",
+						  "é›£æ˜“åº¦ãƒœãƒ¼ãƒŠã‚¹ï¼ˆï¼¬ï½•ï½Žï½ï½”ï½‰ï½ƒï¼‰ã€€Ã—ã€€ï¼‘ï¼Žï¼”",
+						  "é›£æ˜“åº¦ãƒœãƒ¼ãƒŠã‚¹ï¼ˆï¼¥ï½˜ï½”ï½’ï½ï¼‰ã€€ã€€ã€€Ã—ã€€ï¼’ï¼Žï¼"};	//PC98 ver does not have a bonus string
 																			//for extra stage. Added here.
-	char strStageBonus[100]="‚r‚s‚`‚f‚d@‚a‚‚Ž‚•‚“";
-	char strDreamBonus[100]="‚c‚q‚d‚`‚l@‚a‚‚Ž‚•‚“";
-	char strGraze_x50[100]="ƒJƒXƒŠ’e”@~@@‚T‚O";
-	char strPointItem[100]="@~@“¾“_ƒAƒCƒeƒ€”@";
-	char strPlusNoMissBonus[100]="@{@ƒm[ƒ~ƒXƒ{[ƒiƒX";
-	char strPlusNoBombBonus[100]="@{@ƒm[ƒ{ƒ€ƒ{[ƒiƒX";
-	char strTotal[100]="@@@‚s‚n‚s‚`‚k";
+	char strStageBonus[100]="ï¼³ï¼´ï¼¡ï¼§ï¼¥ã€€ï¼¢ï½ï½Žï½•ï½“";
+	char strDreamBonus[100]="ï¼¤ï¼²ï¼¥ï¼¡ï¼­ã€€ï¼¢ï½ï½Žï½•ï½“";
+	char strGraze_x50[100]="ã‚«ã‚¹ãƒªå¼¾æ•°ã€€Ã—ã€€ã€€ï¼•ï¼";
+	char strPointItem[100]="ã€€Ã—ã€€å¾—ç‚¹ã‚¢ã‚¤ãƒ†ãƒ æ•°ã€€";
+	char strPlusNoMissBonus[100]="ã€€ï¼‹ã€€ãƒŽãƒ¼ãƒŸã‚¹ãƒœãƒ¼ãƒŠã‚¹";
+	char strPlusNoBombBonus[100]="ã€€ï¼‹ã€€ãƒŽãƒ¼ãƒœãƒ ãƒœãƒ¼ãƒŠã‚¹";
+	char strTotal[100]="ã€€ã€€ã€€ï¼´ï¼¯ï¼´ï¼¡ï¼¬";
 
-	char strAllClear[100]="‚`‚k‚k@‚b‚Œ‚…‚‚’@@";
-	char strRemainingLifeX10000[100]="Žc‚èl”@~‚P‚O‚O‚O‚O";
-	char strTotalPointItemBonus[100]="‘“¾“_ƒAƒCƒeƒ€ƒ{[ƒiƒX";
+	char strAllClear[100]="ï¼¡ï¼¬ï¼¬ã€€ï¼£ï½Œï½…ï½ï½’ã€€ã€€";
+	char strRemainingLifeX10000[100]="æ®‹ã‚Šäººæ•°ã€€Ã—ï¼‘ï¼ï¼ï¼ï¼";
+	char strTotalPointItemBonus[100]="ç·å¾—ç‚¹ã‚¢ã‚¤ãƒ†ãƒ ãƒœãƒ¼ãƒŠã‚¹";

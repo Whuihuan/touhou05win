@@ -373,6 +373,32 @@ namespace th5w {
 			colorcmt[2] = 1;
 
 		}
+		if (CGame::GVar().m_bUseMod)
+		{
+			int fldx = CGame::s_pCurGame->m_modDat.GetChildFileIndex("PlayResult.txt");
+			if (fldx != -1)
+			{
+				for (int i = 0; i < 13; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(resultListText[i], 100, fldx);
+					if (resultListText[i][strlen(resultListText[i]) - 1] == '\n')
+						resultListText[i][strlen(resultListText[i]) - 1] = 0;
+				}
+				CGame::s_pCurGame->m_modDat.Childfgets(denText, 100, fldx);
+				if (denText[strlen(denText) - 1] == '\n')
+					denText[strlen(denText) - 1] = 0;
+				CGame::s_pCurGame->m_modDat.Childfgets(timesText, 100, fldx);
+				if (timesText[strlen(timesText) - 1] == '\n')
+					timesText[strlen(timesText) - 1] = 0;
+				CGame::s_pCurGame->m_modDat.Childfgets(percentText, 100, fldx);
+				if (percentText[strlen(percentText) - 1] == '\n')
+					percentText[strlen(percentText) - 1] = 0;
+				for (int i = 0; i < 2; i++) {
+					CGame::s_pCurGame->m_modDat.Childfgets(errorText[i], 100, fldx);
+					if (errorText[i][strlen(errorText[i]) - 1] == '\n')
+						errorText[i][strlen(errorText[i]) - 1] = 0;
+				}
+			}
+		}
 		for (int i = 0; i < 13; i++)
 		{
 			CPC98Font::DrawString(resultListText[i], 100, x - 1, y + i * 24, color[0], color[1], color[2]);

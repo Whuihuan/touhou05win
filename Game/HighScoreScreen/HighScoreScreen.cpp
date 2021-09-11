@@ -215,13 +215,13 @@ int CHighScoreScreen::Step()
 		}
 		if (CCommonFunctionInput::ESCPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+			CCommonFunctionMusicSE::PlaySe(11);
 			m_curCharX=16;
 			m_curCharY=2;
 		}
 		if (CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+			CCommonFunctionMusicSE::PlaySe(11);
 			switch(m_curCharY*17+m_curCharX)
 			{
 			case 47:
@@ -256,7 +256,7 @@ int CHighScoreScreen::Step()
 		}
 		if (CCommonFunctionInput::XPressed(m_curKeyState,m_lastKeyState))
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+			CCommonFunctionMusicSE::PlaySe(11);
 			if (m_curCursorPos>0)
 				m_curCursorPos--;
 		}

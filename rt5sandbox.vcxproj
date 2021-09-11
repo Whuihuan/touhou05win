@@ -91,7 +91,8 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <ResourceCompile>
-      <Culture>0x0411</Culture>
+      <Culture>
+      </Culture>
     </ResourceCompile>
     <PostBuildEvent>
       <Command>xcopy ".\GameRes\*" ".\Debug" /s /h /d /y</Command>
@@ -120,7 +121,8 @@
       <Command>xcopy ".\GameRes\*" ".\Release" /s /h /d /y</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <Culture>0x0411</Culture>
+      <Culture>
+      </Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Trial|Win32'">
@@ -147,7 +149,8 @@
       <Command>xcopy ".\GameRes\*" ".\Trial" /s /h /d /y</Command>
     </PostBuildEvent>
     <ResourceCompile>
-      <Culture>0x0411</Culture>
+      <Culture>
+      </Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

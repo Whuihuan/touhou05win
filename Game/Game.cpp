@@ -1,4 +1,4 @@
-#include ".\game.h"
+ï»¿#include ".\game.h"
 #include "../gameLib/Graphic/PC98Font.h"
 #include "../gameLib/Graphic/Th5ExtFont.h"
 #include "../gameLib/CommonFunction/CommonFunctionSystem.h"
@@ -129,14 +129,14 @@ namespace th5w {
 		//need for furture
 		if (m_th5Dat0.LoadFile("kaiki0.dat")==false)
 		{
-			MessageBox(m_gameWindow.m_hWnd,_T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd,_T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"),NULL,MB_OK|MB_APPLMODAL|MB_ICONSTOP);
 			MessageBox(m_gameWindow.m_hWnd,_T("Debug: kaiki1.dat is missing"),NULL,MB_OK|MB_APPLMODAL|MB_ICONWARNING);
 			return false;
 		}
 		*/
 		if (m_th5Dat1.LoadFile("kaiki1.dat") == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 #ifdef _DEBUG
 			MessageBox(m_gameWindow.m_hWnd, _T("Debug: kaiki1.dat is missing"), NULL, MB_OK | MB_APPLMODAL | MB_ICONWARNING);
 #endif
@@ -145,7 +145,7 @@ namespace th5w {
 #ifdef _TRIAL
 		if (m_th5Dat2.LoadFile("kaiki1.dat") == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 #ifdef _DEBUG
 			MessageBox(m_gameWindow.m_hWnd, _T("Debug: kaiki1.dat is missing [TRIAL]"), NULL, MB_OK | MB_APPLMODAL | MB_ICONWARNING);
 #endif
@@ -153,7 +153,7 @@ namespace th5w {
 		}
 		if (m_musicDat.LoadFile("kaiki1.dat") == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 #ifdef _DEBUG
 			MessageBox(m_gameWindow.m_hWnd, _T("Debug: kaiki1.dat is missing [TRIAL]"), NULL, MB_OK | MB_APPLMODAL | MB_ICONWARNING);
 #endif
@@ -162,7 +162,7 @@ namespace th5w {
 #else
 		if (m_th5Dat2.LoadFile("kaiki2.dat") == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 #ifdef _DEBUG
 			MessageBox(m_gameWindow.m_hWnd, _T("Debug: kaiki2.dat is missing"), NULL, MB_OK | MB_APPLMODAL | MB_ICONWARNING);
 #endif
@@ -170,7 +170,7 @@ namespace th5w {
 		}
 		if (m_musicDat.LoadFile("music.dat") == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 #ifdef _DEBUG
 			MessageBox(m_gameWindow.m_hWnd, _T("Debug: music.dat is missing"), NULL, MB_OK | MB_APPLMODAL | MB_ICONWARNING);
 #endif
@@ -179,7 +179,7 @@ namespace th5w {
 #endif
 		if (th5w::CTh5ExtFont::LoadZUNCOM("zun.com") == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("ƒtƒ@ƒCƒ‹‚ª‘‚«‚ß‚È‚¢‚Ì`"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("ãƒ•ã‚¡ã‚¤ãƒ«ãŒæ›¸ãè¾¼ã‚ãªã„ã®ï½"), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 #ifdef _DEBUG
 			MessageBox(m_gameWindow.m_hWnd, _T("Debug: zun.com is missing"), NULL, MB_OK | MB_APPLMODAL | MB_ICONWARNING);
 #endif
@@ -216,9 +216,14 @@ namespace th5w {
 			MessageBox(m_gameWindow.m_hWnd, _T("MMDPlayer cannot not be initialized."), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 			return false;
 		}
-		if (m_soundEffect.Initialize(m_gameWindow.m_hWnd) == false)
+		if (m_soundEffect.Initialize(m_gameWindow.m_hWnd, _T("SE/Beep/s%02d.wav")) == false)
 		{
-			MessageBox(m_gameWindow.m_hWnd, _T("Sound effect files cannot not be loaded and initialized."), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			MessageBox(m_gameWindow.m_hWnd, _T("Sound effect Beep files cannot not be loaded and initialized."), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
+			return false;
+		}
+		if (m_soundEffect2.Initialize(m_gameWindow.m_hWnd, _T("SE/FM/s%02d.wav")) == false)
+		{
+			MessageBox(m_gameWindow.m_hWnd, _T("Sound effect FM files cannot not be loaded and initialized."), NULL, MB_OK | MB_APPLMODAL | MB_ICONSTOP);
 			return false;
 		}
 
@@ -258,6 +263,10 @@ namespace th5w {
 			HFONT hFont, hOldFont;
 			HDC hDC = wglGetCurrentDC();
 			glDisable(GL_TEXTURE_2D);
+			wchar_t fontName[200];
+			CLSID clsid;
+			long lLen = MultiByteToWideChar(CP_ACP, 0, CGame::GVar().m_systemFontName, strlen(CGame::GVar().m_systemFontName), fontName, sizeof(fontName));
+			fontName[lLen] = L'\0';
 			hFont = CreateFont(-16,							// Height Of Font
 				0,								// Width Of Font
 				0,								// Angle Of Escapement
@@ -271,8 +280,7 @@ namespace th5w {
 				CLIP_DEFAULT_PRECIS,			// Clipping Precision
 				DEFAULT_QUALITY,				// Output Quality
 				FF_DONTCARE | FIXED_PITCH,		// Family And Pitch
-				(LPCWSTR)CGame::GVar().m_systemFontName);							// Font Name
-			printf("µ±Ç°×ÖÌå£º%s", CGame::GVar().m_systemFontName);
+				fontName);							// Font Name
 			if (hFont == NULL)
 			{
 				TCHAR msgText[1000];

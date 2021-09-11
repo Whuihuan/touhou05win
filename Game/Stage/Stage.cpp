@@ -568,7 +568,7 @@ namespace th5w {
 
 			for (int i = 1; i <= 15; i++)
 				if (m_bPlaySound[i])
-					CGame::s_pCurGame->m_soundEffect.PlaySound(i);
+					CCommonFunctionMusicSE::PlaySe(i);
 			memset(m_bPlaySound, 0, sizeof(m_bPlaySound));
 
 			if (m_curFrame % 4096 == 0)

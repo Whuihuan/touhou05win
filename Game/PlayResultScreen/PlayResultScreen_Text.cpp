@@ -1,21 +1,21 @@
-char resultListText[][100]={"@@@@@@@ ˜r‘O”»’è",
-						  "“ïˆÕ“x",
-					      "ÅI“¾“_",
-						  "ƒ~ƒX‰ñ”",
-						  "ƒ{ƒ€Žg—p‰ñ”",
-						  "ƒQ[ƒ€’B¬—¦",
-						  "ˆ«—ì‘ÞŽ¡—¦",
-						  "ƒAƒCƒeƒ€‰ñŽû—¦",
-						  "“¾“_ƒAƒCƒeƒ€Å‚“_—¦",
-						  "‹C‡‚¢",
-						  "ˆ——Ž‚¿—¦",
+ï»¿char resultListText[][100]={"ã€€ã€€ã€€ã€€ã€€ã€€ã€€ è…•å‰åˆ¤å®š",
+						  "é›£æ˜“åº¦",
+					      "æœ€çµ‚å¾—ç‚¹",
+						  "ãƒŸã‚¹å›žæ•°",
+						  "ãƒœãƒ ä½¿ç”¨å›žæ•°",
+						  "ã‚²ãƒ¼ãƒ é”æˆçŽ‡",
+						  "æ‚ªéœŠé€€æ²»çŽ‡",
+						  "ã‚¢ã‚¤ãƒ†ãƒ å›žåŽçŽ‡",
+						  "å¾—ç‚¹ã‚¢ã‚¤ãƒ†ãƒ æœ€é«˜ç‚¹çŽ‡",
+						  "æ°—åˆã„",
+						  "å‡¦ç†è½ã¡çŽ‡",
 						  "",
-						  "‚ ‚È‚½‚Ì˜r‘O"};
+						  "ã‚ãªãŸã®è…•å‰"};
 						  
-char denText[]="“_";
-char timesText[]="‰ñ";
-char percentText[]="“";
+char denText[]="ç‚¹";
+char timesText[]="å›ž";
+char percentText[]="ï¼…";
 
-char errorText[][100]={"HHHHHH“_",
-						"ˆ——Ž‚¿‚É‚æ‚é”»’è•s‰Â"};
+char errorText[][100]={"ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿç‚¹",
+						"å‡¦ç†è½ã¡ã«ã‚ˆã‚‹åˆ¤å®šä¸å¯"};
 

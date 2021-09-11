@@ -120,6 +120,16 @@ namespace th5w {
 			if (fldx != -1)
 			{
 				CGame::s_pCurGame->m_modDat.Childfseek(fldx, 0, SEEK_SET);
+
+				CGame::s_pCurGame->m_modDat.Childfgets(musicRoom_up, 100, fldx);
+				if (musicRoom_up[strlen(musicRoom_up) - 1] == '\n')
+					musicRoom_up[strlen(musicRoom_up) - 1] = 0;
+				CGame::s_pCurGame->m_modDat.Childfgets(musicRoom_down, 100, fldx);
+				if (musicRoom_down[strlen(musicRoom_down) - 1] == '\n')
+					musicRoom_down[strlen(musicRoom_down) - 1] = 0;
+				CGame::s_pCurGame->m_modDat.Childfgets(musicRoom_middle, 100, fldx);
+				if (musicRoom_middle[strlen(musicRoom_middle) - 1] == '\n')
+					musicRoom_middle[strlen(musicRoom_middle) - 1] = 0;
 				for (int i = 0; i < 6; i++) {
 					CGame::s_pCurGame->m_modDat.Childfgets(MusicRoom_TH[i], 100, fldx);
 					if (MusicRoom_TH[i][strlen(MusicRoom_TH[i]) - 1] == '\n')
@@ -156,6 +166,11 @@ namespace th5w {
 			{
 				CGame::s_pCurGame->m_modDat.Childfseek(fileIdx, m_curCursorPos * 400, SEEK_SET);
 				CGame::s_pCurGame->m_modDat.Childfread(music_cmt, 1, MUSIC_CMT_LEN, fileIdx);
+				for (int i = 0; i < MUSIC_CMT_LINE_COUNT; i++) {
+					music_cmt[i][MUSIC_CMT_LINE_LEN - 2] = 0;
+					if (music_cmt[i][0] == ';')//todo:I think I didn't see this at here,
+						music_cmt[i][0] = 0;   //where ';' is removed at?
+				}
 			}
 		}
 		else

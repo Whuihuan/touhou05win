@@ -170,21 +170,21 @@ namespace th5w {
 		{
 			if (CCommonFunctionInput::LeftPressed(curState, m_lastKeyState) || CCommonFunctionInput::RightPressed(curState, m_lastKeyState))
 			{
-				CCommonFunctionMusicSE::PlaySe(1);
+				CCommonFunctionMusicSE::PlaySe(16);
 				m_cursorPos = m_cursorPos / 2 * 2 + (1 - m_cursorPos % 2);
 				m_lastKeyState = curState;
 				return;
 			}
 			if (CCommonFunctionInput::UpPressed(curState, m_lastKeyState) || CCommonFunctionInput::DownPressed(curState, m_lastKeyState))
 			{
-				CCommonFunctionMusicSE::PlaySe(1);
+				CCommonFunctionMusicSE::PlaySe(16);
 				m_cursorPos = m_cursorPos % 2 + (2 - m_cursorPos + m_cursorPos % 2);
 				m_lastKeyState = curState;
 				return;
 			}
 			if (CCommonFunctionInput::ZPressed(curState, m_lastKeyState))
 			{
-				CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+				CCommonFunctionMusicSE::PlaySe(11);
 				if (m_bCharaSelectable[m_cursorPos] == true)
 				{
 					CGame::GVar().m_playChara = m_cursorPos;
@@ -221,7 +221,7 @@ namespace th5w {
 		{
 			if (CCommonFunctionInput::UpPressed(curState, m_lastKeyState))
 			{
-				CCommonFunctionMusicSE::PlaySe(1);
+				CCommonFunctionMusicSE::PlaySe(16);
 				m_cursorstage = (m_cursorstage + m_nPracticeEnableStage[m_cursorPos]) %
 									(m_nPracticeEnableStage[m_cursorPos]+1);
 				m_lastKeyState = curState;
@@ -229,14 +229,14 @@ namespace th5w {
 			}
 			if (CCommonFunctionInput::DownPressed(curState, m_lastKeyState))
 			{
-				CCommonFunctionMusicSE::PlaySe(1);
+				CCommonFunctionMusicSE::PlaySe(16);
 				m_cursorstage = (m_cursorstage + 1) % (m_nPracticeEnableStage[m_cursorPos]+1);
 				m_lastKeyState = curState;				
 				return;
 			}
 			if (CCommonFunctionInput::ZPressed(curState, m_lastKeyState))
 			{
-				CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+				CCommonFunctionMusicSE::PlaySe(11);
 				if (m_cursorstage<=m_nPracticeEnableStage[m_cursorPos])
 				{
 					CGame::GVar().m_playStage = m_cursorstage;

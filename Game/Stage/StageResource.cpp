@@ -1,4 +1,4 @@
-#include ".\stageresource.h"
+ï»¿#include ".\stageresource.h"
 #include "../Game.h"
 #include "Stage.h"
 #include "../../gameLib/Graphic/Th5ExtFont.h"
@@ -87,7 +87,7 @@ void CStageResource::InitTranslation()
 	//copy default cross row string to m_crossRow
 	{
 		//char cross[]={0x81,0x40,0x81,0x40,0x81,0x7e,0x81,0x40,0x81,0x40,0};
-		char cross[]="@@~@@";
+		char cross[]="ã€€ã€€Ã—ã€€ã€€";
 		strcpy(m_crossRow,cross);
 	}
 	fileIdx=CGame::s_pCurGame->m_modDat.GetChildFileIndex("marks.txt");

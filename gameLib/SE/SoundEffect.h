@@ -15,7 +15,7 @@ protected:
 	CSoundManager m_manager;
 	vector<CSound*> m_vpSound;
 public:
-	bool Initialize(HWND hWnd);
+	bool Initialize(HWND hWnd, LPCWSTR filePath);
 	void PlaySound(int soundIdx);
 public:
 	CSoundEffect(void);

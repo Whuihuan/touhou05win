@@ -12,7 +12,7 @@ CSoundEffect::~CSoundEffect(void)
 {
 }
 
-bool CSoundEffect::Initialize(HWND hWnd)
+bool CSoundEffect::Initialize(HWND hWnd,LPCWSTR filePath)
 {
 	if (m_manager.Initialize(hWnd,DSSCL_PRIORITY)!=S_OK)
 		return false;
@@ -20,10 +20,10 @@ bool CSoundEffect::Initialize(HWND hWnd)
 	m_vpSound.clear();
 	m_vpSound.push_back(NULL);
 	CSound *pSound;
-	for (int i=1;i<16;i++)
+	for (int i=1;i<17;i++)
 	{
 		TCHAR fileName[1000];
-		wsprintf(fileName,_T("SE/s%02d.wav"),i);
+		wsprintf(fileName,filePath,i);
 		if (m_manager.Create(&pSound,fileName,DSBCAPS_CTRLPAN|DSBCAPS_CTRLVOLUME|DSBCAPS_CTRLFREQUENCY|
 											  DSBCAPS_GLOBALFOCUS|DSBCAPS_CTRLPOSITIONNOTIFY|DSBCAPS_LOCSOFTWARE)!=S_OK)
 			return false;

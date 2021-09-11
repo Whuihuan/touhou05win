@@ -1,2 +1,2 @@
-	strcpy(m_stage4BossPart2BGMNames[0],"— Ø‚è‚Ì­—@` Judas Kiss");
-	strcpy(m_stage4BossPart2BGMNames[1],"^g‚Ì­—@` Crimson Dead!!");
+ï»¿	strcpy(m_stage4BossPart2BGMNames[0],"è£åˆ‡ã‚Šã®å°‘å¥³ã€€ï½ Judas Kiss");
+	strcpy(m_stage4BossPart2BGMNames[1],"çœŸç´…ã®å°‘å¥³ã€€ï½ Crimson Dead!!");

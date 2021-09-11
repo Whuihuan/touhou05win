@@ -1,12 +1,12 @@
 ADDRESS_TABLE:
-	10 - 279
-	280 - 557
-	558 - 833
-	834 - 1145
+	10 - 240
+	241 - 479
+	480 - 729
+	730 - 989
 
 
 =====================================================
-BLOCK 0 10-279:
+BLOCK 0 10-240:
 DIALOG START
 STOP MUSIC
 SET CHARA
@@ -63,7 +63,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 1 280-557:
+BLOCK 1 241-479:
 DIALOG START
 STOP MUSIC
 SET CHARA
@@ -120,7 +120,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 2 558-833:
+BLOCK 2 480-729:
 DIALOG START
 STOP MUSIC
 SET CHARA
@@ -178,7 +178,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 3 834-1145:
+BLOCK 3 730-989:
 DIALOG START
 STOP MUSIC
 SET CHARA

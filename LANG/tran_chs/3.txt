@@ -1,12 +1,12 @@
 ADDRESS_TABLE:
-	10 - 617
-	618 - 1223
-	1224 - 1899
-	1900 - 2509
+	10 - 474
+	475 - 1028
+	1029 - 1585
+	1586 - 2085
 
 
 =====================================================
-BLOCK 0 10-617:
+BLOCK 0 10-474:
 DIALOG START
 SET CHARA
 SHOW FACE 0
@@ -105,7 +105,7 @@ DIALOG START
 DIALOG END
 
 =====================================================
-BLOCK 1 618-1223:
+BLOCK 1 475-1028:
 DIALOG START
 SET CHARA
 SHOW FACE 0
@@ -203,7 +203,7 @@ SET BOSS
 SHOW FACE 1
 SENTENCE START
       雪：舞，来解决她吧{10_!!}\n
-       
+      
 SENTENCE END
 SET BOSS
 SHOW FACE 0
@@ -217,7 +217,7 @@ DIALOG START
 DIALOG END
 
 =====================================================
-BLOCK 2 1224-1899:
+BLOCK 2 1029-1585:
 DIALOG START
 SET CHARA
 SHOW FACE 0
@@ -326,7 +326,7 @@ DIALOG START
 DIALOG END
 
 =====================================================
-BLOCK 3 1900-2509:
+BLOCK 3 1586-2085:
 DIALOG START
 SET CHARA
 SHOW FACE 0

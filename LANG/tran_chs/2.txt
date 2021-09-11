@@ -1,12 +1,12 @@
 ADDRESS_TABLE:
-	10 - 663
-	664 - 1099
-	1100 - 1512
-	1513 - 2145
+	10 - 578
+	579 - 980
+	981 - 1352
+	1353 - 1875
 
 
 =====================================================
-BLOCK 0 10-663:
+BLOCK 0 10-578:
 DIALOG START
 SET CHARA
 SHOW FACE 3
@@ -101,7 +101,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 1 664-1099:
+BLOCK 1 579-980:
 DIALOG START
 SET CHARA
 SHOW FACE 0
@@ -176,7 +176,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 2 1100-1512:
+BLOCK 2 981-1352:
 DIALOG START
 SET CHARA
 SHOW FACE 0
@@ -248,7 +248,7 @@ SENTENCE END
 DIALOG END
 
 =====================================================
-BLOCK 3 1513-2145:
+BLOCK 3 1353-1875:
 DIALOG START
 SET CHARA
 SHOW FACE 0

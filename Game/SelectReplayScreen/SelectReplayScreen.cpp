@@ -129,7 +129,7 @@ void CSelectReplayScreen::StepEnterNameMode()
 	}
 	if (CCommonFunctionInput::ZPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+		CCommonFunctionMusicSE::PlaySe(11);
 
 		if (m_curCharX==16&&m_curCharY==2)
 		{
@@ -192,7 +192,7 @@ void CSelectReplayScreen::StepEnterNameMode()
 	}
 	if (CCommonFunctionInput::XPressed(m_curKeyState,m_lastKeyState))
 	{
-		CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+		CCommonFunctionMusicSE::PlaySe(11);
 		if (m_curEnterName[m_nameCursorPos]!=0)
 			m_curEnterName[m_nameCursorPos]=0;
 		else
@@ -303,7 +303,7 @@ int CSelectReplayScreen::Step()
 	{
 		if (m_bLoadMode)
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+			CCommonFunctionMusicSE::PlaySe(11);
 			if ((m_bStageSelect == false)&& (m_bCurPageRepFileExist[m_curCursorPos]==true))
 			{
 				m_curCharY = 0;
@@ -334,7 +334,7 @@ int CSelectReplayScreen::Step()
 		}
 		else
 		{
-			CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+			CCommonFunctionMusicSE::PlaySe(11);
 			m_curCharX=0;
 			m_curCharY=0;
 			m_selectedSlot=m_curCursorPos;

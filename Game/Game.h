@@ -30,6 +30,7 @@ public:
 	CGameWindow m_gameWindow;
 	CKeyInputDI m_input;
 	CSoundEffect m_soundEffect;
+	CSoundEffect m_soundEffect2;
 
 	Cth5DatFile m_th5Dat1;
 	Cth5DatFile m_th5Dat2;

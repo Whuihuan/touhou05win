@@ -478,7 +478,7 @@ namespace th5w {
 				if (CCommonFunctionInput::UpPressed(curKeyState, m_lastKeyState))
 				{
 					MoveCursorInMenu(&m_mainMenuCursorPosition, -1, m_mainMenuNItem, m_bMainMenuItemEnabled);
-					CCommonFunctionMusicSE::PlaySe(1);
+					CCommonFunctionMusicSE::PlaySe(16);
 					m_lastKeyState = curKeyState;
 					m_noInputTimer = 0;
 					return;
@@ -486,14 +486,14 @@ namespace th5w {
 				if (CCommonFunctionInput::DownPressed(curKeyState, m_lastKeyState))
 				{
 					MoveCursorInMenu(&m_mainMenuCursorPosition, 1, m_mainMenuNItem, m_bMainMenuItemEnabled);
-					CCommonFunctionMusicSE::PlaySe(1);
+					CCommonFunctionMusicSE::PlaySe(16);
 					m_lastKeyState = curKeyState;
 					m_noInputTimer = 0;
 					return;
 				}
 				if (CCommonFunctionInput::ZPressed(curKeyState, m_lastKeyState))
 				{
-					CGame::s_pCurGame->m_soundEffect.PlaySound(11);
+					CCommonFunctionMusicSE::PlaySe(11);
 					switch (m_mainMenuCursorPosition)
 					{
 					case MAIN_MENU_START:
@@ -594,14 +594,14 @@ namespace th5w {
 				if (CCommonFunctionInput::UpPressed(curKeyState, m_lastKeyState))
 				{
 					MoveCursorInMenu(&m_optionMenuCursorPosition, -1, m_optionMenuNItem, m_bOptionMenuItemEnabled);
-					CCommonFunctionMusicSE::PlaySe(1);
+					CCommonFunctionMusicSE::PlaySe(16);
 					m_lastKeyState = curKeyState;
 					return;
 				}
 				if (CCommonFunctionInput::DownPressed(curKeyState, m_lastKeyState))
 				{
 					MoveCursorInMenu(&m_optionMenuCursorPosition, 1, m_optionMenuNItem, m_bOptionMenuItemEnabled);
-					CCommonFunctionMusicSE::PlaySe(1);
+					CCommonFunctionMusicSE::PlaySe(16);
 					m_lastKeyState = curKeyState;
 					return;
 				}
